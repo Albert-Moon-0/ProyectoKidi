@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorama - Comidas y Postres</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* Aumenta el número de columnas */
+            grid-gap: 15px;
+            max-width: 90%;
+            width: 800px; /* Ajusta el ancho del contenedor */
+        }
+        .card {
+            width: 100%;
+            height: 120px;
+            background-color: #e1bee7; /* Morado/lila pastel */
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s, background-color 0.3s;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .card.flip {
+            background-color: #ffffff;
+            color: #333;
+            border: 2px solid #7b1fa2; /* Morado más oscuro para el borde */
+        }
+        .card.matched {
+            background-color: #d1c4e9; /* Morado pastel más claro */
+            cursor: default;
+        }
+        .message {
+            font-size: 1.2em;
+            color: #00796b;
+            margin-top: 20px;
+            text-align: center;
+            max-width: 600px;
+        }
+        .back-btn {
+                        font-size: 3rem;
+                        color: var(--colorTextoPrincipal);
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        
+                    }
+    </style>
+</head>
+<body>
+
+    <h1>Memorama - Verbos Regulares</h1>
+    <a href="Ingles-JuegosPalabras.jsp" ><button class="back-btn">&larr;</button> </a>    
+    <p id="message" class="message">Encuentra los pares en Español e Inglés.</p>
+
+    <div class="game-container" id="gameContainer"></div>
+
+    <script>
+        const cardsArray = [
+            { word: "Hablar", translation: "Talk" },
+            { word: "Talk", translation: "Hablar" },
+            { word: "Estudiar", translation: "Study" },
+            { word: "Study", translation: "Estudiar" },
+            { word: "Trabajar", translation: "Work" },
+            { word: "Work", translation: "Trabajar" },
+            { word: "Viajar", translation: "Travel" },
+            { word: "Travel", translation: "Viajar" },
+            { word: "Cantar", translation: "Sing" },
+            { word: "Sing", translation: "Cantar" },
+            { word: "Escuchar", translation: "Listen" },
+            { word: "Listen", translation: "Escuchar" },
+            { word: "Comprar", translation: "Buy" },
+            { word: "Buy", translation: "Comprar" },
+            { word: "Jugar", translation: "Play" },
+            { word: "Play", translation: "Jugar" },
+            { word: "Caminar", translation: "Walk" },
+            { word: "Walk", translation: "Caminar" },
+            { word: "Correr", translation: "Run" },
+            { word: "Run", translation: "Correr" },
+            { word: "Bailar", translation: "Dance" },
+            { word: "Dance", translation: "Bailar" },
+            { word: "Leer", translation: "Read" },
+            { word: "Read", translation: "Leer" },
+            { word: "Escribir", translation: "Write" },
+            { word: "Write", translation: "Escribir" },
+            { word: "Cocinar", translation: "Cook" },
+            { word: "Cook", translation: "Cocinar" },
+            { word: "Vivir", translation: "Live" },
+            { word: "Live", translation: "Vivir" }
+        ];
+
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let attempts = 0;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function createBoard() {
+            const gameContainer = document.getElementById("gameContainer");
+            gameContainer.innerHTML = '';
+            shuffle(cardsArray).forEach(cardData => {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                card.dataset.word = cardData.word;
+                card.dataset.translation = cardData.translation;
+                card.textContent = ""; // Oculta el texto inicialmente
+                card.addEventListener("click", flipCard);
+                gameContainer.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (flippedCards.length < 2 && !this.classList.contains("flip") && !this.classList.contains("matched")) {
+                this.classList.add("flip");
+                this.textContent = this.dataset.word; // Muestra el texto al girar
+                flippedCards.push(this);
+
+                if (flippedCards.length === 2) {
+                    checkForMatch();
+                }
+            }
+        }
+
+        function checkForMatch() {
+            attempts++;
+            const [card1, card2] = flippedCards;
+
+            if (card1.dataset.translation === card2.dataset.word || card2.dataset.translation === card1.dataset.word) {
+                card1.classList.add("matched");
+                card2.classList.add("matched");
+                matchedPairs++;
+                if (matchedPairs === cardsArray.length / 2) {
+                    document.getElementById("message").textContent = `¡Felicidades! Completaste el juego en ${attempts} intentos.`;
+                }
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove("flip");
+                    card2.classList.remove("flip");
+                    card1.textContent = '';
+                    card2.textContent = '';
+                }, 1000);
+            }
+            flippedCards = [];
+        }
+
+        createBoard();
+    </script>
+
+</body>
+</html>

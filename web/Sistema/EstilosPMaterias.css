@@ -1,0 +1,138 @@
+/* Paleta de colores en variables CSS */
+root {
+    --primary-color: #6C8AE8; /* Azul suave (para mantener la armonía con el original) */
+    --secondary-color: #F4F9FC; /* Gris muy claro con toque azulado */
+    --accent-color: #A5D6A7; /* Verde suave */
+    --text-primary: #4E4E4E; /* Gris oscuro para texto principal (más suave que negro) */
+    --text-secondary: #7D7D7D; /* Gris claro para texto secundario */
+    --button-bg: #FFB74D; /* Naranja suave para botones (llama la atención pero es amigable) */
+    --hover-bg: #FFEB3B; /* Amarillo brillante para efectos hover (destacar interactividad) */
+    --link-color: #42A5F5; /* Azul claro para enlaces */
+}
+
+/* Fondo neutro */
+body {
+    padding-left: 195px;
+    background-color: var(--secondary-color); /* Fondo neutro */
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Estilo de los títulos principales */
+.header-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 20px 0;
+    color: var(--primary-color);
+}
+
+/* Saludo principal */
+.greeting {
+    text-align: center;
+    font-size: 2rem;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.greeting span {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+/* Sección de novedades */
+.novedades {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.novedades h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.novedades p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+/* Estilo de las tarjetas */
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    text-align: center;
+}
+
+/* Botón */
+.btn-toggle {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.btn-toggle:hover {
+    color: var(--primary-color);
+    background-color: var(--hover-bg);
+}
+
+/* Barra lateral fija */
+.flex-shrink-0 {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    background-color: var(--secondary-color);
+}
+
+/* Pie de página */
+footer {
+    background-color: white;
+    color: var(--text-secondary);
+}
+
+/* Asegura que todas las imágenes tengan el mismo tamaño */
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Tamaño uniforme para todas las imágenes */
+    object-fit: cover; /* Para que las imágenes se adapten al tamaño sin distorsión */
+}
+
+/* Diseño uniforme de tarjetas */
+.card {
+    height: 100%;
+}
+
+.row {
+    justify-content: center; /* Asegura que las tarjetas se distribuyan uniformemente */
+}
+
+.back-btn {
+    font-size: 3rem;
+    color: var(--colorTextoPrincipal);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.card a {
+    color: black;  /* O cualquier color que prefieras */
+    text-decoration: none;  /* Para quitar el subrayado */
+}
+.card-title {
+    text-decoration: none;  /* Para quitar el subrayado */
+}
+
+
+
+

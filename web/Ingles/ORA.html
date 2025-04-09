@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completa la Oración</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #333;
+        }
+        .game-container {
+            background-color: #e0f7fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #00796b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+        .message {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #00796b;
+        }
+        .back-btn {
+                        font-size: 3rem;
+                        color: var(--colorTextoPrincipal);
+                        background: none;
+                        border: none;
+                        cursor: pointer;
+                        
+                    }
+                    .back-btn:hover {
+                                    background-color: #e0f7fa;
+                    }
+    </style>
+</head>
+<body>
+
+    <h1>Completa las oraciones</h1>
+        <a href="Ingles-JuegosPalabras.jsp" ><button class="back-btn">&larr;</button> </a>    
+
+    <div class="game-container">
+        <p id="question" class="question">Here will appear the sentence</p>
+        <div id="options" class="options"></div>
+        <p id="message" class="message"></p>
+        <button onclick="nextQuestion()">Siguiente</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                sentence: "My ______ hurts after running for an hour.",
+                options: ["head", "arm", "leg"],
+                correct: "leg"
+            },
+            {
+                sentence: "I ______ my homework every evening.",
+                options: ["do", "did", "does"],
+                correct: "do"
+            },
+            {
+                sentence: "She ______ a sandwich for lunch today.",
+                options: ["eat", "eats", "ate"],
+                correct: "ate"
+            },
+            {
+                sentence: "They ______ to the gym every week.",
+                options: ["go", "goes", "went"],
+                correct: "go"
+            },
+            {
+                sentence: "I love eating ______ for dessert.",
+                options: ["cake", "salad", "pizza"],
+                correct: "cake"
+            },
+            {
+                sentence: "He is drinking a cup of ______.",
+                options: ["coffee", "milk", "soup"],
+                correct: "coffee"
+            },
+            {
+                sentence: "She ______ a delicious meal yesterday.",
+                options: ["cook", "cooked", "cooking"],
+                correct: "cooked"
+            },
+            {
+                sentence: "The ______ is a very important part of your body.",
+                options: ["heart", "hand", "foot"],
+                correct: "heart"
+            },
+            {
+                sentence: "We ______ to the park every weekend.",
+                options: ["go", "going", "went"],
+                correct: "go"
+            },
+            {
+                sentence: "The baby is ______ in the stroller.",
+                options: ["sitting", "sleeping", "running"],
+                correct: "sleeping"
+            },
+            {
+                sentence: "I ______ to the store last week.",
+                options: ["go", "went", "going"],
+                correct: "went"
+            },
+            {
+                sentence: "The dog is ______ the ball.",
+                options: ["catching", "ate", "catches"],
+                correct: "catching"
+            },
+            {
+                sentence: "They ______ a lot of ice cream during the summer.",
+                options: ["eat", "eats", "ate"],
+                correct: "eat"
+            },
+            {
+                sentence: "My ______ is really dry today.",
+                options: ["throat", "head", "ear"],
+                correct: "throat"
+            },
+            {
+                sentence: "I ______ a big breakfast this morning.",
+                options: ["have", "had", "has"],
+                correct: "had"
+            },
+            {
+                sentence: "He ______ the homework last night.",
+                options: ["finish", "finished", "finishes"],
+                correct: "finished"
+            },
+            {
+                sentence: "They ______ their dinner at 7 PM every night.",
+                options: ["eat", "eats", "eating"],
+                correct: "eat"
+            },
+            {
+                sentence: "She ______ a cake for her birthday party.",
+                options: ["make", "makes", "made"],
+                correct: "made"
+            },
+            {
+                sentence: "I like to ______ healthy food like vegetables.",
+                options: ["eat", "ate", "eats"],
+                correct: "eat"
+            },
+            {
+                sentence: "He has a ______ in his stomach after eating too much.",
+                options: ["pain", "headache", "toothache"],
+                correct: "pain"
+            },
+            {
+                sentence: "We ______ chicken and rice for dinner last night.",
+                options: ["eat", "eats", "ate"],
+                correct: "ate"
+            },
+            {
+                sentence: "I don't like ______, but I enjoy fruits.",
+                options: ["cakes", "vegetables", "fish"],
+                correct: "vegetables"
+            }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsContainer = document.getElementById("options");
+            const messageElement = document.getElementById("message");
+            
+            // Clear previous message and options
+            messageElement.textContent = '';
+            optionsContainer.innerHTML = '';
+            
+            const question = questions[currentQuestion];
+            questionElement.textContent = question.sentence;
+
+            // Generate the options
+            question.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            const messageElement = document.getElementById("message");
+            const question = questions[currentQuestion];
+
+            if (selectedOption === question.correct) {
+                messageElement.textContent = "Correcto! 🎉";
+                messageElement.style.color = "#4caf50";
+            } else {
+                messageElement.textContent = "Incorrecto, intenta de nuevo.";
+                messageElement.style.color = "#f44336";
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= questions.length) {
+                currentQuestion = 0;
+                alert("¡Has completado todas las preguntas! Empezando de nuevo...");
+            }
+            loadQuestion();
+        }
+
+        // Load the first question
+        loadQuestion();
+    </script>
+
+</body>
+</html>
