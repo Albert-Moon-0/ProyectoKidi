@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*, java.io.*, org.mindrot.jbcrypt.BCrypt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,29 +12,34 @@
             Connection c = null;
             PreparedStatement ps = null;
             ResultSet rs = null;
-
             try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 c = DriverManager.getConnection("jdbc:mysql://localhost/Kidi", "root", "n0m3l0");
-
-                String query1 = "SELECT * FROM USUARIO WHERE CORREO_U = ? AND CONTRASEÑA_U = ?";
-
+                
+                String query1 = "SELECT * FROM USUARIO WHERE CORREO_U = ?";
                 ps = c.prepareStatement(query1);
                 ps.setString(1, correo);
-                ps.setString(2, contrasena);
                 rs = ps.executeQuery();
-
                 
                 jakarta.servlet.http.HttpSession userSession = request.getSession();
-
                 if (rs.next()) {
-                    userSession.setAttribute("userEmail", correo);
-                    out.println("<script>window.location='menu.jsp';</script>");
+                    // Obtener el hash almacenado en la base de datos
+                    String hashAlmacenado = rs.getString("CONTRASEÑA_U");
+                    out.println("<script>alert('hashAlmacenado'"+hashAlmacenado+ ");</script>");
+                    out.println("<script>alert('contraseña'"+contrasena+ ");</script>");
+                    boolean coincide = BCrypt.checkpw(contrasena, hashAlmacenado);
+                    out.println("<script>alert('coinciden '"+coincide+ ");</script>");
+                    
+                    // Verificar si la contraseña coincide con el hash
+                    if (BCrypt.checkpw(contrasena, hashAlmacenado)) {
+                        userSession.setAttribute("userEmail", correo);
+                        out.println("<script>window.location='menu.jsp';</script>");
+                    } else {
+                        out.println("<script>alert('Contraseña incorrecta');window.location='../index.jsp';</script>");
+                    }
                 } else {
                     out.println("<script>alert('No existe el usuario');window.location='../index.jsp';</script>");
                 }
-
-                    out.println("<script>window.location='menu.jsp';</script>");
             } catch (SQLException | ClassNotFoundException e) {
                 out.print("Error: " + e.getMessage());
             } finally {

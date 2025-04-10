@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.io.*"%>
 <%@page import="java.sql.*"%>
+<%@page import="org.mindrot.jbcrypt.BCrypt"%>
 
 
 <html>
@@ -48,8 +49,17 @@
                         out.println("<script>mensaje2();</script>");
                         out.println("<script>window.location='index.jsp';</script>");
                     } else {
-                        sta.executeUpdate("INSERT INTO USUARIO (NOMBRE_U, CORREO_U, CONTRASEÑA_U, EDAD_U) VALUES('" + nombre + "','" + correo + "', '" + contrasena + "', '" + edad + "');");
-
+                        // Generar un hash de la contraseña
+                        String contrasenaHash = BCrypt.hashpw(contrasena, BCrypt.gensalt(12));                        
+                       
+                        PreparedStatement pst = con.prepareStatement("INSERT INTO USUARIO (NOMBRE_U, CORREO_U, CONTRASEÑA_U, EDAD_U) VALUES(?, ?, ?, ?)");
+                        pst.setString(1, nombre);
+                        pst.setString(2, correo);
+                        pst.setString(3, contrasenaHash);
+                        pst.setString(4, edad);
+                        pst.executeUpdate();
+                        pst.close();
+                        
                         // Obtener la sesión y almacenar el correo del usuario
                         jakarta.servlet.http.HttpSession userSession = request.getSession();
                         userSession.setAttribute("userEmail", correo);

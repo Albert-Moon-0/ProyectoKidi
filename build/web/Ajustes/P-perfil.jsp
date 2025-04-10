@@ -455,8 +455,8 @@
                     </button>
                 </form>
                 
-                <a href="P-perfil.jsp" class="btn back-btn">
-                    <i class="fas fa-arrow-left"></i> Regresar al Perfil
+                                <a href="../Sistema/menu.jsp" class="btn back-btn">
+                    <i class="fas fa-arrow-left"></i> Regresar al menu principal
                 </a>
             </div>
             
@@ -493,7 +493,7 @@
                     <h2>Seguridad</h2>
                     <p class="text-muted">Gestiona tu acceso a la cuenta</p>
                 </div>
-                
+            <form class="password-form" action="../Sistema/CambioPassword.jsp" method="post">
                 <div class="profile-info">
                     <div class="form-input">
                         <i class="fas fa-lock"></i>
@@ -503,10 +503,10 @@
                             id="passwordActual" 
                             placeholder="Ingresa tu contraseña actual" 
                             required
-                        >
+                            >
                         <label for="passwordActual">Contraseña Actual</label>
                     </div>
-                    
+
                     <div class="form-input">
                         <i class="fas fa-key"></i>
                         <input 
@@ -517,11 +517,11 @@
                             required
                             pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                             title="La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula y un número"
-                        >
+                            >
                         <label for="passwordNueva">Nueva Contraseña</label>
                         <div class="validation-message">La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula y un número</div>
                     </div>
-                    
+
                     <div class="form-input">
                         <i class="fas fa-check-circle"></i>
                         <input 
@@ -530,19 +530,20 @@
                             id="passwordConfirm" 
                             placeholder="Confirma tu nueva contraseña" 
                             required
-                        >
+                            >
                         <label for="passwordConfirm">Confirmar Contraseña</label>
                         <div class="validation-message">Las contraseñas no coinciden</div>
                     </div>
                 </div>
-                
+
+                <input type="hidden" name="userEmail" value="<%= Correo %>">
                 <button type="submit" class="btn save-btn">
                     <i class="fas fa-lock"></i> Actualizar Contraseña
                 </button>
-                
-                <a href="logout.jsp" class="btn security-btn">
+                <a href="../Sistema/invalidateSession.jsp" class="btn security-btn">
                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                 </a>
+            </form>
             </div>
         </div>
 
