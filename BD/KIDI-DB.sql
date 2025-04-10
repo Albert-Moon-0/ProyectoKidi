@@ -6,7 +6,7 @@ CREATE TABLE USUARIO (
 ID_U INT NOT NULL PRIMARY KEY auto_increment,
 NOMBRE_U VARCHAR (40),
 CORREO_U VARCHAR (30),
-CONTRASEÑA_U VARCHAR (15),
+CONTRASEÑA_U VARCHAR (150),
 EDAD_U INT
 );
 
@@ -126,9 +126,17 @@ FOREIGN KEY (ID_M) REFERENCES MATEMATICAS (ID_M)
 );
 
 
+CREATE TABLE MATERIA_ACT (
+ID_MAT INT PRIMARY KEY AUTO_INCREMENT,
+NOMBRE_MAT VARCHAR(30)
+);
+
+
 CREATE TABLE ACTIVIDADES (
 ID_ACT INT NOT NULL PRIMARY KEY auto_increment,
-DESC_ACT varchar (50)
+DESC_ACT varchar (50),
+ID_MAT INT,
+FOREIGN KEY (ID_MAT) REFERENCES MATERIA_ACT(ID_MAT)
 );
 
 CREATE TABLE REALIZA (
@@ -139,10 +147,10 @@ FOREIGN KEY (ID_U) REFERENCES USUARIO (ID_U),
 FOREIGN KEY (ID_ACT) REFERENCES ACTIVIDADES (ID_ACT)
 );
 
--- Insertando datos en la tabla USUARIO
+-- Insertando datos en la tabla USUARIO 1 Jpepe123, 2 Fmoran12, 3 Gmoran12
 INSERT INTO USUARIO (ID_U, NOMBRE_U, CORREO_U, CONTRASEÑA_U, EDAD_U) VALUES
-(1, 'Juan Perez', 'juan.perez@gmail.com', 'Jpepe123', 10),
-(2, 'Fernando', 'fernandoM@gmail.com', 'Fmoran12', 12),
+(1, 'Juan Perez', 'juan@gmail.com', '$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2', 10),
+(2, 'Fernando', 'fernandoM@gmail.com', '$2a$12$47wosqZr6czMOOLt0eQbK.50xDgOKIcDnEz6rVC9O5QKwKjNQIdfe', 12),
 (3, 'Gerardo', 'gerardoM@gmail.com', 'Gmoran12', 11);
 
 -- Insertando datos en la tabla ESPAÑOL
@@ -244,11 +252,22 @@ INSERT INTO SELECCIONA (ID_U, ID_M) VALUES
 (2, 2),
 (3, 3);
 
--- Insertando datos en la tabla ACTIVIDADES
-INSERT INTO ACTIVIDADES (ID_ACT, DESC_ACT) VALUES
-(1, 'Actividad de introducción'),
-(2, 'Actividad intermedia'),
-(3, 'Actividad avanzada');
+INSERT INTO MATERIA_ACT (ID_MAT, NOMBRE_MAT) VALUES
+(1, 'Español'),
+(2, 'Inglés'),
+(3, 'Matemáticas');
+
+INSERT INTO ACTIVIDADES (ID_ACT, DESC_ACT, ID_MAT) VALUES
+(1, 'Números y sumas', 3),
+(2, 'Sumas y restas', 3),
+(3, 'Multiplicaciones', 3),
+(4, 'Divisiones', 3),
+(5, 'Figuras geométricas básicas', 3),
+(6, 'Partes de una figura', 3),
+(7, 'Verb to be', 2),
+(8, 'Colors', 2),
+(9, 'Basic verbs', 2),
+(10, 'Tiempos gramaticales', 1);
 
 -- Insertando datos en la tabla REALIZA
 INSERT INTO REALIZA (ID_U, ID_ACT, PUNTAJE_ACT) VALUES
@@ -261,6 +280,3 @@ select * from Usuario;
 select * from LECCIONES_M;
 select * from EJERCICIOS_M;
 
-SELECT * FROM REALIZA r
-JOIN ACTIVIDADES a ON a.ID_ACT = r.ID_ACT 
-WHERE r.ID_U = 1;
