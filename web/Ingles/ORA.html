@@ -4,79 +4,350 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Completa la Oración</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Bubblegum+Sans&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #FF9E44;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FF6B6B;
+            --background-color: #F7FFF7;
+            --correct-color: #7AE582;
+            --incorrect-color: #FF686B;
+            --title-font: 'Bubblegum Sans', cursive;
+            --body-font: 'Comic Neue', cursive;
+        }
+        
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            font-family: var(--body-font);
+            background: var(--background-color);
+            background-image: 
+                radial-gradient(#4ECDC4 10%, transparent 10%), 
+                radial-gradient(#FF9E44 15%, transparent 15%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        h1 {
-            color: #333;
-        }
-        .game-container {
-            background-color: #e0f7fa;
-            border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-title {
+            color: #333;
+            font-family: var(--title-font);
+            font-size: 3.5rem;
             text-align: center;
-            width: 80%;
-            max-width: 500px;
-        }
-        .question {
-            font-size: 1.2em;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
             margin-bottom: 15px;
+            background: linear-gradient(45deg, #FF6B6B, #FFD166, #06D6A0, #4ECDC4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient-shift 8s ease infinite;
+            background-size: 300% 300%;
         }
-        .options {
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+        
+        .nav-container {
+            width: 100%;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
         }
-        button {
-            padding: 10px;
-            font-size: 1em;
-            color: #fff;
-            background-color: #00796b;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #004d40;
-        }
-        .message {
-            font-size: 1.2em;
-            margin-top: 20px;
-            color: #00796b;
-        }
+        
         .back-btn {
-                        font-size: 3rem;
-                        color: var(--colorTextoPrincipal);
-                        background: none;
-                        border: none;
-                        cursor: pointer;
-                        
-                    }
-                    .back-btn:hover {
-                                    background-color: #e0f7fa;
-                    }
+            font-size: 2.5rem;
+            color: #555;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: #FFD166;
+            color: white;
+        }
+        
+        .game-container {
+            background-color: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 
+                        0 2px 10px rgba(0, 0, 0, 0.05),
+                        15px 15px 0 -5px #FFD166,
+                        15px 15px 0 0 #FFD166;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #FF6B6B, #FFD166, #06D6A0, #4ECDC4);
+        }
+        
+        .question {
+            font-family: var(--body-font);
+            font-size: 1.6em;
+            line-height: 1.4;
+            color: #444;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #F9F9F9;
+            border-radius: 15px;
+            border: 2px dashed #E0E0E0;
+            font-weight: bold;
+        }
+        
+        .question::before {
+            content: "🤔";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .option-btn {
+            padding: 12px 20px;
+            font-family: var(--body-font);
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 darken(#4ECDC4, 10%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 darken(#4ECDC4, 10%);
+        }
+        
+        .option-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 darken(#4ECDC4, 10%);
+        }
+        
+        .option-btn::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .option-btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+        
+        .message {
+            font-size: 1.5em;
+            margin: 20px 0;
+            font-weight: bold;
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .message.correct {
+            color: var(--correct-color);
+            animation: bounce 0.5s;
+        }
+        
+        .message.incorrect {
+            color: var(--incorrect-color);
+            animation: shake 0.5s;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
+            20%, 40%, 60%, 80% {transform: translateX(10px);}
+        }
+        
+        .next-btn {
+            padding: 15px 25px;
+            font-family: var(--body-font);
+            font-size: 1.3em;
+            font-weight: bold;
+            color: white;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 0 darken(#FF9E44, 10%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 darken(#FF9E44, 10%);
+            background-color: #FFB347;
+        }
+        
+        .next-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 darken(#FF9E44, 10%);
+        }
+        
+        .next-btn::before {
+            content: "→";
+            position: absolute;
+            right: 15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .next-btn:hover::before {
+            right: 10px;
+            opacity: 1;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Confetti for correct answers */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 20px;
+            opacity: 0;
+            z-index: 1000;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                top: -20%;
+                transform: rotateZ(0deg);
+            }
+            100% {
+                opacity: 0;
+                top: 100%;
+                transform: rotateZ(360deg);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .game-container {
+                padding: 20px;
+            }
+            
+            .question {
+                font-size: 1.4em;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <h1>Completa las oraciones</h1>
-        <a href="Ingles-JuegosPalabras.jsp" ><button class="back-btn">&larr;</button> </a>    
+    <h1 class="page-title">Completa las oraciones</h1>
+    
+    <div class="nav-container">
+        <a href="Ingles-JuegosPalabras.jsp">
+            <button class="back-btn">&larr;</button>
+        </a>
+    </div>
 
     <div class="game-container">
         <p id="question" class="question">Here will appear the sentence</p>
         <div id="options" class="options"></div>
         <p id="message" class="message"></p>
-        <button onclick="nextQuestion()">Siguiente</button>
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+        <button onclick="nextQuestion()" class="next-btn">Siguiente</button>
     </div>
 
     <script>
@@ -194,23 +465,31 @@
         ];
 
         let currentQuestion = 0;
+        let score = 0;
 
         function loadQuestion() {
             const questionElement = document.getElementById("question");
             const optionsContainer = document.getElementById("options");
             const messageElement = document.getElementById("message");
+            const progressBar = document.getElementById("progress");
             
             // Clear previous message and options
             messageElement.textContent = '';
+            messageElement.className = 'message';
             optionsContainer.innerHTML = '';
             
             const question = questions[currentQuestion];
             questionElement.textContent = question.sentence;
 
+            // Update progress bar
+            const progressPercentage = (currentQuestion / questions.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+
             // Generate the options
             question.options.forEach(option => {
                 const button = document.createElement("button");
                 button.textContent = option;
+                button.className = "option-btn";
                 button.onclick = () => checkAnswer(option);
                 optionsContainer.appendChild(button);
             });
@@ -221,26 +500,68 @@
             const question = questions[currentQuestion];
 
             if (selectedOption === question.correct) {
-                messageElement.textContent = "Correcto! 🎉";
-                messageElement.style.color = "#4caf50";
+                messageElement.textContent = "¡Correcto! 🎉";
+                messageElement.className = "message correct";
+                score++;
+                createConfetti();
+                
+                // Disable all buttons after correct answer
+                const buttons = document.querySelectorAll('.option-btn');
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    if (btn.textContent === selectedOption) {
+                        btn.style.backgroundColor = "#7AE582";
+                    }
+                });
             } else {
-                messageElement.textContent = "Incorrecto, intenta de nuevo.";
-                messageElement.style.color = "#f44336";
+                messageElement.textContent = "¡Incorrecto! Intenta de nuevo. 💪";
+                messageElement.className = "message incorrect";
+                
+                // Highlight wrong selection
+                const buttons = document.querySelectorAll('.option-btn');
+                buttons.forEach(btn => {
+                    if (btn.textContent === selectedOption) {
+                        btn.style.backgroundColor = "#FF686B";
+                    }
+                });
             }
         }
 
         function nextQuestion() {
             currentQuestion++;
             if (currentQuestion >= questions.length) {
+                const percentage = Math.round((score / questions.length) * 100);
+                alert(`¡Juego completado! 🏆\nTu puntuación: ${score} de ${questions.length} (${percentage}%)`);
                 currentQuestion = 0;
-                alert("¡Has completado todas las preguntas! Empezando de nuevo...");
+                score = 0;
             }
             loadQuestion();
+        }
+
+        function createConfetti() {
+            const colors = ['#FF6B6B', '#FFD166', '#06D6A0', '#4ECDC4', '#118AB2'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = `${Math.random() * 20 + 10}px`;
+                confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
         }
 
         // Load the first question
         loadQuestion();
     </script>
-
 </body>
 </html>

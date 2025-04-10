@@ -7,24 +7,24 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
         <script>
-  (function (w, d, s, o, f, js, fjs) {
-    w["botsonic_widget"] = o;
-    w[o] =
-      w[o] ||
-      function () {
-        (w[o].q = w[o].q || []).push(arguments);
-      };
-    (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
-    js.id = o;
-    js.src = f;
-    js.async = 1;
-    fjs.parentNode.insertBefore(js, fjs);
-  })(window, document, "script", "Botsonic", "https://widget.botsonic.com/CDN/botsonic.min.js");
-  Botsonic("init", {
-    serviceBaseUrl: "https://api-azure.botsonic.ai",
-    token: "e15fef38-59de-42e9-9fff-08aa6687bbc9",
-  });
-</script>
+            (function (w, d, s, o, f, js, fjs) {
+                w["botsonic_widget"] = o;
+                w[o] =
+                        w[o] ||
+                        function () {
+                            (w[o].q = w[o].q || []).push(arguments);
+                        };
+                (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
+                js.id = o;
+                js.src = f;
+                js.async = 1;
+                fjs.parentNode.insertBefore(js, fjs);
+            })(window, document, "script", "Botsonic", "https://widget.botsonic.com/CDN/botsonic.min.js");
+            Botsonic("init", {
+                serviceBaseUrl: "https://api-azure.botsonic.ai",
+                token: "e15fef38-59de-42e9-9fff-08aa6687bbc9",
+            });
+        </script>
         <style>
             :root {
                 --primary-color: #3B7DDD;
@@ -232,10 +232,6 @@
                         <span>Actividades</span>
                     </a>
                     <div class="submenu">
-                        <a href="P-quizzes.html" class="nav-link">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Quizzes</span>
-                        </a>
                         <a href="P-pruebasC.html" class="nav-link">
                             <i class="fas fa-graduation-cap"></i>
                             <span>Pruebas de conocimiento</span>

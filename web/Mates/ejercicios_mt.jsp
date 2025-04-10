@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Juego Adivina el NÃºmero</title>
+        <title>Juego Adivina el Número</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 
@@ -31,7 +31,7 @@
                 color: var(--text-color);
             }
 
-            /* Estilos de la barra de navegaciÃ³n */
+            /* Estilos de la barra de navegación */
             .flex-shrink-0 {
                 width: 200px;
                 background-color: #E5F0FA;
@@ -397,16 +397,16 @@
         </style>
     </head>
     <body>
-        <h1>Â¡Adivina el NÃºmero MÃ¡gico!</h1>
+        <h1>¡Adivina el Número Mágico!</h1>
         <button class="back-btn" onclick="window.history.back()">&larr;</button>
 
         <div class="game-container">
-            <p class="game-instructions">Â¡Intenta adivinar el nÃºmero mÃ¡gico! Â¿CuÃ¡l serÃ¡?</p>
+            <p class="game-instructions">¡Intenta adivinar el número mágico! ¿Cuál será?</p>
             
             <div class="difficulty-selector">
-                <button onclick="setDifficulty('easy')" class="difficulty-btn easy-btn active-difficulty">FÃ¡cil (1-20)</button>
+                <button onclick="setDifficulty('easy')" class="difficulty-btn easy-btn active-difficulty">Fácil (1-20)</button>
                 <button onclick="setDifficulty('medium')" class="difficulty-btn medium-btn">Medio (1-50)</button>
-                <button onclick="setDifficulty('hard')" class="difficulty-btn hard-btn">DifÃ­cil (1-100)</button>
+                <button onclick="setDifficulty('hard')" class="difficulty-btn hard-btn">Difícil (1-100)</button>
             </div>
             
             <div class="progress-container">
@@ -417,36 +417,36 @@
             
             <div class="input-box">
                 <input type="number" id="guessInput" placeholder="?" min="1" max="100">
-                <button onclick="checkGuess()" class="guess-btn">Â¡Adivinar!</button>
+                <button onclick="checkGuess()" class="guess-btn">¡Adivinar!</button>
             </div>
             
             <p id="message" class="message"></p>
             <p id="attempts" class="attempts-counter">Intentos: 0</p>
             <div id="hint" class="hint-container"></div>
             
-            <button onclick="resetGame()" id="resetBtn" class="reset-btn">Â¡Jugar de nuevo!</button>
+            <button onclick="resetGame()" id="resetBtn" class="reset-btn">¡Jugar de nuevo!</button>
         </div>
 
         <div class="mascot">
-            <div class="mascot-speech" id="mascotSpeech">Â¡Hola! Â¿Puedes adivinar mi nÃºmero?</div>
+            <div class="mascot-speech" id="mascotSpeech">¡Hola! ¿Puedes adivinar mi número?</div>
         </div>
 
         <script>
             let secretNumber;
-            let maxNumber = 20; // Valor predeterminado para dificultad fÃ¡cil
+            let maxNumber = 20; // Valor predeterminado para dificultad fácil
             let minNumber = 1;
             let attempts = 0;
             let gameOver = false;
             let difficultyLevel = 'easy';
             
-            // Inicializar el juego al cargar la pÃ¡gina
+            // Inicializar el juego al cargar la página
             window.onload = function() {
                 initGame();
-                showMascotMessage("Â¡Hola! Â¿Puedes adivinar mi nÃºmero secreto entre 1 y 20?", 5000);
+                showMascotMessage("¡Hola! ¿Puedes adivinar mi número secreto entre 1 y 20?", 5000);
             };
             
             function initGame() {
-                // Generar nÃºmero secreto
+                // Generar número secreto
                 secretNumber = Math.floor(Math.random() * maxNumber) + minNumber;
                 attempts = 0;
                 gameOver = false;
@@ -462,15 +462,15 @@
                 document.getElementById("progressBar").style.width = "0%";
                 document.getElementById("progressLabel").textContent = "0%";
                 
-                // Habilitar input y botÃ³n
+                // Habilitar input y botón
                 document.getElementById("guessInput").disabled = false;
                 document.querySelector(".guess-btn").disabled = false;
                 
-                // Actualizar instrucciones segÃºn dificultad
+                // Actualizar instrucciones según dificultad
                 document.querySelector(".game-instructions").textContent = 
-                    `Â¡Intenta adivinar el nÃºmero mÃ¡gico entre ${minNumber} y ${maxNumber}!`;
+                    `¡Intenta adivinar el número mágico entre ${minNumber} y ${maxNumber}!`;
                 
-                console.log("NÃºmero secreto generado:", secretNumber); // Para depuraciÃ³n
+                console.log("Número secreto generado:", secretNumber); // Para depuración
             }
             
             function setDifficulty(level) {
@@ -481,10 +481,10 @@
                     btn.classList.remove('active-difficulty');
                 });
                 
-                // AÃ±adir clase activa al botÃ³n seleccionado
+                // Añadir clase activa al botón seleccionado
                 document.querySelector(`.${level}-btn`).classList.add('active-difficulty');
                 
-                // Establecer rango segÃºn dificultad
+                // Establecer rango según dificultad
                 switch(level) {
                     case 'easy':
                         maxNumber = 20;
@@ -499,7 +499,7 @@
                 
                 // Reiniciar juego con nueva dificultad
                 initGame();
-                showMascotMessage(`Â¡Dificultad cambiada! Ahora adivina entre ${minNumber} y ${maxNumber}`, 3000);
+                showMascotMessage(`¡Dificultad cambiada! Ahora adivina entre ${minNumber} y ${maxNumber}`, 3000);
             }
             
             function checkGuess() {
@@ -512,17 +512,17 @@
                 const hintDisplay = document.getElementById("hint");
                 
                 if (isNaN(guess) || guess < minNumber || guess > maxNumber) {
-                    message.textContent = `Por favor, ingresa un nÃºmero entre ${minNumber} y ${maxNumber}.`;
+                    message.textContent = `Por favor, ingresa un número entre ${minNumber} y ${maxNumber}.`;
                     message.style.color = "#ff5722";
                     message.style.backgroundColor = "#FFEEEE";
-                    showMascotMessage(`Â¡Ups! Debes elegir un nÃºmero entre ${minNumber} y ${maxNumber}`, 3000);
+                    showMascotMessage(`¡Ups! Debes elegir un número entre ${minNumber} y ${maxNumber}`, 3000);
                     return;
                 }
                 
                 attempts++;
                 attemptsDisplay.textContent = `Intentos: ${attempts}`;
                 
-                // Actualizar barra de progreso - mÃ¡s cerca = mÃ¡s progreso
+                // Actualizar barra de progreso - más cerca = más progreso
                 const distance = Math.abs(guess - secretNumber);
                 const maxDistance = maxNumber - minNumber;
                 const progress = 100 - (distance / maxDistance * 100);
@@ -530,25 +530,25 @@
                 document.getElementById("progressLabel").textContent = `${Math.round(progress)}%`;
                 
                 if (guess === secretNumber) {
-                    message.textContent = `Â¡FELICIDADES! Â¡Has adivinado el nÃºmero ${secretNumber} en ${attempts} intentos!`;
+                    message.textContent = `¡FELICIDADES! ¡Has adivinado el número ${secretNumber} en ${attempts} intentos!`;
                     message.style.color = "white";
                     message.classList.add("success-message");
                     hintDisplay.textContent = "";
                     gameOver = true;
                     
-                    // Mostrar botÃ³n de reinicio
+                    // Mostrar botón de reinicio
                     document.getElementById("resetBtn").style.display = "inline-block";
                     
-                    // Desactivar input y botÃ³n
+                    // Desactivar input y botón
                     document.getElementById("guessInput").disabled = true;
                     document.querySelector(".guess-btn").disabled = true;
                     
-                    // CelebraciÃ³n
+                    // Celebración
                     createConfetti();
-                    showMascotMessage("Â¡WOW! Â¡Lo lograste! Â¡Eres increÃ­ble!", 0);
+                    showMascotMessage("¡WOW! ¡Lo lograste! ¡Eres increíble!", 0);
                     
                 } else if (guess < secretNumber) {
-                    message.textContent = "Â¡El nÃºmero es MAYOR! Â¡Sigue intentando!";
+                    message.textContent = "¡El número es MAYOR! ¡Sigue intentando!";
                     message.style.color = "#ff5722";
                     message.style.backgroundColor = "#FFF0E6";
                     
@@ -557,20 +557,20 @@
                     let hint = "";
                     
                     if (difference > maxNumber / 2) {
-                        hint = "Â¡EstÃ¡s muy lejos! Prueba con un nÃºmero mucho mayor.";
-                        showMascotMessage("Â¡Ups! Necesitas un nÃºmero MUCHO mÃ¡s grande", 3000);
+                        hint = "¡Estás muy lejos! Prueba con un número mucho mayor.";
+                        showMascotMessage("¡Ups! Necesitas un número MUCHO más grande", 3000);
                     } else if (difference > maxNumber / 4) {
-                        hint = "EstÃ¡s algo lejos. Prueba con un nÃºmero bastante mayor.";
-                        showMascotMessage("Â¡Necesitas un nÃºmero mÃ¡s grande!", 3000);
+                        hint = "Estás algo lejos. Prueba con un número bastante mayor.";
+                        showMascotMessage("¡Necesitas un número más grande!", 3000);
                     } else {
-                        hint = "Â¡EstÃ¡s cerca! Prueba con un nÃºmero un poco mayor.";
-                        showMascotMessage("Â¡Casi! Un poquito mÃ¡s grande", 3000);
+                        hint = "¡Estás cerca! Prueba con un número un poco mayor.";
+                        showMascotMessage("¡Casi! Un poquito más grande", 3000);
                     }
                     
                     hintDisplay.textContent = hint;
                     
                 } else {
-                    message.textContent = "Â¡El nÃºmero es MENOR! Â¡Sigue intentando!";
+                    message.textContent = "¡El número es MENOR! ¡Sigue intentando!";
                     message.style.color = "#ff5722";
                     message.style.backgroundColor = "#FFF0E6";
                     
@@ -579,14 +579,14 @@
                     let hint = "";
                     
                     if (difference > maxNumber / 2) {
-                        hint = "Â¡EstÃ¡s muy lejos! Prueba con un nÃºmero mucho menor.";
-                        showMascotMessage("Â¡Ups! Necesitas un nÃºmero MUCHO mÃ¡s pequeÃ±o", 3000);
+                        hint = "¡Estás muy lejos! Prueba con un número mucho menor.";
+                        showMascotMessage("¡Ups! Necesitas un número MUCHO más pequeño", 3000);
                     } else if (difference > maxNumber / 4) {
-                        hint = "EstÃ¡s algo lejos. Prueba con un nÃºmero bastante menor.";
-                        showMascotMessage("Â¡Necesitas un nÃºmero mÃ¡s pequeÃ±o!", 3000);
+                        hint = "Estás algo lejos. Prueba con un número bastante menor.";
+                        showMascotMessage("¡Necesitas un número más pequeño!", 3000);
                     } else {
-                        hint = "Â¡EstÃ¡s cerca! Prueba con un nÃºmero un poco menor.";
-                        showMascotMessage("Â¡Casi! Un poquito mÃ¡s pequeÃ±o", 3000);
+                        hint = "¡Estás cerca! Prueba con un número un poco menor.";
+                        showMascotMessage("¡Casi! Un poquito más pequeño", 3000);
                     }
                     
                     hintDisplay.textContent = hint;
@@ -600,7 +600,7 @@
             function resetGame() {
                 message.classList.remove("success-message");
                 initGame();
-                showMascotMessage("Â¡Juego reiniciado! Â¿PodrÃ¡s adivinar mi nuevo nÃºmero secreto?", 3000);
+                showMascotMessage("¡Juego reiniciado! ¿Podrás adivinar mi nuevo número secreto?", 3000);
             }
             
             function createConfetti() {
@@ -615,7 +615,7 @@
                     
                     document.body.appendChild(confetti);
                     
-                    // Eliminar el confeti despuÃ©s de la animaciÃ³n
+                    // Eliminar el confeti después de la animación
                     setTimeout(() => {
                         confetti.remove();
                     }, 5000);

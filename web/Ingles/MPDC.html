@@ -5,81 +5,254 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memorama - Partes del Cuerpo</title>
     <style>
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFD166;
+            --background-color: #F7FFF7;
+            --text-color: #2E3440;
+            --card-back: #FF9AA2;
+            --card-matched: #CFFFFE;
+            --card-border: #FF6B6B;
+            --font-title: 'Comic Sans MS', cursive, sans-serif;
+            --font-text: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            font-family: var(--font-text);
+            background-color: var(--background-color);
+            background-image: radial-gradient(#FFD166 2px, transparent 2px), radial-gradient(#4ECDC4 2px, transparent 2px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
             padding: 20px;
-            box-sizing: border-box;
         }
+
+        .game-header {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
         h1 {
-            color: #333;
+            font-family: var(--font-title);
+            color: var(--primary-color);
             text-align: center;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            letter-spacing: 1px;
         }
+
+        .back-btn {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: absolute;
+            left: 0;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .message-container {
+            background-color: white;
+            border-radius: 20px;
+            padding: 15px 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            max-width: 90%;
+            width: 600px;
+            text-align: center;
+            border: 3px dashed var(--secondary-color);
+        }
+
+        .message {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
         .game-container {
             display: grid;
-            grid-template-columns: repeat(6, 1fr); /* Aumenta el número de columnas */
-            grid-gap: 15px;
+            grid-template-columns: repeat(6, 1fr);
+            grid-gap: 12px;
             max-width: 90%;
-            width: 800px; /* Ajusta el ancho del contenedor */
+            width: 900px;
+            perspective: 1000px;
+            margin-bottom: 30px;
         }
+
+        @media (max-width: 768px) {
+            .game-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         .card {
             width: 100%;
             height: 120px;
-            background-color: #ffcc80; /* Naranja pastel */
-            border-radius: 8px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.2em;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.2s, background-color 0.3s;
-            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-weight: bold;
+            font-size: 1.2rem;
             padding: 10px;
-            box-sizing: border-box;
-        }
-        .card.flip {
-            background-color: #ffffff;
-            color: #333;
-            border: 2px solid #fb8c00; /* Naranja más oscuro para el borde */
-        }
-        .card.matched {
-            background-color: #ffb74d; /* Naranja más claro */
-            cursor: default;
-        }
-        .message {
-            font-size: 1.2em;
-            color: #00796b;
-            margin-top: 20px;
             text-align: center;
-            max-width: 600px;
         }
-        .back-btn {
-                        font-size: 3rem;
-                        color: var(--colorTextoPrincipal);
-                        background: none;
-                        border: none;
-                        cursor: pointer;
-                        
-                    }
+
+        .card-back {
+            background-color: var(--card-back);
+            transform: rotateY(0deg);
+            border: 3px solid var(--card-border);
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .card-back::after {
+            content: "?";
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+
+        .card-front {
+            background-color: white;
+            transform: rotateY(180deg);
+            border: 3px solid var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched .card-front {
+            background-color: var(--card-matched);
+            border-color: var(--accent-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 209, 102, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 209, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 209, 102, 0); }
+        }
+
+        .reset-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .reset-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            opacity: 0;
+            animation: confetti-fall 3s ease-in-out forwards;
+            z-index: 100;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .stat {
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 2px solid var(--accent-color);
+        }
     </style>
 </head>
 <body>
+    <jsp:include page="../Sistema/BarraNavegacion.jsp" />
+    <div class="game-header">
+        <a href="Ingles-JuegosPalabras.jsp"><button class="back-btn">&larr;</button></a>
+        <h1>Memorama - Partes del Cuerpo</h1>
+    </div>
 
-    <h1>Memorama - Partes del Cuerpo</h1>                    
-    <a href="Ingles-JuegosPalabras.jsp" ><button class="back-btn">&larr;</button> </a>
-<p id="message" class="message">Encuentra los pares en Español e Inglés.</p>
+    <div class="message-container">
+        <p id="message" class="message">¡Encuentra los pares de palabras en Español e Inglés!</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat">Intentos: <span id="attempts">0</span></div>
+        <div class="stat">Pares: <span id="pairs">0</span>/<span id="totalPairs">18</span></div>
+    </div>
+
     <div class="game-container" id="gameContainer"></div>
     
-
+    <button id="resetBtn" class="reset-btn">¡Jugar otra vez!</button>
 
     <script>
         const cardsArray = [
@@ -115,15 +288,21 @@
             { word: "Neck", translation: "Cuello" },
             { word: "Pecho", translation: "Chest" },
             { word: "Chest", translation: "Pecho" },
-            { word: "Cadera", translation: "Hip" }, // Nueva parte
-            { word: "Hip", translation: "Cadera" }, // Nueva parte
-            { word: "Muñeca", translation: "Wrist" }, // Nueva parte
-            { word: "Wrist", translation: "Muñeca" }  // Nueva parte
+            { word: "Cadera", translation: "Hip" },
+            { word: "Hip", translation: "Cadera" },
+            { word: "Muñeca", translation: "Wrist" },
+            { word: "Wrist", translation: "Muñeca" }
         ];
 
+        // Podemos limitar el número de cartas para diferentes niveles de dificultad
+        const maxPairs = 18; // Ajustar según preferencia
         let flippedCards = [];
         let matchedPairs = 0;
         let attempts = 0;
+        let canFlip = true;
+        
+        // Actualizar el número total de pares en la pantalla
+        document.getElementById("totalPairs").textContent = maxPairs;
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -136,53 +315,129 @@
         function createBoard() {
             const gameContainer = document.getElementById("gameContainer");
             gameContainer.innerHTML = '';
-            shuffle(cardsArray).forEach(cardData => {
+            
+            // Limitar el número de pares
+            const limitedArray = shuffle(cardsArray).slice(0, maxPairs * 2);
+            
+            shuffle(limitedArray).forEach(cardData => {
                 const card = document.createElement("div");
                 card.classList.add("card");
                 card.dataset.word = cardData.word;
                 card.dataset.translation = cardData.translation;
-                card.textContent = ""; // Oculta el texto inicialmente
+                
+                // Crear la parte frontal y trasera de la tarjeta
+                const cardBack = document.createElement("div");
+                cardBack.classList.add("card-face", "card-back");
+                
+                const cardFront = document.createElement("div");
+                cardFront.classList.add("card-face", "card-front");
+                cardFront.textContent = cardData.word;
+                
+                card.appendChild(cardBack);
+                card.appendChild(cardFront);
+                
                 card.addEventListener("click", flipCard);
                 gameContainer.appendChild(card);
             });
+            
+            // Restablecer contadores
+            matchedPairs = 0;
+            attempts = 0;
+            updateStats();
+            document.getElementById("message").textContent = "¡Encuentra los pares de palabras en Español e Inglés!";
+            document.getElementById("resetBtn").style.display = "none";
         }
 
         function flipCard() {
-            if (flippedCards.length < 2 && !this.classList.contains("flip") && !this.classList.contains("matched")) {
-                this.classList.add("flip");
-                this.textContent = this.dataset.word; // Muestra el texto al girar
-                flippedCards.push(this);
+            if (!canFlip || flippedCards.length >= 2 || this.classList.contains("flip") || this.classList.contains("matched")) {
+                return;
+            }
+            
+            this.classList.add("flip");
+            flippedCards.push(this);
 
-                if (flippedCards.length === 2) {
-                    checkForMatch();
-                }
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                setTimeout(checkForMatch, 500);
             }
         }
 
         function checkForMatch() {
             attempts++;
+            updateStats();
+            
             const [card1, card2] = flippedCards;
 
             if (card1.dataset.translation === card2.dataset.word || card2.dataset.translation === card1.dataset.word) {
                 card1.classList.add("matched");
                 card2.classList.add("matched");
+                
+                // Reproducir sonido de acierto (opcional)
+                playSuccessSound();
+                
                 matchedPairs++;
-                if (matchedPairs === cardsArray.length / 2) {
-                    document.getElementById("message").textContent = `¡Felicidades! Completaste el juego en ${attempts} intentos.`;
+                updateStats();
+                
+                if (matchedPairs === maxPairs) {
+                    setTimeout(celebrateVictory, 500);
                 }
             } else {
                 setTimeout(() => {
                     card1.classList.remove("flip");
                     card2.classList.remove("flip");
-                    card1.textContent = '';
-                    card2.textContent = '';
                 }, 1000);
             }
+            
             flippedCards = [];
+            canFlip = true;
         }
-
+        
+        function updateStats() {
+            document.getElementById("attempts").textContent = attempts;
+            document.getElementById("pairs").textContent = matchedPairs;
+        }
+        
+        function celebrateVictory() {
+            document.getElementById("message").textContent = `¡Felicidades! ¡Lo lograste en ${attempts} intentos!`;
+            document.getElementById("resetBtn").style.display = "block";
+            
+            // Crear confeti
+            createConfetti();
+        }
+        
+        function createConfetti() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#FFD166', '#06D6A0', '#118AB2'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = `${Math.random() * 10 + 5}px`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                
+                document.body.appendChild(confetti);
+                
+                // Eliminar después de la animación
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        function playSuccessSound() {
+            // En un entorno de producción, considera agregar un sonido real
+            // const audio = new Audio('success.mp3');
+            // audio.play();
+        }
+        
+        // Iniciar el juego
         createBoard();
+        
+        // Agregar evento al botón de reinicio
+        document.getElementById("resetBtn").addEventListener("click", createBoard);
     </script>
-
 </body>
 </html>
