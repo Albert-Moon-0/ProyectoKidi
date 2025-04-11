@@ -63,6 +63,7 @@
                             ejercicio = rt.getString("DESC_EE");
 
                 %>
+               
                 <div class="col-sm-6 col-md-3 mb-4">
                     <a href="<%=ejercicio%>.jsp">
                         <div class="card">
