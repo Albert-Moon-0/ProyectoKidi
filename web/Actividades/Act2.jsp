@@ -6,7 +6,7 @@ response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expires", 0);
 
 // Obtener el ID de la actividad y validar
-int idActividad = 1;
+int idActividad = 2;
 String nombreActividad = "";
 int idUsuario = 0;
 List<Map<String, Object>> preguntas = new ArrayList<>();

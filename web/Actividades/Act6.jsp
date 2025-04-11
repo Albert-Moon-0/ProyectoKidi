@@ -1,3 +1,9 @@
+<%-- 
+    Document   : Act6
+    Created on : 10 abr. 2025, 22:52:09
+    Author     : P500
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,java.util.*"%>
 <%@ include file="../Sistema/ConexionBD.jsp" %>
 <%
@@ -6,7 +12,7 @@ response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expires", 0);
 
 // Obtener el ID de la actividad y validar
-int idActividad = 1;
+int idActividad = 6;
 String nombreActividad = "";
 int idUsuario = 0;
 List<Map<String, Object>> preguntas = new ArrayList<>();

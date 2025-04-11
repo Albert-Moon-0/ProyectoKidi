@@ -1,3 +1,9 @@
+<%-- 
+    Document   : Act7
+    Created on : 10 abr. 2025, 22:52:30
+    Author     : P500
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,java.util.*"%>
 <%@ include file="../Sistema/ConexionBD.jsp" %>
 <%
@@ -6,7 +12,7 @@ response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expires", 0);
 
 // Obtener el ID de la actividad y validar
-int idActividad = 1;
+int idActividad = 7;
 String nombreActividad = "";
 int idUsuario = 0;
 List<Map<String, Object>> preguntas = new ArrayList<>();
@@ -108,7 +114,7 @@ try {
         
         <!-- Header principal -->
         <div class="page-header">
-            <h1><i class="fas fa-calculator"></i> <%= nombreActividad %></h1>
+            <h1><i class="fas fa-language"></i> <%= nombreActividad %></h1>
             <p class="lead">Practica tus conocimientos sobre números y operaciones básicas para desarrollar habilidades matemáticas fundamentales.</p>
         </div>
         
