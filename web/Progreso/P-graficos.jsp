@@ -41,7 +41,7 @@ response.setDateHeader("Expires", 0);
                 color: var(--text-primary);
                 margin-left: 820px;
                 padding: 20px;
-                padding-left: 180px;
+                padding-left: 100px;
                 background-image: linear-gradient(135deg, rgba(108, 138, 232, 0.05) 0%, rgba(165, 214, 167, 0.05) 100%);
                 background-attachment: fixed;
             }
@@ -82,7 +82,8 @@ response.setDateHeader("Expires", 0);
                 margin-bottom: 2rem;
                 transition: all 0.3s ease;
                 border-top: 4px solid var(--primary-color);
-                height: 400px;
+                height: 500px;
+                width: 67.8vw;
                 position: relative;
             }
 
@@ -322,7 +323,7 @@ response.setDateHeader("Expires", 0);
                 }
                 
                 .chart-card {
-                    height: 300px;
+                    height: 400px;
                 }
 
                 .stat-card {
@@ -449,16 +450,16 @@ response.setDateHeader("Expires", 0);
                     <div class="chart-card">                        
                         <div id="actividadesChart" class="chart-container"></div>                        
                     </div>                    
-                </div>  
-
-                <div class="col-md-6 mb-4">
-                    <div class="chart-card">                        
-                        <div id="logrosChart" class="chart-container"></div>
-                    </div>             
-                </div>  
+                </div>                 
             </div>
 
-            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="chart-card">                        
+                        <div id="actividadesChart" class="chart-container"></div>                        
+                    </div>                    
+                </div>                 
+            </div>
         </div>
         
         <!-- Script de Bootstrap -->
