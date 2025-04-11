@@ -33,7 +33,7 @@
             /* ===== VARIABLES GLOBALES ===== */
             :root {
                 /* Colores principales */
-                --primary-color: #6A5ACD;       
+                --primary-color: #6A5ACD;       /* Amarillo */
                 --secondary-color: #FF6B6B;     /* Coral */
                 --accent-color: #FFD166;        /* Amarillo */
                 --success-color: #06D6A0;       /* Verde */
