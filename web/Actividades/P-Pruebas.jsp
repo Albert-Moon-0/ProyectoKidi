@@ -64,7 +64,7 @@ response.setDateHeader("Expires", 0);
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" style="width: 75%"></div>
                                                 </div>
-                                                <span>75% completado</span>
+                                                <span>Puntaje 7.7/10</span>
                                             </div>
                                         </div>
                                         <div class="activity-action">
@@ -217,17 +217,17 @@ response.setDateHeader("Expires", 0);
             // Función para iniciar una actividad
             function abrirMates(idActividad) {
                 // Redirigir a la página de la actividad seleccionada
-                window.location.href = 'Mates/Act'+idActividad+'.jsp' ;
+                window.location.href = 'Act'+idActividad+'.jsp' ;
             }
             
             function abrirEsp(idActividad) {
                 // Redirigir a la página de la actividad seleccionada
-                window.location.href = 'Esp/Act'+idActividad+'.jsp' ;
+                window.location.href = 'Act'+idActividad+'.jsp' ;
             }
             
             function abrirIngl(idActividad) {
                 // Redirigir a la página de la actividad seleccionada
-                window.location.href = 'Ingl/Act'+idActividad+'.jsp' ;
+                window.location.href = 'Act'+idActividad+'.jsp' ;
             }
         </script>
     </body>

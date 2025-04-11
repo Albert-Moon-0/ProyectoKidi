@@ -7,6 +7,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
         <script>
+            /*
             (function (w, d, s, o, f, js, fjs) {
                 w["botsonic_widget"] = o;
                 w[o] =
@@ -24,7 +25,20 @@
                 serviceBaseUrl: "https://api-azure.botsonic.ai",
                 token: "e15fef38-59de-42e9-9fff-08aa6687bbc9",
             });
+             */
+            
         </script>
+        
+        <!-- Código de instalación Cliengo para diego.alberto.luna.martinez@gmail.com -->
+<script type="text/javascript">
+  (function () {
+    var ldk = document.createElement('script');
+    ldk.type = 'text/javascript';
+    ldk.async = true;
+    ldk.src = 'https://s.cliengo.com/weboptimizer/67f86cf651e42e6ec120582b/67f86cf651e42e6ec120582e.js?platform=onboarding_modular';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ldk, s);
+  })();
+</script>
         <style>
             :root {
                 --primary-color: #3B7DDD;
