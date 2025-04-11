@@ -37,7 +37,7 @@
                 --secondary-color: #FF6B6B;     /* Coral */
                 --accent-color: #FFD166;        /* Amarillo */
                 --success-color: #06D6A0;       /* Verde */
-                --info-color: #26C6DA;          /* Azul claro */
+                --info-color: #26C6DA;          /* Averde */
 
                 /* Colores de fondo */
                 --bg-light: #F9F7FF;
