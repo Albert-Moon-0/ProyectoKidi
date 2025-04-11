@@ -232,7 +232,7 @@
                         <span>Actividades</span>
                     </a>
                     <div class="submenu">
-                        <a href="P-pruebasC.html" class="nav-link">
+                        <a href="../Actividades/P-Pruebas.jsp" class="nav-link">
                             <i class="fas fa-graduation-cap"></i>
                             <span>Pruebas de conocimiento</span>
                         </a>
