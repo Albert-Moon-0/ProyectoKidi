@@ -384,6 +384,82 @@ INSERT INTO OPCIONES VALUES
 (30, '5', FALSE, 9),
 (31, '8', FALSE, 9);
 
+-- Preguntas para actividad 'Números y sumas' (ID_ACT = 2)
+INSERT INTO PREGUNTAS (ID_PREGUNTA, ENUNCIADO, RESPUESTA_CORRECTA, ID_ACT) VALUES 
+(82, '¿Cuánto es 2 - 2?', '0', 2), 
+(83, '¿Cuánto es 5 + 5?', '10', 2),
+(84, '¿Cuánto es 10 - 5?', '5', 2),
+(85, '¿Cuánto es 7 - 6?', '1', 2),
+(86, '¿Cuánto es 4 + 5?', '9', 2),
+(87, '¿Cuánto es 4 + 4?', '8', 2),
+(88, '¿Cuánto es 6 - 3?', '3', 2),
+(89, '¿Cuánto es 7 - 0?', '7', 2),
+(90, '¿Cuánto es 5 + 2?', '7', 2);
+
+-- Opciones para la pregunta 82
+INSERT INTO OPCIONES VALUES
+(400, '7', FALSE, 82), 
+(401, '3', FALSE, 82), 
+(402, '0', TRUE, 82), 
+(403, '5', FALSE, 82);
+
+-- Pregunta 83
+INSERT INTO OPCIONES VALUES
+(404, '10', TRUE, 83),
+(405, '6', FALSE, 83),
+(406, '9', FALSE, 83),
+(407, '11', FALSE, 83);
+
+-- Pregunta 84
+INSERT INTO OPCIONES VALUES
+(408, '14', FALSE, 84),
+(409, '5', TRUE, 84),
+(410, '15', FALSE, 84),
+(411, '13', FALSE, 84);
+
+-- Pregunta 85
+INSERT INTO OPCIONES VALUES
+(412, '1', TRUE, 85),
+(413, '12', FALSE, 85),
+(414, '0', FALSE, 85),
+(415, '15', FALSE, 85);
+
+-- Pregunta 86
+INSERT INTO OPCIONES VALUES
+(416, '10', FALSE, 86),
+(417, '9', TRUE, 86),
+(418, '11', FALSE, 86),
+(419, '12', FALSE, 86);
+
+-- Pregunta 87
+INSERT INTO OPCIONES VALUES
+(420, '6', FALSE, 87),
+(421, '8', TRUE, 87),
+(422, '7', FALSE, 87),
+(423, '9', FALSE, 87);
+
+-- Pregunta 88
+INSERT INTO OPCIONES VALUES
+(424, '3', TRUE, 88),
+(425, '8', FALSE, 88),
+(426, '7', FALSE, 88),
+(427, '10', FALSE, 88);
+
+-- Pregunta 89
+INSERT INTO OPCIONES VALUES
+(428, '6', FALSE, 89),
+(429, '7', TRUE, 89),
+(430, '8', FALSE, 89),
+(431, '9', FALSE, 89);
+
+-- Pregunta 90
+INSERT INTO OPCIONES VALUES
+(432, '7', TRUE, 90),
+(433, '6', FALSE, 90),
+(434, '5', FALSE, 90),
+(435, '8', FALSE, 90);
+
+
 -- Preguntas para actividad ' Multiplicaciones' (ID_ACT = 3) 
 INSERT INTO PREGUNTAS (ID_PREGUNTA, ENUNCIADO, RESPUESTA_CORRECTA, ID_ACT) VALUES
 (10, '¿Cuánto es 2 x 3?', '6', 3),

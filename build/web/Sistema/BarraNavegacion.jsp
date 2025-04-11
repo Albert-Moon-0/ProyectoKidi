@@ -267,6 +267,7 @@
                             <i class="fas fa-chart-pie"></i>
                             <span>Gráficos de logro</span>
                         </a>
+                        
                         <a href="../Progreso/P-informesAct.jsp" class="nav-link">
                             <i class="fas fa-file-invoice"></i>
                             <span>Informes de actividad</span>
@@ -283,11 +284,7 @@
                         <a href="../Ajustes/P-perfil.jsp" class="nav-link">
                             <i class="fas fa-user"></i>
                             <span>Perfil</span>
-                        </a>
-                        <a href="P-configuracion.jsp" class="nav-link">
-                            <i class="fas fa-sliders-h"></i>
-                            <span>Configuración</span>
-                        </a>
+                        </a>                        
                         <a href="../Sistema/invalidateSession.jsp" class="nav-link">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Cerrar sesión</span>

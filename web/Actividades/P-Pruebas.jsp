@@ -9,6 +9,17 @@
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expires", 0);
+int idUsuario = 0;
+
+// Obtener información del usuario actual
+    PreparedStatement psUser = c.prepareStatement("SELECT ID_U FROM USUARIO WHERE CORREO_U = ?");
+    psUser.setString(1, userEmail);
+    ResultSet rsUser = psUser.executeQuery();
+    if (rsUser.next()) {
+        idUsuario = rsUser.getInt("ID_U");
+    }
+    rsUser.close();
+    psUser.close();
 %>
 <html lang="es">
     <head>
@@ -44,36 +55,46 @@ response.setDateHeader("Expires", 0);
                 <div id="matematicas" class="tab-pane active">
                     <div class="row">
                         <%
-                        try {
-                            PreparedStatement ps = c.prepareStatement("SELECT ID_ACT, DESC_ACT FROM ACTIVIDADES WHERE ID_MAT = 3");
+                        try {                                                  
+                            PreparedStatement ps = c.prepareStatement(
+                                "SELECT A.ID_ACT, A.DESC_ACT, COALESCE(R.PUNTAJE_ACT, -1) AS PUNTAJE " +
+                                "FROM ACTIVIDADES A " +
+                                "LEFT JOIN REALIZA R ON A.ID_ACT = R.ID_ACT AND R.ID_U = ? " +
+                                "WHERE A.ID_MAT = 3"
+                            );
+                            ps.setInt(1, idUsuario);
                             ResultSet rs = ps.executeQuery();
-                            
+
                             while(rs.next()) {
                                 int idActividad = rs.getInt("ID_ACT");
                                 String descActividad = rs.getString("DESC_ACT");
+                                double puntaje = rs.getDouble("PUNTAJE");
                         %>
-                                <div class="col-md-4 col-sm-6 mb-4">
-                                    <div class="activity-card" onclick="abrirMates(<%= idActividad %>)">
-                                        <div class="activity-icon">
-                                            <i class="fas fa-calculator"></i>
-                                        </div>
-                                        <div class="activity-info">
-                                            <h3><%= descActividad %></h3>
-                                            <p>Practica tus habilidades matemáticas</p>
-                                            <div class="activity-progress">
-                                                <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 75%"></div>
-                                                </div>
-                                                <span>Puntaje 7.7/10</span>
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="activity-card" onclick="abrirMates(<%= idActividad %>)">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-calculator"></i>
+                                    </div>
+                                    <div class="activity-info">
+                                        <h3><%= descActividad %></h3>
+                                        <p>Practica tus habilidades matemáticas</p>
+                                        <div class="activity-progress">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" 
+                                                     style="width: <%= (puntaje >= 0) ? (puntaje * 10) : 0 %>%"></div>
                                             </div>
-                                        </div>
-                                        <div class="activity-action">
-                                            <button class="btn-start">
-                                                <i class="fas fa-play"></i>
-                                            </button>
+                                            <span>
+                                                <%= (puntaje >= 0) ? "Puntaje " + String.format("%.1f", puntaje) + "/10" : "Sin elaborar" %>
+                                            </span>
                                         </div>
                                     </div>
+                                    <div class="activity-action">
+                                        <button class="btn-start">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                    </div>
                                 </div>
+                            </div>
                         <%
                             }
                             rs.close();
@@ -89,13 +110,20 @@ response.setDateHeader("Expires", 0);
                 <div id="espanol" class="tab-pane">
                     <div class="row">
                         <%
-                        try {
-                            PreparedStatement ps = c.prepareStatement("SELECT ID_ACT, DESC_ACT FROM ACTIVIDADES WHERE ID_MAT = 1");
+                        try {                                                  
+                            PreparedStatement ps = c.prepareStatement(
+                                "SELECT A.ID_ACT, A.DESC_ACT, COALESCE(R.PUNTAJE_ACT, -1) AS PUNTAJE " +
+                                "FROM ACTIVIDADES A " +
+                                "LEFT JOIN REALIZA R ON A.ID_ACT = R.ID_ACT AND R.ID_U = ? " +
+                                "WHERE A.ID_MAT = 1"
+                            );
+                            ps.setInt(1, idUsuario);
                             ResultSet rs = ps.executeQuery();
-                            
+
                             while(rs.next()) {
                                 int idActividad = rs.getInt("ID_ACT");
                                 String descActividad = rs.getString("DESC_ACT");
+                                double puntaje = rs.getDouble("PUNTAJE");
                         %>
                                 <div class="col-md-4 col-sm-6 mb-4">
                                     <div class="activity-card" onclick="abrirEsp(<%= idActividad %>)">
@@ -106,11 +134,14 @@ response.setDateHeader("Expires", 0);
                                             <h3><%= descActividad %></h3>
                                             <p>Mejora tus habilidades de lenguaje</p>
                                             <div class="activity-progress">
-                                                <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 60%"></div>
-                                                </div>
-                                                <span>60% completado</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" 
+                                                     style="width: <%= (puntaje >= 0) ? (puntaje * 10) : 0 %>%"></div>
                                             </div>
+                                            <span>
+                                                <%= (puntaje >= 0) ? "Puntaje " + String.format("%.1f", puntaje) + "/10" : "Sin elaborar" %>
+                                            </span>
+                                        </div>
                                         </div>
                                         <div class="activity-action">
                                             <button class="btn-start">
@@ -134,13 +165,20 @@ response.setDateHeader("Expires", 0);
                 <div id="ingles" class="tab-pane">
                     <div class="row">
                         <%
-                        try {
-                            PreparedStatement ps = c.prepareStatement("SELECT ID_ACT, DESC_ACT FROM ACTIVIDADES WHERE ID_MAT = 2");
+                        try {                                                  
+                            PreparedStatement ps = c.prepareStatement(
+                                "SELECT A.ID_ACT, A.DESC_ACT, COALESCE(R.PUNTAJE_ACT, -1) AS PUNTAJE " +
+                                "FROM ACTIVIDADES A " +
+                                "LEFT JOIN REALIZA R ON A.ID_ACT = R.ID_ACT AND R.ID_U = ? " +
+                                "WHERE A.ID_MAT = 2"
+                            );
+                            ps.setInt(1, idUsuario);
                             ResultSet rs = ps.executeQuery();
-                            
+
                             while(rs.next()) {
                                 int idActividad = rs.getInt("ID_ACT");
                                 String descActividad = rs.getString("DESC_ACT");
+                                double puntaje = rs.getDouble("PUNTAJE");
                         %>
                                 <div class="col-md-4 col-sm-6 mb-4">
                                     <div class="activity-card" onclick="abrirIngl(<%= idActividad %>)">
@@ -151,11 +189,14 @@ response.setDateHeader("Expires", 0);
                                             <h3><%= descActividad %></h3>
                                             <p>Aprende vocabulario y gramática</p>
                                             <div class="activity-progress">
-                                                <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 45%"></div>
-                                                </div>
-                                                <span>45% completado</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" 
+                                                     style="width: <%= (puntaje >= 0) ? (puntaje * 10) : 0 %>%"></div>
                                             </div>
+                                            <span>
+                                                <%= (puntaje >= 0) ? "Puntaje " + String.format("%.1f", puntaje) + "/10" : "Sin elaborar" %>
+                                            </span>
+                                        </div>
                                         </div>
                                         <div class="activity-action">
                                             <button class="btn-start">
