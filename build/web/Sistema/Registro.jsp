@@ -180,12 +180,12 @@
         
         <div class="registration-section">
             <div class="registration-header">
-                <a href="../index.jsp" class="back-btn">&larr;</a>
+                <a href="../iniciodesesion.jsp" class="back-btn">&larr;</a>
                 <h1>Registro</h1>
-                <p>Completa tus datos para crear una cuenta</p>
+                <p>Hola Tutor, completa tus datos para crear una cuenta</p>
             </div>
             
-            <form class="registration-form" action="Alta.jsp" method="get">
+            <form class="registration-form" action="proceso-registro-tutor.jsp" method="get">
                 <div class="form-input">
                     <i class="fas fa-user"></i>
                     <input 
@@ -198,19 +198,7 @@
                         title="El nombre debe contener solo letras, empezar con mayúscula y tener máximo 20 caracteres." 
                         maxlength="20"
                     >
-                </div>
-                
-                <div class="form-input">
-                    <i class="fas fa-birthday-cake"></i>
-                    <input 
-                        type="number" 
-                        name="Edad" 
-                        placeholder="Edad" 
-                        max="99" 
-                        min="1" 
-                        required
-                    >
-                </div>
+                </div>    
                 
                 <div class="form-input">
                     <i class="fas fa-envelope"></i>

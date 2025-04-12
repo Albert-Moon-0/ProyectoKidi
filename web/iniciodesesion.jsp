@@ -174,7 +174,7 @@
                 <div class="form-input">
                     <i class="fas fa-lock"></i>
                     <input type="password" name="contrasena" placeholder="Contraseña" 
-                           maxlength="8" 
+                           maxlength="16" 
                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$" 
                            title="La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número." 
                            required>

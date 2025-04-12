@@ -2,18 +2,37 @@ DROP DATABASE IF EXISTS Kidi;
 CREATE DATABASE Kidi;
 USE Kidi;
 
+CREATE TABLE ADMIN_ (
+  ID_A INT PRIMARY KEY AUTO_INCREMENT,
+  NOMBRE_A VARCHAR(40),
+  CORREO_A VARCHAR(50) UNIQUE,
+  CONTRA_A VARCHAR(150)
+);
+INSERT INTO ADMIN_ (NOMBRE_A, CORREO_A, CONTRA_A) VALUES
+("Admin Kidi", "adminKidi@gmail.com", "$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2");
+
 CREATE TABLE FOTO_PERFIL(
 ID_FOTO INT PRIMARY KEY,
 NOMBRE_FOTO VARCHAR(30)
 );
+INSERT INTO FOTO_PERFIL (ID_FOTO,NOMBRE_FOTO) VALUES
+(1, "Ajolote.jpeg"),
+(2, "Conejo.jpeg"),
+(3, "Gato.jpeg"),
+(4, "Gatorobot.jpeg"),
+(5, "Oso.jpeg"),
+(6, "Raton.jpeg"),
+(7, "Vaca.jpeg");
 
- CREATE TABLE TUTOR(
- ID_T INT PRIMARY KEY,
- NOMBRE_T VARCHAR(30),
-APELL_T VARCHAR (30),
-CORREO_T VARCHAR (30) UNIQUE,
-CONTRASEÑA_T VARCHAR (150)
+CREATE TABLE TUTOR(
+ID_T INT PRIMARY KEY AUTO_INCREMENT,
+NOMBRE_T VARCHAR(30),
+CORREO_T VARCHAR (50) UNIQUE,
+CONTRA_T VARCHAR (150)
  );
+INSERT INTO TUTOR (NOMBRE_T, APELL_T, CORREO_T, CONTRA_T) VALUES
+("Pepe", "Luna Moran", "Pepe@gmail.com", "$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2"),
+("Victor", "Jarillo Moran", "Pepe2@gmail.com", "$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2");
 
 CREATE TABLE USUARIO (
 ID_U INT NOT NULL PRIMARY KEY auto_increment,
@@ -26,15 +45,13 @@ ID_T INT,
 FOREIGN KEY (ID_T) REFERENCES TUTOR (ID_T),
 FOREIGN KEY (ID_FOTO) REFERENCES FOTO_PERFIL (ID_FOTO)
 );
+-- Insertando datos en la tabla USUARIO 1 Jpepe123, 2 Fmoran12, 3 Gmoran12
+INSERT INTO USUARIO (NOMBRE_U, CORREO_U, CONTRASEÑA_U, EDAD_U, ID_FOTO, ID_T) VALUES
+('Juan Perez', 'juan@gmail.com', '$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2', 10, 1, 1),
+('Fernando', 'fernandoM@gmail.com', '$2a$12$47wosqZr6czMOOLt0eQbK.50xDgOKIcDnEz6rVC9O5QKwKjNQIdfe', 12, 2, 1),
+('Alberto', 'albertoL@gmail.com', '$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2', 10, 3, 2),
+('Samantha', 'samanthaJ@gmail.com', '$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2', 11, 4, 2);
 
-INSERT INTO FOTO_PERFIL (ID_FOTO,NOMBRE_FOTO) VALUES
-(1, "Ajolote.jpeg"),
-(2, "Conejo.jpeg"),
-(3, "Gato.jpeg"),
-(4, "Gatorobot.jpeg"),
-(5, "Oso.jpeg"),
-(6, "Raton.jpeg"),
-(7, "Vaca.jpeg");
 
 CREATE TABLE ESPAÑOL (
 ID_E INT NOT NULL PRIMARY KEY auto_increment,
@@ -190,11 +207,6 @@ FOREIGN KEY (ID_PREGUNTA) REFERENCES PREGUNTAS(ID_PREGUNTA)
 ); 
 
 
--- Insertando datos en la tabla USUARIO 1 Jpepe123, 2 Fmoran12, 3 Gmoran12
-INSERT INTO USUARIO (ID_U, NOMBRE_U, CORREO_U, CONTRASEÑA_U, EDAD_U) VALUES
-(1, 'Juan Perez', 'juan@gmail.com', '$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2', 10),
-(2, 'Fernando', 'fernandoM@gmail.com', '$2a$12$47wosqZr6czMOOLt0eQbK.50xDgOKIcDnEz6rVC9O5QKwKjNQIdfe', 12),
-(3, 'Gerardo', 'gerardoM@gmail.com', 'Gmoran12', 11);
 
 -- Insertando datos en la tabla ESPAÑOL
 INSERT INTO ESPAÑOL (ID_E, NOMBRE_E) VALUES
