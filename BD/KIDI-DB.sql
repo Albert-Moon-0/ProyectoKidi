@@ -30,9 +30,9 @@ NOMBRE_T VARCHAR(30),
 CORREO_T VARCHAR (50) UNIQUE,
 CONTRA_T VARCHAR (150)
  );
-INSERT INTO TUTOR (NOMBRE_T, APELL_T, CORREO_T, CONTRA_T) VALUES
-("Pepe", "Luna Moran", "Pepe@gmail.com", "$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2"),
-("Victor", "Jarillo Moran", "Pepe2@gmail.com", "$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2");
+INSERT INTO TUTOR (NOMBRE_T, CORREO_T, CONTRA_T) VALUES
+("Pepe",  "Pepe@gmail.com", "$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2"),
+("Victor", "Pepe2@gmail.com", "$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2");
 
 CREATE TABLE USUARIO (
 ID_U INT NOT NULL PRIMARY KEY auto_increment,
