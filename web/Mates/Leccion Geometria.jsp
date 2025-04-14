@@ -4,58 +4,53 @@
     Author     : Usuario
 --%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lección de Matemáticas: Geometría Básica</title>
+    <title>LecciÃ³n de MatemÃ¡ticas: GeometrÃ­a BÃ¡sica</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
+    <link rel="stylesheet" href="estilosMate.css">
     <style>
-        .header {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 20px 0;
-            color: var(--primary-color);
-        }
-        .figure-card {
-            padding: 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 10px;
-            margin: 10px;
-            text-align: center;
-        }
         .figure-img {
-            max-width: 150px;
-            margin-bottom: 10px;
-        }
-        .example-text {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-        }
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
     </style>
 </head>
 <body>
+    <!-- Elementos flotantes de fondo -->
+    <div class="floating-number number-1">â–³</div>
+    <div class="floating-number number-2">â–¡</div>
+    <div class="floating-number number-3">â—‹</div>
+    <div class="floating-number number-4">â—‡</div>
+    
+    <!-- Barra de NavegaciÃ³n -->
     <jsp:include page="../Sistema/BarraNavegacion.jsp" />
+    
+    <!-- Header y botÃ³n de volver -->
+    <div class="position-relative">
+        <a href="P-Mates.jsp"><button class="back-btn">&larr;</button></a>
+        <h1 class="header-title">Â¡GeometrÃ­a!</h1>
+        <h3 class="greeting">Conociendo las Figuras GeomÃ©tricas</h3>
+    </div>
 
-    <header>
-        <h1 class="header">¡Bienvenidos a la Lección de Geometría!</h1>
-        <h3 class="greeting">Conociendo las Figuras Geométricas</h3>
-                            <a href="P-Mates.jsp"><button class="back-btn">&larr;</button> </a>
-    </header>
-
+    <!-- Contenedor principal -->
     <main class="container my-5">
         <section class="card p-4 mb-4">
-            <h3>¿Qué es la Geometría?</h3>
-            <p>La geometría es una rama de las matemáticas que estudia las formas y figuras. ¡La geometría está en todas partes! Observa a tu alrededor: todo tiene forma. Los libros, las ventanas, el balón con el que juegas?</p>
+            <h3>Â¿QuÃ© es la GeometrÃ­a?</h3>
+            <p>La geometrÃ­a es una rama de las matemÃ¡ticas que estudia las formas y figuras. Â¡La geometrÃ­a estÃ¡ en todas partes! Observa a tu alrededor: todo tiene forma. Los libros, las ventanas, el balÃ³n con el que juegas.</p>
         </section>
 
         <section class="card p-4 mb-4">
-            <h3>Figuras Geométricas Básicas</h3>
-            <p>Aquí están algunas de las figuras geométricas más importantes:</p>
+            <h3>Figuras GeomÃ©tricas BÃ¡sicas</h3>
+            <p>AquÃ­ estÃ¡n algunas de las figuras geomÃ©tricas mÃ¡s importantes:</p>
             <div class="row text-center">
                 <div class="col-md-3">
                     <div class="figure-card">
@@ -66,61 +61,115 @@
                 </div>
                 <div class="col-md-3">
                     <div class="figure-card">
-                        <img src="../Imagenes/Triangulo.png" alt="Triángulo" class="figure-img">
-                        <p class="example-text">Triángulo</p>
-                        <p>Un triángulo tiene <strong>3 lados</strong> y <strong>3 esquinas</strong>. Puede tener lados iguales o diferentes.</p>
+                        <img src="../Imagenes/Triangulo.png" alt="TriÃ¡ngulo" class="figure-img">
+                        <p class="example-text">TriÃ¡ngulo</p>
+                        <p>Un triÃ¡ngulo tiene <strong>3 lados</strong> y <strong>3 esquinas</strong>. Puede tener lados iguales o diferentes.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="figure-card">
                         <img src="../Imagenes/Circulo.png" alt="Circulo" class="figure-img">
-                        <p class="example-text">Círculo</p>
-                        <p>Un círculo es redondo y no tiene lados ni esquinas. Todos sus puntos están a la misma distancia del centro.</p>
+                        <p class="example-text">CÃ­rculo</p>
+                        <p>Un cÃ­rculo es redondo y no tiene lados ni esquinas. Todos sus puntos estÃ¡n a la misma distancia del centro.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="figure-card">
-                        <img src="../Imagenes/Rectangulo.png" alt="Rectángulo" class="figure-img">
-                        <p class="example-text">Rectángulo</p>
-                        <p>Un rectángulo tiene <strong>4 lados</strong>: 2 largos y 2 cortos, y también tiene 4 esquinas rectas.</p>
+                        <img src="../Imagenes/Rectangulo.png" alt="RectÃ¡ngulo" class="figure-img">
+                        <p class="example-text">RectÃ¡ngulo</p>
+                        <p>Un rectÃ¡ngulo tiene <strong>4 lados</strong>: 2 largos y 2 cortos, y tambiÃ©n tiene 4 esquinas rectas.</p>
                     </div>
                 </div>
             </div>
         </section>
-
+        
+        <!-- Video mejorado con contenedor -->
+        <div class="video-container">
+            <iframe src="https://www.youtube-nocookie.com/embed/SXONzObzFk0?si=1uk3ieWBFSDin6vJ" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        
         <section class="card p-4 mb-4">
             <h3>Partes de una Figura</h3>
-            <p>Conozcamos algunas partes de las figuras geométricas:</p>
-            <ul>
-                <li><strong>Lados:</strong> Las líneas que forman la figura.</li>
-                <li><strong>Esquinas:</strong> Los puntos donde se unen dos lados.</li>
-                <li><strong>Centro:</strong> El punto en el medio de una figura como el círculo.</li>
-            </ul>
+            <p>Conozcamos algunas partes de las figuras geomÃ©tricas:</p>
+            <div class="number-card mx-auto" style="max-width: 500px;">
+                <ul>
+                    <li><strong>Lados:</strong> Las lÃ­neas que forman la figura.</li>
+                    <li><strong>Esquinas:</strong> Los puntos donde se unen dos lados.</li>
+                    <li><strong>Centro:</strong> El punto en el medio de una figura como el cÃ­rculo.</li>
+                </ul>
+            </div>
         </section>
-
+        
+        <!-- Video mejorado con contenedor -->
+        <div class="video-container">
+            <iframe src="https://www.youtube-nocookie.com/embed/kESdCbIz9Wc?si=JhxRttC0ZTYrQPGj" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        
         <section class="card p-4 mb-4">
-            <h3>¡Observa las Figuras a Tu Alrededor!</h3>
+            <h3>Â¡Observa las Figuras a Tu Alrededor!</h3>
             <p>Prueba a observar las figuras en objetos cercanos. Por ejemplo:</p>
-            <ul>
-                <li>Un balón es como un <strong>círculo</strong>.</li>
-                <li>La puerta es como un <strong>rectángulo</strong>.</li>
-                <li>La pizza puede cortarse en <strong>triángulos</strong> (las porciones).</li>
-            </ul>
+            <div class="numeric-line-container">
+                <div class="operation-example">
+                    <div>Un balÃ³n es como un <strong>cÃ­rculo</strong>.</div>
+                    <div>La puerta es como un <strong>rectÃ¡ngulo</strong>.</div>
+                    <div>La pizza puede cortarse en <strong>triÃ¡ngulos</strong> (las porciones).</div>
+                </div>
+            </div>
         </section>
 
+        <!-- SecciÃ³n de prÃ¡ctica interactiva -->
         <section class="card p-4 mb-4">
-            <h3>¡Hora de Practicar!</h3>
-            <p>¿Qué figura tiene??</p>
-            <ul>
-                <li><strong>4 lados iguales:</strong> <span class="answer">¡Un cuadrado!</span></li>
-                <li><strong>3 lados:</strong> <span class="answer">¡Un triángulo!</span></li>
-                <li><strong>Sin lados ni esquinas:</strong> <span class="answer">¡Un círculo!</span></li>
-            </ul>
+            <h3>Â¡Hora de Practicar!</h3>
+            <p>Â¿QuÃ© figura tiene...?</p>
+            
+            <div class="mt-4">
+                <div class="practice-item">
+                    <p><strong>4 lados iguales:</strong> <span class="answer">Â¡Un cuadrado!</span></p>
+                </div>
+                <div class="practice-item">
+                    <p><strong>3 lados:</strong> <span class="answer">Â¡Un triÃ¡ngulo!</span></p>
+                </div>
+                <div class="practice-item">
+                    <p><strong>Sin lados ni esquinas:</strong> <span class="answer">Â¡Un cÃ­rculo!</span></p>
+                </div>
+                <div class="practice-item">
+                    <p><strong>4 lados: 2 largos y 2 cortos:</strong> <span class="answer">Â¡Un rectÃ¡ngulo!</span></p>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer class="text-center mt-5">
-        <p>¡Diviértete explorando la geometría en todas partes!</p>
+    <!-- BotÃ³n flotante para volver arriba -->
+    <a href="#" class="back-to-top">â†‘</a>
+
+    <!-- Footer mejorado -->
+    <footer class="py-3 mt-5">
+        <div class="container">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
+            <p class="text-center">Â© 2024 KIDI, Inc Â¡DiviÃ©rtete explorando la geometrÃ­a en todas partes!</p>
+        </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Script para manejar el botÃ³n de volver arriba
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopButton = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.style.display = 'flex';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+        });
+    </script>
 </body>
 </html>

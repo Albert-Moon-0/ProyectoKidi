@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juegos de Palabras</title>
+    <title>Juegos de Matemáticas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
@@ -309,10 +309,10 @@
 </head>
 <body>
     <!-- Elementos flotantes de fondo -->
-    <div class="floating-letter letter-a">A</div>
-    <div class="floating-letter letter-b">B</div>
-    <div class="floating-letter letter-c">C</div>
-    <div class="floating-letter letter-z">Z</div>
+    <div class="floating-letter letter-a">1</div>
+    <div class="floating-letter letter-b">45</div>
+    <div class="floating-letter letter-c">89</div>
+    <div class="floating-letter letter-z">??</div>
     
     <!-- Barra de Navegación -->
     <jsp:include page="../Sistema/BarraNavegacion.jsp" />
@@ -320,7 +320,7 @@
     <!-- Header y botón de volver mejorados y centrados -->
     <div class="nav-container">
         <a href="P-Mates.jsp"><button class="back-btn">&larr;</button></a>
-        <div class="header-title text-center">¡Juegos de Palabras!</div>
+        <div class="header-title text-center">¡Juegos de matemáticas!</div>
     </div>
     <br>
     <br>
@@ -334,8 +334,8 @@
                     <div class="card">
                         <img class="card-img-top" src="../img/numrs.jpg" alt="Adivina el número" loading="lazy">
                         <div class="card-body">
-                            <h5 class="card-title">Adivina la Palabra</h5>
-                            <p class="card-text">Intenta adivinar la palabra oculta con las pistas que te damos.</p>
+                            <h5 class="card-title">Adivina el número</h5>
+                            <p class="card-text">Intenta adivinar el número oculto con las pistas que te damos.</p>
                             <a href="ejercicios_mt.html" class="btn btn-game">¡Jugar ahora!</a>
                         </div>
                     </div>

@@ -1,107 +1,138 @@
 <%-- 
-    Document   : Reconoce los números
+    Document   : Reconoce los nÃºmeros
     Created on : 3 nov. 2024, 16:26:28
     Author     : P500
 --%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lección de Matemáticas: Conociendo los Números</title>
+    <title>LecciÃ³n de MatemÃ¡ticas: Conociendo los NÃºmeros</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css"> 
-    <style>
-        .header {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 20px 0;
-            color: var(--primary-color);
-        }
-        .number-card {
-            padding: 15px;
-            border: 2px solid var(--primary-color);
-            border-radius: 10px;
-            margin: 10px;
-            text-align: center;
-        }
-        .number-example {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .back-btn {
-            font-size: 3rem;
-            color: var(--colorTextoPrincipal);
-            background: none;
-            border: none;
-            cursor: pointer;
-        }                            
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
+    <link rel="stylesheet" href="estilosMate.css">
+    
+   
 </head>
 <body>
+    <!-- Elementos flotantes de fondo -->
+    <div class="floating-number number-1">1</div>
+    <div class="floating-number number-2">2</div>
+    <div class="floating-number number-3">3</div>
+    <div class="floating-number number-4">4</div>
+    
+    <!-- Barra de NavegaciÃ³n -->
     <jsp:include page="../Sistema/BarraNavegacion.jsp" />
-    <header>
-        <h1 class="header">¡Bienvenidos a la Lección de Matemáticas!</h1>
-        <h3 class="greeting">Explorando el Mundo de los Números</h3>
-        <a href="Mates-LeccionesNumeros.jsp"><button class="back-btn">&larr;</button> </a>
+    
+    <!-- Header y botÃ³n de volver -->
+    <div class="position-relative">
+        <a href="Mates-LeccionesNumeros.jsp"><button class="back-btn">&larr;</button></a>
+        <h1 class="header-title">Â¡Conociendo los NÃºmeros!</h1>
+        <h3 class="greeting">Explorando el fascinante mundo numÃ©rico</h3>
+    </div>
 
-    </header>
-
+    <!-- Contenedor principal -->
     <main class="container my-5">
         <section class="card p-4 mb-4">
-            <h3>¿Qué son los Números?</h3>
-            <p>Los números son símbolos que usamos para contar, ordenar y medir cosas. Desde muy pequeños, los usamos todos los días, pero... ¿sabes cuántos números existen y cómo se organizan?</p>
-            <h4>Los Números Naturales</h4>
-            <p>Imagina que tienes muchas canicas y quieres contarlas. Empezamos con el número <strong>1</strong>, luego <strong>2</strong>, <strong>3</strong>, y así sucesivamente. Estos números que usamos para contar cosas como canicas, personas o juguetes son llamados <strong>números naturales</strong>.</p>
+            <h3>Â¿QuÃ© son los NÃºmeros?</h3>
+            <p>Los nÃºmeros son sÃ­mbolos que usamos para contar, ordenar y medir cosas. Desde muy pequeÃ±os, los usamos todos los dÃ­as, pero... Â¿sabes cuÃ¡ntos nÃºmeros existen y cÃ³mo se organizan?</p>
+            <h4>Los NÃºmeros Naturales</h4>
+            <p>Imagina que tienes muchas canicas y quieres contarlas. Empezamos con el nÃºmero <strong>1</strong>, luego <strong>2</strong>, <strong>3</strong>, y asÃ­ sucesivamente. Estos nÃºmeros que usamos para contar cosas como canicas, personas o juguetes son llamados <strong>nÃºmeros naturales</strong>.</p>
             
-            <h4>Números en Nuestro Día a Día</h4>
-            <p>Los números están por todas partes: en los relojes para decir la hora, en los precios de las tiendas, en las páginas de los libros... ¡y en mucho más!</p>
+            <h4>NÃºmeros en Nuestro DÃ­a a DÃ­a</h4>
+            <p>Los nÃºmeros estÃ¡n por todas partes: en los relojes para decir la hora, en los precios de las tiendas, en las pÃ¡ginas de los libros... Â¡y en mucho mÃ¡s!</p>
         </section>
+        
+        <!-- Video mejorado con contenedor -->
+        <div class="video-container">
+            <iframe src="https://www.youtube-nocookie.com/embed/qHkEDhTaPnk?si=0J7VFJXGo7R7KlkC" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
 
         <section class="card p-4 mb-4">
-            <h3>Ordenando Números</h3>
-            <p>Es importante entender cómo se relacionan los números entre sí. Por ejemplo, si tienes <strong>3</strong> caramelos y luego tienes <strong>5</strong>, sabemos que <strong>5</strong> es mayor que <strong>3</strong>. Veamos algunos ejemplos:</p>
-            <div class="d-flex justify-content-around">
+            <h3>Ordenando NÃºmeros</h3>
+            <p>Es importante entender cÃ³mo se relacionan los nÃºmeros entre sÃ­. Por ejemplo, si tienes <strong>3</strong> caramelos y luego tienes <strong>5</strong>, sabemos que <strong>5</strong> es mayor que <strong>3</strong>. Veamos algunos ejemplos:</p>
+            <div class="d-flex flex-wrap justify-content-around">
                 <div class="number-card">
                     <p class="number-example">3 < 5</p>
-                    <p>El número 3 es menor que el número 5.</p>
+                    <p>El nÃºmero 3 es menor que el nÃºmero 5.</p>
                 </div>
                 <div class="number-card">
                     <p class="number-example">7 > 4</p>
-                    <p>El número 7 es mayor que el número 4.</p>
+                    <p>El nÃºmero 7 es mayor que el nÃºmero 4.</p>
                 </div>
                 <div class="number-card">
                     <p class="number-example">6 = 6</p>
-                    <p>El número 6 es igual a 6.</p>
+                    <p>El nÃºmero 6 es igual a 6.</p>
                 </div>
             </div>
         </section>
+        
+        <!-- Video mejorado con contenedor -->
+        <div class="video-container">
+            <iframe src="https://www.youtube-nocookie.com/embed/3yyHrrKmzRE?si=BleSnpDCS24XNAKI" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
 
         <section class="card p-4 mb-4">
-            <h3>La Línea Numérica</h3>
-            <p>Para ver el orden de los números, podemos usar una <strong>línea numérica</strong>. Cada número tiene un lugar en esta línea, y podemos ver cuál número viene antes y cuál después.</p>
-            <div class="text-center">
-                <img src="../Imagenes/Linea numerica.png" alt="Línea Numérica" class="img-fluid" style="max-width: 500px;">
+            <h3>La LÃ­nea NumÃ©rica</h3>
+            <p>Para ver el orden de los nÃºmeros, podemos usar una <strong>lÃ­nea numÃ©rica</strong>. Cada nÃºmero tiene un lugar en esta lÃ­nea, y podemos ver cuÃ¡l nÃºmero viene antes y cuÃ¡l despuÃ©s.</p>
+            <div class="numeric-line-container">
+                <img src="../Imagenes/Linea numerica.png" alt="LÃ­nea NumÃ©rica" class="img-fluid" style="max-width: 100%; border-radius: 10px;">
             </div>
-            <p>Por ejemplo, en la línea, el número <strong>2</strong> está antes que el número <strong>3</strong>, y el número <strong>5</strong> está después del número <strong>4</strong>.</p>
+            <p class="mt-3">Por ejemplo, en la lÃ­nea, el nÃºmero <strong>2</strong> estÃ¡ antes que el nÃºmero <strong>3</strong>, y el nÃºmero <strong>5</strong> estÃ¡ despuÃ©s del nÃºmero <strong>4</strong>.</p>
         </section>
 
         <section class="card p-4 mb-4">
-            <h3>¡Practica Tú Mismo!</h3>
-            <p>Aquí tienes algunos ejercicios para practicar el orden de los números. ¿Puedes decir cuál número es mayor?</p>
-            <ul>
-                <li>¿Es <strong>8</strong> mayor que <strong>6</strong>? <span class="answer">¡Sí, 8 es mayor!</span></li>
-                <li>¿Es <strong>3</strong> menor que <strong>9</strong>? <span class="answer">¡Sí, 3 es menor!</span></li>
-                <li>¿Es <strong>7</strong> igual a <strong>7</strong>? <span class="answer">¡Sí, son iguales!</span></li>
-            </ul>
+            <h3>Â¡Practica TÃº Mismo!</h3>
+            <p>AquÃ­ tienes algunos ejercicios para practicar el orden de los nÃºmeros. Â¿Puedes decir cuÃ¡l nÃºmero es mayor? (Â¡Pasa el cursor sobre cada ejercicio para ver la respuesta!)</p>
+            <div class="mt-4">
+                <div class="practice-item">
+                    <p>Â¿Es <strong>8</strong> mayor que <strong>6</strong>? <span class="answer">Â¡SÃ­, 8 es mayor!</span></p>
+                </div>
+                <div class="practice-item">
+                    <p>Â¿Es <strong>3</strong> menor que <strong>9</strong>? <span class="answer">Â¡SÃ­, 3 es menor!</span></p>
+                </div>
+                <div class="practice-item">
+                    <p>Â¿Es <strong>7</strong> igual a <strong>7</strong>? <span class="answer">Â¡SÃ­, son iguales!</span></p>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer class="text-center mt-5">
-        <p>¡Diviértete explorando los números!</p>
+    <!-- BotÃ³n flotante para volver arriba -->
+    <a href="#" class="back-to-top">â†‘</a>
+
+    <!-- Footer mejorado -->
+    <footer class="py-3 mt-5">
+        <div class="container">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
+            <p class="text-center">Â© 2024 KIDI, Inc Â¡DiviÃ©rtete explorando el mundo de los nÃºmeros!</p>
+        </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Script para manejar el botÃ³n de volver arriba
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopButton = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.style.display = 'flex';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+        });
+    </script>
 </body>
 </html>

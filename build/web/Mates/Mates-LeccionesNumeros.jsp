@@ -14,6 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
+    
     <style>
         :root {
             --primary-color: #FF5757;
@@ -344,9 +345,7 @@
         </div>
     </div>
     
-    <!-- Botón flotante para volver arriba -->
-    <a href="#" class="back-to-top">↑</a>
-    
+   
     <!-- Footer -->
     <footer class="py-3 mt-5">
         <div class="container">

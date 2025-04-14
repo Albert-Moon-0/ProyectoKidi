@@ -1,20 +1,4 @@
-<%-- 
-    Document   : Ingles-JuegosPalabras
-    Created on : 18 oct. 2024, 13:41:36
-    Author     : Usuario
---%>
-<%@page contentType="text/html" pageEncoding="UTF-8"  import="java.sql.*,java.io.*,java.util.*"%>
-<%@ include file="../Sistema/ConexionBD.jsp" %>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juegos de Matemáticas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
-    <style>
+
         :root {
             --primary-color: #FF5757;
             --secondary-color: #4FC1E9;
@@ -29,9 +13,10 @@
             font-family: 'Nunito', sans-serif;
             color: var(--text-color);
             background-color: var(--background-color);
-            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><text x="10" y="30" font-family="Arial" font-size="10" fill="%234FC1E9" opacity="0.3">A</text><text x="40" y="50" font-family="Arial" font-size="12" fill="%23FF5757" opacity="0.3">B</text><text x="70" y="25" font-family="Arial" font-size="14" fill="%23A0E57D" opacity="0.3">C</text><text x="20" y="80" font-family="Arial" font-size="11" fill="%23C990FF" opacity="0.3">Z</text></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="2" fill="%23FFDE59" opacity="0.3"/><text x="30" y="30" font-family="Arial" font-size="10" fill="%234FC1E9" opacity="0.3">1</text><text x="60" y="40" font-family="Arial" font-size="12" fill="%23FF5757" opacity="0.3">2</text><text x="20" y="70" font-family="Arial" font-size="14" fill="%23A0E57D" opacity="0.3">3</text><text x="80" y="85" font-family="Arial" font-size="11" fill="%23C990FF" opacity="0.3">4</text></svg>');
             transition: all 0.3s ease;
             padding-right: 120px;
+            
         }
         
         /* Header animado y divertido */
@@ -113,29 +98,54 @@
             align-items: center;
         }
         
-        .card-text {
-            font-family: 'Nunito', sans-serif;
-            color: var(--text-color);
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-        }
         
-        .btn-game {
-            font-family: 'Baloo 2', cursive;
-            font-weight: 600;
-            background-color: var(--secondary-color);
-            color: white;
+              
+        /* Estilos para las tarjetas numéricas */
+        .number-card {
+            padding: 20px;
+            border: 3px solid var(--accent-color);
             border-radius: 15px;
-            padding: 0.5rem 1.5rem;
-            border: none;
+            margin: 15px;
+            text-align: center;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 150px;
         }
         
-        .btn-game:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
-            background-color: var(--primary-color);
+        .number-card:nth-child(1) {
+            border-color: var(--primary-color);
+        }
+        
+        .number-card:nth-child(2) {
+            border-color: var(--secondary-color);
+        }
+        
+        .number-card:nth-child(3) {
+            border-color: var(--green-color);
+        }
+        
+        .number-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .number-example {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            font-family: 'Baloo 2', cursive;
+        }
+        
+        
+        /* Estilo para los checkboxes */
+        input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--secondary-color);
+            cursor: not-allowed;
+            border-radius: 5px;
         }
         
         /* Mejoras en los enlaces */
@@ -173,8 +183,8 @@
             transform: scale(1.2);
         }
         
-        /* Letras flotantes y animadas */
-        .floating-letter {
+        /* Números flotantes y animados */
+        .floating-number {
             position: absolute;
             font-family: 'Baloo 2', cursive;
             font-weight: bold;
@@ -183,7 +193,7 @@
             z-index: -1;
         }
         
-        .letter-a {
+        .number-1 {
             top: 15%;
             left: 5%;
             font-size: 4rem;
@@ -191,7 +201,7 @@
             animation-delay: 0s;
         }
         
-        .letter-b {
+        .number-2 {
             top: 10%;
             right: 10%;
             font-size: 5rem;
@@ -199,7 +209,7 @@
             animation-delay: 1s;
         }
         
-        .letter-c {
+        .number-3 {
             bottom: 20%;
             left: 8%;
             font-size: 4.5rem;
@@ -207,7 +217,7 @@
             animation-delay: 2s;
         }
         
-        .letter-z {
+        .number-4 {
             bottom: 15%;
             right: 5%;
             font-size: 3.5rem;
@@ -225,7 +235,7 @@
             border-radius: 20px;
             padding: 2rem;
             position: relative;
-        }
+        }        
         
         /* Footer colorido */
         footer {
@@ -239,7 +249,9 @@
             font-weight: 600;
             color: var(--text-color);
             font-family: 'Baloo 2', cursive;
-        }
+            font-size: 1.2rem;
+        }      
+       
         
         /* Botón flotante para volver arriba */
         .back-to-top {
@@ -268,7 +280,7 @@
         }
         
         /* Personalización del espacio central */
-        .games-container {
+        .lessons-container {
             padding-top: 1rem;
             padding-bottom: 4rem;
         }
@@ -283,7 +295,7 @@
                 font-size: 1.1rem;
             }
             
-            .floating-letter {
+            .floating-number {
                 font-size: 3rem;
             }
             
@@ -297,66 +309,121 @@
                 font-size: 2rem;
             }
             
-            .floating-letter {
+            .greeting {
+                font-size: 1.3rem;
+            }
+            
+            .floating-number {
                 display: none;
             }
             
             .back-btn {
                 font-size: 1.8rem;
             }
+            
+            .card h3 {
+                font-size: 1.4rem;
+            }
         }
-    </style>
-</head>
-<body>
-    <!-- Elementos flotantes de fondo -->
-    <div class="floating-letter letter-a">1</div>
-    <div class="floating-letter letter-b">45</div>
-    <div class="floating-letter letter-c">89</div>
-    <div class="floating-letter letter-z">??</div>
+        
+        
+        /* Estilo para los encabezados dentro de las secciones */
+        .card h3 {
+            font-family: 'Baloo 2', cursive;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .card h4 {
+            font-family: 'Baloo 2', cursive;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+        
+        /* Estilo para la línea numérica */
+        .numeric-line-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        /* Estilo para los iframes de videos */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Ratio 16:9 */
+            height: 0;
+            margin: 2rem 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Estilo para los ejercicios prácticos */
+        .practice-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+        
+        .practice-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .practice-item:nth-child(1) {
+            border-left-color: var(--primary-color);
+        }
+        
+        .practice-item:nth-child(2) {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .practice-item:nth-child(3) {
+            border-left-color: var(--green-color);
+        }
+        
+        .answer {
+            font-weight: bold;
+            color: var(--purple-color);
+            margin-left: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .practice-item:hover .answer {
+            opacity: 1;
+        }        
+        
+        .back-to-top:hover {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        .greeting {
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
     
-    <!-- Barra de Navegación -->
-    <jsp:include page="../Sistema/BarraNavegacion.jsp" />
-    
-    <!-- Header y botón de volver mejorados y centrados -->
-    <div class="nav-container">
-        <a href="P-Mates.jsp"><button class="back-btn">&larr;</button></a>
-        <div class="header-title text-center">¡Juegos de matemáticas!</div>
-    </div>
-    <br>
-    <br>
-    <br>
-    <!-- Contenedor principal centrado -->
-    <div class="games-container">
-        <div class="container">
-            <div class="row text-center g-4 justify-content-center">
-                <!-- Juego 1 -->
-                <div class="col-sm-6 col-md-4 mb-4">
-                    <div class="card">
-                        <img class="card-img-top" src="../img/numrs.jpg" alt="Adivina el número" loading="lazy">
-                        <div class="card-body">
-                            <h5 class="card-title">Adivina el número</h5>
-                            <p class="card-text">Intenta adivinar el número oculto con las pistas que te damos.</p>
-                            <a href="ejercicios_mt.html" class="btn btn-game">¡Jugar ahora!</a>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    
-    <!-- Botón flotante para volver arriba -->
-    <a href="#" class="back-to-top">↑</a>
-    
-    <!-- Footer -->
-    <footer class="py-3 mt-5">
-        <div class="container">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
-            <p class="text-center">© 2024 KIDI, Inc ¡Aprender inglés es divertido!</p>
-        </div>
-    </footer>
-    
-    <!-- Script de Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>
