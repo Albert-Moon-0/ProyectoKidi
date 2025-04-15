@@ -66,7 +66,7 @@
                 session.removeAttribute("codeExpiry");
                 
                 // Mostrar mensaje de éxito y redirigir
-                out.println("<script>alert('¡Registro completado con éxito! Ahora puedes iniciar sesión.');window.location='../iniciodesesion.jsp';</script>");
+                out.println("<script>window.location='../iniciodesesion.jsp';</script>");
                 
             } catch (Exception e) {
                 out.println("<script>alert('Error al completar el registro: " + e.getMessage() + "');window.location='Registro.jsp';</script>");

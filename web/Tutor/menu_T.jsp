@@ -1,8 +1,9 @@
 <%-- 
-    Document   : menu
-    Created on : 18 oct. 2024, 11:20:33
-    Author     : Usuario
+    Document   : menu_T
+    Created on : 11 abr. 2025, 18:51:58
+    Author     : P500
 --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*"%>
 
 <%@ include file="ConexionBD.jsp" %>

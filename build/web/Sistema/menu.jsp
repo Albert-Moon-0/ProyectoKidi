@@ -8,7 +8,6 @@
 <%@ include file="ConexionBD.jsp" %>
 
 <%
-    // Hola soy alberto en ejemplo 4 modifcando
     ResultSet r = null;
     try {
         PreparedStatement ps = c.prepareStatement("SELECT * FROM USUARIO WHERE CORREO_U = ?");

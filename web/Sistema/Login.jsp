@@ -21,7 +21,7 @@
                 String[] tables = {"ADMIN_", "USUARIO", "TUTOR"};
                 String[] emailColumns = {"CORREO_A", "CORREO_U", "CORREO_T"};
                 String[] passwordColumns = {"CONTRA_A", "CONTRASEÑA_U", "CONTRA_T"};
-                String[] redirigir = {"menu_A", "menu", "menu_T"};
+                String[] redirigir = {"../Admin/menu_A", "menu", "../Tutor/menu_T"};
                 boolean authenticated = false;
                 
                 for (int i = 0; i < tables.length; i++) {
