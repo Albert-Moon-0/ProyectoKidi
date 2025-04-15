@@ -1,20 +1,9 @@
-<%-- 
-    Document   : P-graficos
-    Created on : 7 abr. 2025, 17:20:26
-    Author     : P500
---%>
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,org.json.simple.*"%>
-<%@ include file="../Sistema/ConexionBD.jsp" %>
-<%
-response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-response.setHeader("Pragma", "no-cache");
-response.setDateHeader("Expires", 0);
-%>
+<!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Kidi - GrÃ¡ficos de Logros</title>
+        <title>Kidi - Gráficos de Logros</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -39,9 +28,7 @@ response.setDateHeader("Expires", 0);
                 background-color: var(--background-color);
                 font-family: 'Poppins', sans-serif;
                 color: var(--text-primary);
-                margin-left: 820px;
-                padding: 20px;
-                padding-left: 100px;
+                padding: 50px;
                 background-image: linear-gradient(135deg, rgba(108, 138, 232, 0.05) 0%, rgba(165, 214, 167, 0.05) 100%);
                 background-attachment: fixed;
             }
@@ -83,7 +70,7 @@ response.setDateHeader("Expires", 0);
                 transition: all 0.3s ease;
                 border-top: 4px solid var(--primary-color);
                 height: 500px;
-                width: 67.8vw;
+                width: 100%;
                 position: relative;
             }
 
@@ -111,80 +98,6 @@ response.setDateHeader("Expires", 0);
                 margin: 0;
             }
 
-            .chart-actions {
-                display: flex;
-                gap: 0.5rem;
-            }
-
-            .chart-btn {
-                background-color: var(--primary-light);
-                color: var(--primary-color);
-                border: none;
-                border-radius: 50%;
-                width: 32px;
-                height: 32px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.2s;
-            }
-
-            .chart-btn:hover {
-                background-color: var(--primary-color);
-                color: white;
-            }
-
-            .filter-card {
-                background-color: white;
-                border-radius: 20px;
-                box-shadow: var(--card-shadow);
-                padding: 1.5rem;
-                margin-bottom: 2rem;
-                display: flex;
-                gap: 1rem;
-                flex-wrap: wrap;
-                align-items: center;
-            }
-
-            .filter-select {
-                flex-grow: 1;
-                padding: 0.5rem 1rem;
-                border: 2px solid #e9ecef;
-                border-radius: 10px;
-                font-size: 0.9rem;
-                transition: all 0.3s;
-                color: var(--text-primary);
-                min-width: 150px;
-                background-color: white;
-            }
-
-            .filter-select:focus {
-                border-color: var(--primary-color);
-                box-shadow: 0 0 0 3px rgba(108, 138, 232, 0.3);
-                outline: none;
-            }
-
-            .filter-btn {
-                background-color: var(--accent-color);
-                color: white;
-                border: none;
-                border-radius: 10px;
-                padding: 0.5rem 1.5rem;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .filter-btn:hover {
-                background-color: var(--accent-hover);
-                box-shadow: 0 5px 15px rgba(165, 214, 167, 0.4);
-                transform: translateY(-2px);
-            }
-
             .stat-card {
                 background-color: white;
                 border-radius: 20px;
@@ -194,6 +107,7 @@ response.setDateHeader("Expires", 0);
                 display: flex;
                 align-items: center;
                 transition: all 0.3s ease;
+                height: 100%;
             }
 
             .stat-card:hover {
@@ -270,67 +184,6 @@ response.setDateHeader("Expires", 0);
                 margin-bottom: 0;
             }
 
-            .tab-buttons {
-                display: flex;
-                gap: 1rem;
-                margin-bottom: 1.5rem;
-                flex-wrap: wrap;
-            }
-
-            .tab-btn {
-                background-color: white;
-                color: var(--text-secondary);
-                border: 2px solid #e9ecef;
-                border-radius: 10px;
-                padding: 0.75rem 1.5rem;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s;
-                position: relative;
-            }
-
-            .tab-btn.active {
-                color: var(--primary-color);
-                border-color: var(--primary-color);
-                background-color: var(--primary-light);
-            }
-
-            .tab-btn:hover {
-                border-color: var(--primary-color);
-            }
-
-            .tab-btn.active::after {
-                content: '';
-                position: absolute;
-                bottom: -5px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 10px;
-                height: 10px;
-                background-color: var(--primary-color);
-                border-radius: 50%;
-            }
-
-            @media (max-width: 992px) {
-                .chart-card {
-                    height: 350px;
-                }
-            }
-
-            @media (max-width: 768px) {
-                body {
-                    margin-left: 0;
-                }
-                
-                .chart-card {
-                    height: 400px;
-                }
-
-                .stat-card {
-                    margin-bottom: 1rem;
-                }
-            }
-
             /* Animations */
             @keyframes fadeIn {
                 from { opacity: 0; transform: translateY(10px); }
@@ -369,103 +222,130 @@ response.setDateHeader("Expires", 0);
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
             }
+
+            /* Corrección para layout en dispositivos móviles */
+            @media (max-width: 992px) {
+                .chart-card {
+                    height: 400px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .chart-card {
+                    height: 350px;
+                }
+                
+                .stat-card {
+                    margin-bottom: 1rem;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .chart-card {
+                    height: 300px;
+                }
+            }
+            
+            /* Dashboard container */
+            .dashboard-container {
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+            
+            /* Fix para el margen lateral */
+            .main-content {
+                margin-left: 0;
+                transition: margin-left 0.3s;
+            }
+            
+            @media (min-width: 992px) {
+                .main-content {
+                    margin-left: 250px; /* Ajustar según el ancho de tu barra lateral */
+                }
+            }
         </style>
     </head>
     <body>
-        <!-- Barra de NavegaciÃ³n -->
+        <!-- Barra de Navegación -->
         <jsp:include page="../Sistema/BarraNavegacion.jsp" />
         
-        <div class="container mt-4">
-            <!-- Header principal -->
-            <div class="page-header">
-                <h1>AnÃ¡lisis de Progreso</h1>
-                <p class="lead">Visualiza y analiza el rendimiento</p>
-            </div>           
-           
-            
-            <!-- PestaÃ±as de navegaciÃ³n -->
-            <div class="tab-buttons">
-                <button class="tab-btn active" data-tab="rendimiento">Rendimiento</button>
-                <button class="tab-btn" data-tab="actividades">Actividades</button>
-                <button class="tab-btn" data-tab="logros">Logros</button>
-            </div>
-            
-            <!-- EstadÃ­sticas generales -->
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
+        <div class="main-content">
+            <div class="container-fluid dashboard-container">
+                <!-- Header principal -->
+                <div class="page-header">
+                    <h1>Análisis de tu Progreso</h1>
+                    <p class="lead">Visualiza y analiza tu rendimiento en nuestra app</p>
+                </div> 
+                
+                <!-- Estadísticas generales -->
+                <div class="row mb-4">
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 class="stat-value"><span id="promG">8.7</span></h3>
+                                <p class="stat-label">Promedio General</p>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> 0.5 puntos
+                                </div>
+                            </div>
                         </div>
-                        <div class="stat-info">
-                            <h3 class="stat-value">85%</h3>
-                            <p class="stat-label">Promedio General</p>
-                            <div class="stat-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 3.2%
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 class="stat-value"><span id="numActvs">32</span></h3>
+                                <p class="stat-label">Actividades Completadas</p>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> <span id="numActvsSemana">5</span> esta semana
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 class="stat-value"><span id="numLogros">12</span></h3>
+                                <p class="stat-label">Logros Obtenidos</p>
+                                <div class="stat-trend trend-up">
+                                    <i class="fas fa-arrow-up"></i> <span id="numLogrosSemana">2</span> nuevos
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-value">42</h3>
-                            <p class="stat-label">Actividades Completadas</p>
-                            <div class="stat-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 5 esta semana
-                            </div>
-                        </div>
-                    </div>
+                <!-- Tarjeta de información -->
+                <div class="info-card mb-4">
+                    <h3><i class="fas fa-lightbulb"></i> Consejos para mejorar</h3>
+                    <p>Basado en tu desempeño reciente, te recomendamos enfocarte en mejorar tus habilidades en <span id="matBaja">Matemáticas</span>. Completar o repetir las actividades de práctica adicionales podría ayudarte a alcanzar un mejor rendimiento.</p>
                 </div>
                 
-                <div class="col-md-4">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 class="stat-value">12</h3>
-                            <p class="stat-label">Logros Obtenidos</p>
-                            <div class="stat-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 2 nuevos
-                            </div>
-                        </div>
-                    </div>
+                <!-- Gráfico principal (ahora ocupa el ancho completo) -->
+                <div class="row">
+                <div class="col-12">
+                    <div class="chart-card">                        
+                        <div id="actividadesChart" class="chart-container"></div>                        
+                    </div>                    
+                </div>                 
                 </div>
-            </div>
-            
-            <!-- Tarjeta de informaciÃ³n -->
-            <div class="info-card mb-4">
-                <h3><i class="fas fa-lightbulb"></i> Consejos para mejorar</h3>
-                <p>Basado en tu desempeÃ±o reciente, te recomendamos enfocarte en mejorar tus habilidades en matemÃ¡ticas. Completar las actividades de prÃ¡ctica adicionales podrÃ­a ayudarte a alcanzar un mejor rendimiento.</p>
-            </div>
-            
-            <!-- GrÃ¡ficos principales -->
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="chart-card">                        
-                        <div id="actividadesChart" class="chart-container"></div>                        
-                    </div>                    
-                </div>                 
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="chart-card">                        
-                        <div id="actividadesChart" class="chart-container"></div>                        
-                    </div>                    
-                </div>                 
+                
             </div>
         </div>
         
         <!-- Script de Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        
-        <!-- Scripts para inicializar los grÃ¡ficos -->
-        <script src="ScriptGraficas.js?v=<%= System.currentTimeMillis() %>"></script>
+        <script src="ScriptGraficas.js?v=<%= System.currentTimeMillis() %>"></script>        
+       
     </body>
 </html>
