@@ -466,6 +466,6 @@ response.setDateHeader("Expires", 0);
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         
         <!-- Scripts para inicializar los gráficos -->
-        <script src="ScriptGraficas.js?v=<%= System.currentTimeMillis() %>"></script>
+        <script src="ScriptGraficasT.js?v=<%= System.currentTimeMillis() %>"></script>
     </body>
 </html>

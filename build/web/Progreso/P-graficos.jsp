@@ -22,15 +22,17 @@
                 --hover-color: #5A7BE0;
                 --card-shadow: 0 10px 25px rgba(108, 138, 232, 0.1);
                 --card-hover-shadow: 0 15px 35px rgba(108, 138, 232, 0.15);
+                --sidebar-width: 200px; /* Definiendo el ancho de la barra lateral */
             }
 
             body {
                 background-color: var(--background-color);
                 font-family: 'Poppins', sans-serif;
                 color: var(--text-primary);
-                padding: 50px;
+                padding: 30px;
                 background-image: linear-gradient(135deg, rgba(108, 138, 232, 0.05) 0%, rgba(165, 214, 167, 0.05) 100%);
                 background-attachment: fixed;
+                margin-left: var(--sidebar-width); /* Margen izquierdo fijo de 200px */
             }
 
             .page-header {
@@ -69,7 +71,7 @@
                 margin-bottom: 2rem;
                 transition: all 0.3s ease;
                 border-top: 4px solid var(--primary-color);
-                height: 500px;
+                height: 450px; /* Ajustado para mejor proporción */
                 width: 100%;
                 position: relative;
             }
@@ -223,10 +225,28 @@
                 100% { transform: rotate(360deg); }
             }
 
-            /* Corrección para layout en dispositivos móviles */
+            /* Dashboard container */
+            .dashboard-container {
+                max-width: 1200px; /* Reducido para mejor centrarlo */
+                margin: 0 auto;
+                padding: 0 15px;
+            }
+            
+            /* Eliminado main-content con margen izquierdo variable */
+            
+            /* Media queries ajustados */
             @media (max-width: 992px) {
                 .chart-card {
                     height: 400px;
+                }
+                
+                body {
+                    margin-left: 0; /* Eliminar margen en dispositivos pequeños */
+                    padding: 20px;
+                }
+                
+                .dashboard-container {
+                    padding: 0 10px;
                 }
             }
 
@@ -238,29 +258,19 @@
                 .stat-card {
                     margin-bottom: 1rem;
                 }
+                
+                .dashboard-container {
+                    padding: 0 5px;
+                }
             }
 
             @media (max-width: 576px) {
                 .chart-card {
                     height: 300px;
                 }
-            }
-            
-            /* Dashboard container */
-            .dashboard-container {
-                max-width: 1400px;
-                margin: 0 auto;
-            }
-            
-            /* Fix para el margen lateral */
-            .main-content {
-                margin-left: 0;
-                transition: margin-left 0.3s;
-            }
-            
-            @media (min-width: 992px) {
-                .main-content {
-                    margin-left: 250px; /* Ajustar según el ancho de tu barra lateral */
+                
+                body {
+                    padding: 15px;
                 }
             }
         </style>
@@ -269,83 +279,78 @@
         <!-- Barra de Navegación -->
         <jsp:include page="../Sistema/BarraNavegacion.jsp" />
         
-        <div class="main-content">
-            <div class="container-fluid dashboard-container">
-                <!-- Header principal -->
-                <div class="page-header">
-                    <h1>Análisis de tu Progreso</h1>
-                    <p class="lead">Visualiza y analiza tu rendimiento en nuestra app</p>
-                </div> 
-                
-                <!-- Estadísticas generales -->
-                <div class="row mb-4">
-                    <div class="col-lg-4 col-md-6 mb-3">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3 class="stat-value"><span id="promG">8.7</span></h3>
-                                <p class="stat-label">Promedio General</p>
-                                <div class="stat-trend trend-up">
-                                    <i class="fas fa-arrow-up"></i> 0.5 puntos
-                                </div>
-                            </div>
+        <div class="container-fluid dashboard-container">
+            <!-- Header principal -->
+            <div class="page-header">
+                <h1>Análisis de tu Progreso</h1>
+                <p class="lead">Visualiza y analiza tu rendimiento en nuestra app</p>
+            </div> 
+            
+            <!-- Estadísticas generales -->
+            <div class="row mb-4">
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
                         </div>
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-6 mb-3">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3 class="stat-value"><span id="numActvs">32</span></h3>
-                                <p class="stat-label">Actividades Completadas</p>
-                                <div class="stat-trend trend-up">
-                                    <i class="fas fa-arrow-up"></i> <span id="numActvsSemana">5</span> esta semana
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-6 mb-3">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3 class="stat-value"><span id="numLogros">12</span></h3>
-                                <p class="stat-label">Logros Obtenidos</p>
-                                <div class="stat-trend trend-up">
-                                    <i class="fas fa-arrow-up"></i> <span id="numLogrosSemana">2</span> nuevos
-                                </div>
+                        <div class="stat-info">
+                            <h3 class="stat-value"><span id="promG"></span></h3>
+                            <p class="stat-label">Promedio General</p>
+                            <div class="stat-trend trend-up">
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Tarjeta de información -->
-                <div class="info-card mb-4">
-                    <h3><i class="fas fa-lightbulb"></i> Consejos para mejorar</h3>
-                    <p>Basado en tu desempeño reciente, te recomendamos enfocarte en mejorar tus habilidades en <span id="matBaja">Matemáticas</span>. Completar o repetir las actividades de práctica adicionales podría ayudarte a alcanzar un mejor rendimiento.</p>
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="stat-value"><span id="numActvs"></span></h3>
+                            <p class="stat-label">Actividades Completadas</p>
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> <span id="numActvsSemana"></span> esta semana
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Gráfico principal (ahora ocupa el ancho completo) -->
-                <div class="row">
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 class="stat-value"><span id="numLogros">12</span></h3>
+                            <p class="stat-label">Logros Obtenidos</p>
+                            <div class="stat-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> <span id="numLogrosSemana">2</span> nuevos
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tarjeta de información -->
+            <div class="info-card mb-4">
+                <h3><i class="fas fa-lightbulb"></i> Consejos para mejorar</h3>
+                <p>Basado en tu desempeño reciente, te recomendamos enfocarte en mejorar tus habilidades en <span id="matBaja">Matemáticas</span>. Completar o repetir las actividades de práctica adicionales podría ayudarte a alcanzar un mejor rendimiento.</p>
+            </div>
+            
+            <!-- Gráfico principal -->
+            <div class="row">
                 <div class="col-12">
                     <div class="chart-card">                        
                         <div id="actividadesChart" class="chart-container"></div>                        
                     </div>                    
                 </div>                 
-                </div>
-                
             </div>
         </div>
         
         <!-- Script de Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="ScriptGraficas.js?v=<%= System.currentTimeMillis() %>"></script>        
-       
     </body>
 </html>

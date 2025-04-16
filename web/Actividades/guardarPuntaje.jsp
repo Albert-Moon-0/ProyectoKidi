@@ -27,20 +27,22 @@
         PreparedStatement pst;
         
         if (existeRegistro) {
-            // Actualizar registro existente
+          // Actualizar registro existente
             pst = c.prepareStatement(
-                "UPDATE REALIZA SET PUNTAJE_ACT = ? WHERE ID_U = ? AND ID_ACT = ?");
+                "UPDATE REALIZA SET PUNTAJE_ACT = ?, FECHA_REALIZA = ? WHERE ID_U = ? AND ID_ACT = ?");
             pst.setDouble(1, puntaje);
-            pst.setInt(2, idUsuario);
-            pst.setInt(3, idActividad);
-        } else {
-            // Insertar nuevo registro
-            pst = c.prepareStatement(
-                "INSERT INTO REALIZA (ID_U, ID_ACT, PUNTAJE_ACT) VALUES(?, ?, ?)");
-            pst.setInt(1, idUsuario);
-            pst.setInt(2, idActividad);
-            pst.setDouble(3, puntaje);
-        }
+            pst.setDate(2, new java.sql.Date(new java.util.Date().getTime())); // Fecha actual
+            pst.setInt(3, idUsuario);
+            pst.setInt(4, idActividad);
+            } else {
+                // Insertar nuevo registro
+                pst = c.prepareStatement(
+                    "INSERT INTO REALIZA (ID_U, ID_ACT, PUNTAJE_ACT, FECHA_REALIZA) VALUES(?, ?, ?, ?)");
+                pst.setInt(1, idUsuario);
+                pst.setInt(2, idActividad);
+                pst.setDouble(3, puntaje);
+                pst.setDate(4, new java.sql.Date(new java.util.Date().getTime())); // Fecha actual
+            }
         
         pst.executeUpdate();
         pst.close();

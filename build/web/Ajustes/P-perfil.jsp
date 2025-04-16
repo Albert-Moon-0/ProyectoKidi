@@ -9,14 +9,16 @@
 <%
     ResultSet r = null;    
     String Edad = null;
+    String urlFoto = null;
     try {
-        PreparedStatement ps = c.prepareStatement("SELECT * FROM USUARIO WHERE CORREO_U = ?");
+        PreparedStatement ps = c.prepareStatement("SELECT * FROM USUARIO u JOIN FOTO_PERFIL f ON u.ID_FOTO = f.ID_FOTO WHERE u.CORREO_U = ?");
         ps.setString(1, userEmail);
         r = ps.executeQuery();
         if (r.next()) {
             Nombre = r.getString("NOMBRE_U");
             Correo = r.getString("CORREO_U");
             Edad = r.getString("EDAD_U");
+            urlFoto = r.getString("NOMBRE_FOTO");
         }
     } catch (SQLException error) {
         out.print(error.toString());
@@ -393,7 +395,7 @@
             <div class="profile-card">
                 <div class="profile-header">
                     <div class="profile-image-container">
-                        <img src="/api/placeholder/120/120" alt="Foto de perfil" class="profile-image">
+                        <img src="../ImgPerfil/<%= urlFoto %>" alt="Foto de perfil" class="profile-image">
                         <label for="upload-photo" class="image-upload-label">
                             <i class="fas fa-camera"></i>
                         </label>

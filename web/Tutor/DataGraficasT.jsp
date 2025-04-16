@@ -18,26 +18,27 @@
     
     try {
         // Obtener el ID del usuario
-        String query1 = "SELECT * FROM USUARIO WHERE CORREO_U = ? ";
+        String query1 = "SELECT * FROM TUTOR WHERE CORREO_T = ? ";
         ps = c.prepareStatement(query1);
         ps.setString(1, userEmail);
         rs = ps.executeQuery();
         
         if (rs.next()) {
-            int ID_U = rs.getInt("ID_U");
+            int ID_T = rs.getInt("ID_T");
             
             // Consulta correcta usando la tabla REALIZA como unión
             String query2 = "SELECT * FROM REALIZA r " +
                             "JOIN ACTIVIDADES a ON a.ID_ACT = r.ID_ACT " +
                             "WHERE r.ID_U = ?";
             ps = c.prepareStatement(query2);
-            ps.setInt(1, ID_U);
+            ps.setInt(1, ID_T);
             rs = ps.executeQuery();
             
             while (rs.next()) {
                 JSONObject item = new JSONObject();
                 item.put("actividad", rs.getString("DESC_ACT"));
                 item.put("puntaje", rs.getInt("PUNTAJE_ACT"));
+                item.put("fecha", rs.getString("FECHA_REALIZA"));
                 actividadesData.add(item);
             }            
             

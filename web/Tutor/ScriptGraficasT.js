@@ -15,7 +15,7 @@ const initcharts = () => {
     
     
     // Incluir los parámetros en la URL
-    fetch(`DataGraficas.jsp`)
+    fetch(`DataGraficasT.jsp`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

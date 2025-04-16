@@ -30,13 +30,26 @@ const initcharts = () => {
             if (data && data.actividades && data.actividades.length > 0) {
                 const chart1 = echarts.init(document.getElementById("actividadesChart"));
                 chart1.setOption(getOptionChart1(data.actividades));
-                const chart2 = echarts.init(document.getElementById("logrosChart"));
-                chart2.setOption(getOptionChart1(data.actividades));
+                // Ajustar tamaño de los gráficos cuando cambia el tamaño de la ventana
+                window.addEventListener('resize', function() {
+                    chart1.resize();
+                });
+                
             } else {
                 console.warn("No se recibieron datos para las actividades");
                 // Opcionalmente, mostrar un mensaje al usuario
                 document.getElementById("actividadesChart").innerHTML = 
                     "<div style='text-align:center; padding:20px;'>No hay datos de actividades disponibles</div>";
+            }
+            // En tu código JavaScript, dentro del bloque .then(data => {...})
+            if (data && data.actividadesSemana !== undefined) {
+                document.getElementById("numActvsSemana").textContent = data.actividadesSemana;
+            }
+            if (data && data.actividadesT !== undefined) {
+                document.getElementById("numActvs").textContent = data.actividadesT;
+            }
+            if (data && data.promedioGeneral !== undefined) {
+                document.getElementById("promG").textContent = data.promedioGeneral.toFixed(2);
             }
         })
         .catch(error => {
@@ -51,13 +64,14 @@ function getOptionChart1(datos) {
         console.warn("No se recibieron datos para las actividades");
         return {}; // Devolver un objeto vacío o una configuración por defecto
     }
+
     
-    const actividad = datos.map(item => item.actividad);
-    const puntaje = datos.map(item => item.puntaje);
+    const materia = datos.map(item => item.materia);
+    const promedio = datos.map(item => item.promedio);
     
     return {
         title: {
-            text: 'Desempeño actividades'
+            text: 'Desempeño Materias'
         },
         tooltip: {
             trigger: 'axis',
@@ -78,7 +92,7 @@ function getOptionChart1(datos) {
         },
         xAxis: {
             type: 'category',                              
-            data: actividad
+            data: materia
         },
         yAxis: {
             type: 'value',
@@ -86,11 +100,20 @@ function getOptionChart1(datos) {
         },
         series: [
             {
-                name: 'Calificación',
+                name: 'Promedio',
                 type: 'bar',
-                data: puntaje,
+                data: promedio,
                 itemStyle: {
-                    color: '#6C8AE8'
+                    color: function(params) {
+                        // Colores diferentes para cada materia
+                        const colors = ['#6C8AE8', '#E8766C', '#6CE8A4'];
+                        return colors[params.dataIndex % colors.length];
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}/10'
                 }
             }
         ]
