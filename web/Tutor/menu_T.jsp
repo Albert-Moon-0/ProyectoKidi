@@ -6,17 +6,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*"%>
 
-<%@ include file="ConexionBD.jsp" %>
+<%@ include file="../Sistema/ConexionBD.jsp" %>
 
 <%
     ResultSet r = null;
     try {
-        PreparedStatement ps = c.prepareStatement("SELECT * FROM USUARIO WHERE CORREO_U = ?");
+        PreparedStatement ps = c.prepareStatement("SELECT * FROM TUTOR WHERE CORREO_T = ?");
         ps.setString(1, userEmail);
         r = ps.executeQuery();
         while (r.next()) {
-            Nombre = r.getString("NOMBRE_U");
-            Correo = r.getString("CORREO_U");
+            Nombre = r.getString("NOMBRE_T");
+            Correo = r.getString("CORREO_T");
         }
     } catch (SQLException error) {
         out.print(error.toString());
@@ -29,7 +29,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kidi - Inicio</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="EstilosPMaterias.css">
+        <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
         <style>
             /* ===== VARIABLES GLOBALES ===== */
             :root {
@@ -707,7 +707,7 @@
         </style>
     </head>
     <body>
-        <jsp:include page="BarraNavegacion.jsp" />
+        <jsp:include page="BarraNavTutor.jsp" />
         <div class="container mt-5">
             <div class="header-title">
                 <h1 class="display-4 fw-bold">Bienvenido a Kidi</h1>

@@ -1,22 +1,24 @@
 <%-- 
-    Document   : BarraNavTutor
-    Created on : 14 abr. 2025, 18:24:39
+    Document   : BarraNavAdmin
+    Created on : 21 abr. 2025, 17:25:30
     Author     : P500
 --%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Barra de Navegación - KIDI</title>
+        <title>Barra de NavegaciÃ³n - KIDI</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
         <script>
                     
         </script>
         
-        <!-- Código de instalación Cliengo para diego.alberto.luna.martinez@gmail.com -->
+        <!-- CÃ³digo de instalaciÃ³n Cliengo para diego.alberto.luna.martinez@gmail.com -->
 <script type="text/javascript">
   (function () {
     var ldk = document.createElement('script');
@@ -209,18 +211,18 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-tasks"></i>
-                        <span>Mis niños</span>
+                        <span>Mis niÃ±os</span>
                     </a>
                     <div class="submenu">
                         <a href="../Actividades/P-Pruebas.jsp" class="nav-link">
                             <i class="fas fa-graduation-cap"></i>
-                            <span>Añadir niño</span>
+                            <span>AÃ±adir niÃ±o</span>
                         </a>
                     </div>
                     <div class="submenu">
                         <a href="../Actividades/P-Pruebas.jsp" class="nav-link">
                             <i class="fas fa-graduation-cap"></i>
-                            <span>Eliminar niño</span>
+                            <span>Eliminar niÃ±o</span>
                         </a>
                     </div>
                 </li>
@@ -228,7 +230,7 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-chart-line"></i>
-                        <span>Progreso niño</span>
+                        <span>Progreso niÃ±o</span>
                     </a>
                     <div class="submenu">
                         <a href="../Progreso/P-seguimiento.jsp" class="nav-link">
@@ -237,7 +239,7 @@
                         </a>
                         <a href="../Progreso/P-graficos.jsp" class="nav-link">
                             <i class="fas fa-chart-pie"></i>
-                            <span>Gráficos de progreso</span>
+                            <span>GrÃ¡ficos de progreso</span>
                         </a>
                         
                         <a href="../Progreso/P-informesAct.jsp" class="nav-link">
@@ -259,14 +261,14 @@
                         </a>                        
                         <a href="../Sistema/invalidateSession.jsp" class="nav-link">
                             <i class="fas fa-sign-out-alt"></i>
-                            <span>Cerrar sesión</span>
+                            <span>Cerrar sesiÃ³n</span>
                         </a>
                     </div>
                 </li>
             </ul>
 
             <div class="sidebar-footer">
-                <span>© KIDI 2025</span>
+                <span>Â© KIDI 2025</span>
             </div>
         </nav>
 

@@ -413,12 +413,13 @@
                                 type="text" 
                                 name="Nombre" 
                                 id="nombre" 
-                                value="<%= Nombre %>" 
+                                placeholder="Nombre completo" 
                                 required 
-                                pattern="[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,19}" 
-                                title="El nombre debe contener solo letras, empezar con mayúscula y tener máximo 20 caracteres." 
-                                maxlength="20"
-                            >
+                                pattern="^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,19})(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,19})*$" 
+                                title="Cada palabra debe iniciar con mayúscula, tener entre 2 y 20 letras, y estar separada por un solo espacio." 
+                                maxlength="40"
+                            />
+
                             <label for="nombre">Nombre</label>
                             <div class="validation-message">El nombre debe comenzar con mayúscula y contener solo letras</div>
                         </div>
