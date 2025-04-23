@@ -187,74 +187,63 @@
             <button class="sidebar-toggle" id="sidebarToggle">
                 <i class="fas fa-bars"></i>
             </button>
-
             <div class="sidebar-logo">
                 <img src="../img/logito.png" alt="KIDI Logo">
             </div>
-
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="../Sistema/menu.jsp" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="fas fa-home"></i>
                         <span>Home</span>
                     </a>
                     <div class="submenu">
-                        <a href="../Sistema/menu.jsp#novedades" class="nav-link">
-                            <i class="fas fa-newspaper"></i>
+                        <a href="menu_T.jsp" class="nav-link">
+                            <i class="fas fa-bell"></i>
                             <span>Novedades</span>
                         </a>
                     </div>
                 </li>               
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-tasks"></i>
-                        <span>Mis niños</span>
+                        <i class="fas fa-child"></i>
+                        <span>Gestión de niños</span>
                     </a>
                     <div class="submenu">
-                        <a href="../Actividades/P-Pruebas.jsp" class="nav-link">
-                            <i class="fas fa-graduation-cap"></i>
+                        <a href="P-VerNiños.jsp" class="nav-link">
+                            <i class="fas fa-eye"></i>
+                            <span>Mis niños</span>
+                        </a>
+                        <a href="P-AñadirN.jsp" class="nav-link">
+                            <i class="fas fa-user-plus"></i>
                             <span>Añadir niño</span>
                         </a>
-                    </div>
-                    <div class="submenu">
-                        <a href="../Actividades/P-Pruebas.jsp" class="nav-link">
-                            <i class="fas fa-graduation-cap"></i>
+                        <a href="P-EliminarN.jsp" class="nav-link">
+                            <i class="fas fa-user-minus"></i>
                             <span>Eliminar niño</span>
-                        </a>
+                        </a>                        
                     </div>
+                    
                 </li>
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-chart-line"></i>
-                        <span>Progreso niño</span>
+                        <span>Progreso académico</span>
                     </a>
                     <div class="submenu">
-                        <a href="../Progreso/P-seguimiento.jsp" class="nav-link">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Seguimiento</span>
-                        </a>
-                        <a href="../Progreso/P-graficos.jsp" class="nav-link">
-                            <i class="fas fa-chart-pie"></i>
-                            <span>Gráficos de progreso</span>
-                        </a>
-                        
-                        <a href="../Progreso/P-informesAct.jsp" class="nav-link">
-                            <i class="fas fa-file-invoice"></i>
-                            <span>Informes de actividad</span>
-                        </a>
+                        <a href="P-graficosT.jsp" class="nav-link">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Informe de progreso</span>
+                        </a>                        
                     </div>
                 </li>
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-cog"></i>
                         <span>Ajustes</span>
                     </a>
                     <div class="submenu">
-                        <a href="../Ajustes/P-perfil.jsp" class="nav-link">
-                            <i class="fas fa-user"></i>
+                        <a href="P-perfilT.jsp" class="nav-link">
+                            <i class="fas fa-user-circle"></i>
                             <span>Perfil</span>
                         </a>                        
                         <a href="../Sistema/invalidateSession.jsp" class="nav-link">
@@ -264,7 +253,6 @@
                     </div>
                 </li>
             </ul>
-
             <div class="sidebar-footer">
                 <span>© KIDI 2025</span>
             </div>

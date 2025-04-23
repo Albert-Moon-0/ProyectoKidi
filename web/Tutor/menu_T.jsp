@@ -29,711 +29,592 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kidi - Inicio</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+                <link rel="stylesheet" href="EstilosPMaterias.css"><style>
+    /* Estilos para las tarjetas de actividad del estudiante */
+    .student-activity-card, .student-progress-card {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: var(--card-shadow);
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .student-activity-card:hover, .student-progress-card:hover {
+        box-shadow: var(--card-hover-shadow);
+        transform: translateY(-5px);
+    }
+    
+    .student-avatar {
+        background-color: var(--primary-light);
+        border-radius: 12px;
+        min-width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.5rem;
+        font-size: 2rem;
+        color: var(--primary-color);
+        position: relative;
+    }
+    
+    .activity-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #FF5722;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+    
+    .student-info {
+        flex-grow: 1;
+    }
+    
+    .student-name {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+    
+    .activity-summary {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+    }
+    
+    .activities-list {
+        background-color: var(--primary-light);
+        border-radius: 10px;
+        padding: 0.8rem;
+    }
+    
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(108, 138, 232, 0.1);
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .activity-item i {
+        color: var(--primary-color);
+        margin-right: 10px;
+        font-size: 0.9rem;
+        width: 20px;
+    }
+    
+    .activity-date {
+        margin-left: auto;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        background-color: rgba(108, 138, 232, 0.1);
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+    
+    /* Estilos para la tarjeta de progreso */
+    .student-progress-card {
+        flex-direction: column;
+    }
+    
+    .progress-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid var(--primary-light);
+    }
+    
+    .progress-header h5 {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .student-progress-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    
+    .student-progress-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-grow: 1;
+        max-width: 80%;
+    }
+    
+    .student-avatar-sm {
+        background-color: var(--primary-light);
+        border-radius: 10px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: var(--primary-color);
+    }
+    
+    .progress {
+        height: 10px;
+        border-radius: 5px;
+        background-color: var(--primary-light);
+        margin-top: 5px;
+        width: 100%;
+    }
+    
+    .progress-bar {
+        background-color: var(--primary-color);
+        border-radius: 5px;
+    }
+    
+    .progress-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    
+    .performance-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--primary-light);
+        padding: 0.7rem;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .performance-indicator i {
+        color: #4CAF50;
+    }
+    
+    @media (max-width: 768px) {
+        .student-activity-card, .student-progress-card {
+            padding: 1.2rem;
+        }
+        
+        .student-avatar {
+            min-width: 60px;
+            height: 60px;
+            margin-right: 1rem;
+        }
+        
+        .progress-value {
+            font-size: 1.5rem;
+        }
+    }
+</style>
         <style>
-            /* ===== VARIABLES GLOBALES ===== */
             :root {
-                /* Colores principales */
-                --primary-color: #6A5ACD;       /* Amarillo */
-                --secondary-color: #FF6B6B;     /* Coral */
-                --accent-color: #FFD166;        /* Amarillo */
-                --success-color: #06D6A0;       /* Azul */
-                --info-color: #26C6DA;          /* Averde */
-
-                /* Colores de fondo */
-                --bg-light: #F9F7FF;
-                --bg-gradient-1: #E0EAFC;
-                --bg-gradient-2: #CFDEF3;
-
-                /* Colores de texto */
-                --text-primary: #333;
-                --text-secondary: #666;
-                --text-light: #FFF;
-
-                /* Sombras y efectos */
-                --box-shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.1);
-                --box-shadow-md: 0 8px 20px rgba(0, 0, 0, 0.15);
-                --box-shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.2);
-
-                /* Bordes y radios */
-                --border-radius-sm: 15px;
-                --border-radius-md: 25px;
-                --border-radius-lg: 50px;
-
-                /* Animaciones */
-                --transition-fast: 0.2s;
-                --transition-normal: 0.3s;
-                --transition-slow: 0.5s;
-            }
-
-            /* ===== ESTILOS BASE ===== */
-            *, *::before, *::after {
-                box-sizing: border-box;
+                --primary-color: #6C8AE8;
+                --primary-light: #E6EEFF;
+                --secondary-color: #F4F9FC;
+                --accent-color: #A5D6A7;
+                --accent-hover: #8BC34A;
+                --text-primary: #2C3E50;
+                --text-secondary: #7D7D7D;
+                --background-color: #EDF2F7;
+                --hover-color: #5A7BE0;
+                --card-shadow: 0 10px 25px rgba(108, 138, 232, 0.1);
+                --card-hover-shadow: 0 15px 35px rgba(108, 138, 232, 0.15);
+                --sidebar-width: 200px;
             }
 
             body {
-                margin: 0;
-                padding: 0;
-                font-family: 'Comic Sans MS', 'Bubblegum Sans', 'Poppins', sans-serif;
-                line-height: 1.6;
+                background-color: var(--background-color);
+                font-family: 'Poppins', sans-serif;
                 color: var(--text-primary);
-                background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E"),
-                    linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2));
+                background-image: linear-gradient(135deg, rgba(108, 138, 232, 0.05) 0%, rgba(165, 214, 167, 0.05) 100%);
                 background-attachment: fixed;
-                overflow-x: hidden;
+                margin-left: var(--sidebar-width);
             }
 
-            /* ===== ANIMACIONES GLOBALES ===== */
-            @keyframes float {
-                0% {
-                    transform: translateY(0px);
-                }
-                50% {
-                    transform: translateY(-15px);
-                }
-                100% {
-                    transform: translateY(0px);
-                }
+            .container {
+                max-width: 1200px;
+                padding: 30px;
             }
 
-            @keyframes pulse {
-                0% {
-                    transform: scale(1);
-                }
-                50% {
-                    transform: scale(1.05);
-                }
-                100% {
-                    transform: scale(1);
-                }
-            }
-
-            @keyframes wiggle {
-                0%, 100% {
-                    transform: rotate(-3deg);
-                }
-                50% {
-                    transform: rotate(3deg);
-                }
-            }
-
-            @keyframes rainbow {
-                0% {
-                    color: #FF5B5B;
-                }
-                20% {
-                    color: #FFA55B;
-                }
-                40% {
-                    color: #FFD75B;
-                }
-                60% {
-                    color: #6BFF5B;
-                }
-                80% {
-                    color: #5B7CFF;
-                }
-                100% {
-                    color: #B05BFF;
-                }
-            }
-
-            @keyframes confetti {
-                0% {
-                    background-position: 0% 0%;
-                }
-                100% {
-                    background-position: 100% 100%;
-                }
-            }
-
-            @keyframes bounce {
-                0%, 100% {
-                    transform: translateY(0);
-                }
-                50% {
-                    transform: translateY(-20px);
-                }
-            }
-
-            /* ===== ENCABEZADOS Y TIPOGRAFÍA ===== */
             .header-title {
-                font-size: clamp(2.5rem, 6vw, 3.5rem);
-                font-weight: 700;
-                text-align: center;
-                margin: 2rem auto;
+                margin-bottom: 0.5rem;
+                position: relative;
+            }
+
+            .header-title h1 {
                 color: var(--primary-color);
-                text-shadow: 3px 3px 0px rgba(106, 90, 205, 0.3);
+                font-weight: 600;
+                font-size: 1.8rem;
                 position: relative;
                 display: inline-block;
-                animation: float 6s ease-in-out infinite;
+                padding-bottom: 0.5rem;
             }
 
-            .header-title::after {
-                content: "✨";
+            .header-title h1::after {
+                content: '';
                 position: absolute;
-                top: -20px;
-                right: -30px;
-                font-size: 2rem;
-                animation: pulse 2s infinite;
-            }
-
-            .header-title::before {
-                content: "✨";
-                position: absolute;
-                bottom: -10px;
-                left: -20px;
-                font-size: 1.5rem;
-                animation: pulse 2s infinite reverse;
+                bottom: 0;
+                left: 0;
+                width: 80px;
+                height: 3px;
+                background-color: var(--primary-color);
             }
 
             .greeting {
-                font-size: clamp(1.8rem, 5vw, 2.5rem);
-                text-align: center;
-                margin: 2rem auto;
-                font-weight: 600;
+                margin-bottom: 3rem;
+                animation: fadeIn 0.8s ease-out forwards;
+            }
+
+            .greeting h2 {
+                font-size: 2.5rem;
+                font-weight: 500;
+                color: var(--text-primary);
             }
 
             .greeting span {
+                color: var(--primary-color);
+                font-weight: 600;
+            }
+
+            .content-section {
+                margin-bottom: 3rem;
+                animation: fadeIn 0.5s ease-out forwards;
+                background-color: white;
+                border-radius: 20px;
+                box-shadow: var(--card-shadow);
+                padding: 2rem;
                 position: relative;
-                display: inline-block;
-                color: var(--secondary-color);
-                padding: 0 10px;
-                animation: rainbow 8s linear infinite;
+                overflow: hidden;
             }
 
-            .greeting span::before {
-                content: "";
-                position: absolute;
-                width: 100%;
-                height: 10px;
-                bottom: 5px;
-                left: 0;
-                background-image: url("data:image/svg+xml,%3Csvg width='100' height='10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,5 Q25,0 50,5 T100,5' stroke='%23FFD166' stroke-width='3' fill='none'/%3E%3C/svg%3E");
-                background-repeat: repeat-x;
-                background-size: 100px 10px;
-                z-index: -1;
-                opacity: 0.7;
-            }
-
-            .novedades {
-                margin: 4rem auto 2rem;
-                position: relative;
-                padding: 2rem 0;
-            }
-
-            .novedades::before {
-                content: "";
+            .content-section::before {
+                content: '';
                 position: absolute;
                 top: 0;
                 left: 0;
-                right: 0;
-                height: 15px;
-                background-image: url("data:image/svg+xml,%3Csvg width='100' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,10 Q10,5 20,10 T40,10 T60,10 T80,10 T100,10 V0 H0' fill='%23E0EAFC'/%3E%3C/svg%3E");
-                background-repeat: repeat-x;
-                background-size: 100px 15px;
+                width: 8px;
+                height: 100%;
+                background-color: var(--primary-color);
             }
 
-            .novedades h2 {
-                font-size: clamp(2rem, 5vw, 2.8rem);
-                text-align: center;
-                color: var(--info-color);
-                margin-bottom: 2.5rem;
-                font-weight: 700;
-                position: relative;
-                display: inline-block;
-            }
-
-            .novedades h2::after {
-                content: "🎉";
-                position: absolute;
-                right: -40px;
-                top: 0;
-                animation: wiggle 3s ease-in-out infinite;
-            }
-
-            /* ===== TARJETAS ===== */
-            .row {
+            .content-section h2 {
+                color: var(--text-primary);
+                font-weight: 600;
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
                 display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 30px;
+                align-items: center;
             }
 
-            .col-md-5 {
-                flex: 0 0 calc(45% - 30px);
-                max-width: calc(45% - 30px);
-            }
-
-            @media (max-width: 768px) {
-                .col-md-5 {
-                    flex: 0 0 100%;
-                    max-width: 100%;
-                }
+            .content-section h2:before {
+                content: '\f0a1';
+                font-family: 'Font Awesome 6 Free';
+                font-weight: 900;
+                color: var(--primary-color);
+                margin-right: 10px;
+                font-size: 1.2rem;
             }
 
             .card {
-                position: relative;
-                background-color: var(--bg-light);
-                border-radius: var(--border-radius-lg);
-                padding: 2.5rem 2rem;
-                height: 100%;
-                min-height: 200px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                box-shadow: var(--box-shadow-md);
-                overflow: hidden;
-                transition: transform var(--transition-normal) ease,
-                    box-shadow var(--transition-normal) ease;
                 border: none;
-                z-index: 1;
-            }
-
-            .card::before {
-                content: "";
-                position: absolute;
-                top: -10px;
-                left: -10px;
-                right: -10px;
-                bottom: -10px;
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--success-color), var(--info-color));
-                background-size: 300% 300%;
-                animation: confetti 15s linear infinite;
-                border-radius: var(--border-radius-lg);
-                z-index: -1;
-                opacity: 0;
-                transition: opacity var(--transition-normal);
+                border-radius: 15px;
+                transition: all 0.3s ease;
+                overflow: hidden;
+                height: 100%;
+                border-top: 4px solid transparent;
             }
 
             .card:hover {
-                transform: translateY(-15px) scale(1.03);
-                box-shadow: var(--box-shadow-lg);
-            }
-
-            .card:hover::before {
-                opacity: 1;
-            }
-
-            .card::after {
-                content: "";
-                position: absolute;
-                top: 5px;
-                left: 5px;
-                right: 5px;
-                bottom: 5px;
-                background-color: var(--bg-light);
-                border-radius: calc(var(--border-radius-lg) - 5px);
-                z-index: -1;
-            }
-
-            .card:nth-child(1) {
-                animation: bounce 8s ease-in-out infinite;
-                animation-delay: 0s;
-            }
-
-            .card:nth-child(2) {
-                animation: bounce 8s ease-in-out infinite;
-                animation-delay: 0.5s;
-            }
-
-            .card:nth-child(3) {
-                animation: bounce 8s ease-in-out infinite;
-                animation-delay: 1s;
+                transform: translateY(-5px);
+                box-shadow: var(--card-hover-shadow);
+                border-top-color: var(--primary-color);
             }
 
             .card-title {
-                position: relative;
-                font-weight: 700;
-                font-size: 1.4rem;
-                margin-bottom: 1.5rem;
+                font-weight: 600;
                 color: var(--primary-color);
-                display: inline-block;
-                transition: color var(--transition-normal) ease;
-            }
-
-            .card:hover .card-title {
-                color: var(--secondary-color);
+                font-size: 1.1rem;
+                display: flex;
+                align-items: center;
             }
 
             .card-title::before {
-                content: "🌟";
-                margin-right: 8px;
-                font-size: 1.2rem;
-                display: inline-block;
-                transform: translateY(-2px);
+                font-family: 'Font Awesome 6 Free';
+                font-weight: 900;
+                margin-right: 10px;
+                font-size: 1rem;
+            }
+
+            .card:nth-child(1) .card-title::before {
+                content: '\f1ec'; /* Matemáticas - gráfico */
+                color: #FF9800;
+            }
+
+            .card:nth-child(2) .card-title::before {
+                content: '\f02d'; /* Lecturas - libro */
+                color: #4CAF50;
+            }
+
+            .card:nth-child(3) .card-title::before {
+                content: '\f11c'; /* Juegos de palabras - teclado */
+                color: #9C27B0;
             }
 
             .card-text {
                 color: var(--text-secondary);
-                font-size: 1.1rem;
-                margin-bottom: 1rem;
-                transition: color var(--transition-normal) ease;
+                font-size: 0.95rem;
             }
 
-            .card:hover .card-text {
-                color: var(--text-primary);
+            /* Quick Stats Section */
+            .stats-container {
+                margin-bottom: 3rem;
             }
 
-            /* ===== ELEMENTOS DECORATIVOS ===== */
-            .container {
-                position: relative;
-                padding: 2rem;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-
-            .container::before {
-                content: "🦄";
-                position: absolute;
-                font-size: 3rem;
-                top: 20px;
-                left: 5%;
-                animation: float 7s ease-in-out infinite;
-                z-index: -1;
-                opacity: 0.3;
-            }
-
-            .container::after {
-                content: "🚀";
-                position: absolute;
-                font-size: 3rem;
-                bottom: 5%;
-                right: 5%;
-                animation: float 6s ease-in-out infinite reverse;
-                z-index: -1;
-                opacity: 0.3;
-            }
-
-            /* Nubes decorativas */
-            .cloud {
-                position: absolute;
-                z-index: -1;
-                opacity: 0.3;
-                pointer-events: none;
-            }
-
-            .cloud-1 {
-                top: 10%;
-                left: 5%;
-                font-size: 2rem;
-                animation: float 15s ease-in-out infinite;
-            }
-
-            .cloud-2 {
-                top: 20%;
-                right: 10%;
-                font-size: 3rem;
-                animation: float 12s ease-in-out infinite reverse;
-            }
-
-            .cloud-3 {
-                bottom: 15%;
-                left: 15%;
-                font-size: 2.5rem;
-                animation: float 18s ease-in-out infinite;
-            }
-
-            /* ===== BOTONES Y ELEMENTOS INTERACTIVOS ===== */
-            .btn {
-                display: inline-block;
-                padding: 0.8rem 1.5rem;
-                background-color: var(--primary-color);
-                color: var(--text-light);
-                border-radius: var(--border-radius-md);
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 1rem;
-                transition: all var(--transition-normal) ease;
-                border: none;
-                cursor: pointer;
-                box-shadow: 0 4px 0 darken(var(--primary-color), 10%);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .btn:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 9px 0 darken(var(--primary-color), 10%);
-            }
-
-            .btn:active {
-                transform: translateY(0);
-                box-shadow: 0 4px 0 darken(var(--primary-color), 10%);
-            }
-
-            .btn::before {
-                content: "";
-                position: absolute;
-                width: 100%;
+            .stat-card {
+                background-color: white;
+                border-radius: 15px;
+                box-shadow: var(--card-shadow);
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                display: flex;
+                align-items: center;
+                transition: all 0.3s ease;
                 height: 100%;
-                top: 0;
-                left: -100%;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-                transition: all var(--transition-normal) ease;
+                border-left: 4px solid var(--primary-color);
             }
 
-            .btn:hover::before {
-                left: 100%;
+            .stat-icon {
+                background-color: var(--primary-light);
+                color: var(--primary-color);
+                border-radius: 12px;
+                min-width: 60px;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 1rem;
+                font-size: 1.5rem;
             }
 
-            /* ===== EFECTOS ADICIONALES ===== */
-            /* Colorear elementos al pasar el mouse */
-            .card:hover .card-title,
-            .greeting:hover span {
-                background-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
-                background-size: 200% auto;
-                background-clip: text;
-                text-fill-color: transparent;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                animation: rainbow 3s linear infinite;
+            .stat-info {
+                flex-grow: 1;
             }
 
-            /* Estrellitas que caen al pasar el mouse sobre la tarjeta */
-            @keyframes falling {
-                0% {
-                    transform: translateY(-50px) translateX(0) rotate(0deg);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateY(100px) translateX(30px) rotate(180deg);
-                    opacity: 0;
-                }
+            .stat-value {
+                font-size: 1.6rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                margin: 0;
+                line-height: 1;
             }
 
-            .card:hover::after {
-                content: "⭐";
-                position: absolute;
-                top: 0;
-                left: 20%;
-                color: var(--accent-color);
-                font-size: 1rem;
-                pointer-events: none;
-                animation: falling 2s ease-in infinite;
-                z-index: 3;
+            .stat-label {
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+                margin: 0;
             }
 
-            /* ===== RESPONSIVE ===== */
+            /* Enlaces dentro de las tarjetas */
+            .card-link {
+                display: inline-block;
+                margin-top: 1rem;
+                color: var(--primary-color);
+                font-weight: 500;
+                font-size: 0.9rem;
+                text-decoration: none;
+                transition: all 0.2s ease;
+            }
+
+            .card-link:hover {
+                color: var(--hover-color);
+                text-decoration: underline;
+            }
+
+            .card-link i {
+                margin-left: 5px;
+                font-size: 0.8rem;
+            }
+
+            /* Animaciones */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .stat-card, .card {
+                animation: fadeIn 0.5s ease-out forwards;
+                animation-delay: calc(var(--animation-order) * 0.1s);
+            }
+
+            /* Media queries */
             @media (max-width: 992px) {
-                .container {
-                    padding: 1rem;
+                body {
+                    margin-left: 0;
                 }
-
-                .card {
-                    padding: 2rem 1.5rem;
+                
+                .container {
+                    padding: 20px;
+                }
+                
+                .greeting h2 {
+                    font-size: 2rem;
                 }
             }
 
             @media (max-width: 768px) {
-                .header-title,
-                .greeting {
-                    margin: 1.5rem auto;
+                .greeting h2 {
+                    font-size: 1.8rem;
                 }
-
-                .card {
-                    margin-bottom: 2rem;
-                }
-
-                .novedades {
-                    margin-top: 2rem;
+                
+                .content-section {
+                    padding: 1.5rem;
                 }
             }
 
             @media (max-width: 576px) {
-                body {
-                    font-size: 0.9rem;
+                .container {
+                    padding: 15px;
                 }
-
-                .card-title {
-                    font-size: 1.2rem;
+                
+                .greeting h2 {
+                    font-size: 1.5rem;
                 }
-
-                .card-text {
-                    font-size: 1rem;
+                
+                .header-title h1 {
+                    font-size: 1.6rem;
                 }
-            }
-
-            /* ===== ACCESSIBILITY ===== */
-            @media (prefers-reduced-motion: reduce) {
-                * {
-                    animation: none !important;
-                    transition: background-color var(--transition-normal) ease,
-                        color var(--transition-normal) ease !important;
-                }
-
-                .card:hover {
-                    transform: translateY(-5px);
-                }
-            }
-
-            .card:focus-within {
-                outline: 3px solid var(--primary-color);
-                outline-offset: 3px;
-            }
-
-            /* ===== BARRA DE NAVEGACIÓN PERSONALIZADA ===== */
-            .navbar {
-                background-color: rgba(255, 255, 255, 0.9);
-                border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
-                box-shadow: var(--box-shadow-md);
-                padding: 0.8rem 1rem;
-                backdrop-filter: blur(10px);
-                position: sticky;
-                top: 0;
-                z-index: 100;
-            }
-
-            .navbar-brand {
-                font-size: 1.8rem;
-                font-weight: 700;
-                color: var(--primary-color);
-                transition: all var(--transition-normal) ease;
-            }
-
-            .navbar-brand:hover {
-                transform: scale(1.05);
-            }
-
-            .navbar-nav .nav-link {
-                color: var(--text-primary);
-                font-weight: 600;
-                margin: 0 0.5rem;
-                padding: 0.5rem 1rem;
-                border-radius: var(--border-radius-sm);
-                transition: all var(--transition-normal) ease;
-            }
-
-            .navbar-nav .nav-link:hover {
-                background-color: var(--primary-color);
-                color: var(--text-light);
-                transform: translateY(-3px);
-                box-shadow: var(--box-shadow-sm);
-            }
-
-            /* ===== AÑADIR ELEMENTOS DECORATIVOS AL DOM ===== */
-            body:before {
-                content: "";
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                background-image:
-                    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
-                    radial-gradient(circle at 85% 60%, rgba(255, 255, 255, 0.15) 0%, transparent 20%),
-                    radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 15%);
-                z-index: -2;
-            }
-
-            /* ===== ANIMACIÓN DE CARGA DE PÁGINA ===== */
-            @keyframes fadeIn {
-                0% {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .header-title {
-                animation: fadeIn 1s ease-out 0.2s both, float 6s ease-in-out 1s infinite;
-            }
-
-            .greeting {
-                animation: fadeIn 1s ease-out 0.5s both;
-            }
-
-            .novedades h2 {
-                animation: fadeIn 1s ease-out 0.8s both;
-            }
-
-            .row .col-md-5:nth-child(1) {
-                animation: fadeIn 1s ease-out 1.1s both;
-            }
-
-            .row .col-md-5:nth-child(2) {
-                animation: fadeIn 1s ease-out 1.4s both;
-            }
-
-            .row .col-md-5:nth-child(3) {
-                animation: fadeIn 1s ease-out 1.7s both;
-            }
-
-            /* ===== MODIFICACIONES AL HTML EXISTENTE ===== */
-            /* Estas clases se aplicarán automáticamente a los elementos existentes */
-            .display-4 {
-                font-weight: 800;
-                letter-spacing: 1px;
-            }
-
-            .display-3 {
-                font-weight: 700;
-            }
-
-            /* ===== EFECTOS DE CURSOR PERSONALIZADO ===== */
-            .card {
-                cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg&#39; width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%236A5ACD' d='M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zm6 17h-5v5a1 1 0 01-2 0v-5h-5a1 1 0 010-2h5v-5a1 1 0 012 0v5h5a1 1 0 010 2z'/%3E%3C/svg%3E"), auto;
-            }
-
-            /* ===== SCROLL SUAVE ===== */
-            html {
-                scroll-behavior: smooth;
-            }
-
-            /* ===== SCROLLBAR PERSONALIZADA ===== */
-            ::-webkit-scrollbar {
-                width: 12px;
-            }
-
-            ::-webkit-scrollbar-track {
-                background: var(--bg-light);
-            }
-
-            ::-webkit-scrollbar-thumb {
-                background: var(--primary-color);
-                border-radius: 10px;
-                border: 3px solid var(--bg-light);
-            }
-
-            ::-webkit-scrollbar-thumb:hover {
-                background: var(--secondary-color);
             }
         </style>
     </head>
     <body>
         <jsp:include page="BarraNavTutor.jsp" />
-        <div class="container mt-5">
+        <div class="container mt-4">
             <div class="header-title">
-                <h1 class="display-4 fw-bold">Bienvenido a Kidi</h1>
+                <h1>Bienvenido a Kidi</h1>
             </div>
-            <div class="greeting mb-5">
-                <h2 class="display-3">Hola de nuevo, <span><%= Nombre %></span></h2>
+            <div class="greeting mb-4">
+                <h2>Hola de nuevo, <span><%= Nombre %></span></h2>
             </div>
-            <section class="novedades content-section py-5">
-                <h2 class="h2 mb-4">Novedades</h2>
-                <div class="row justify-content-center">
-                    <div class="col-md-5 mb-4">
-                        <div class="card p-4 shadow-sm">
-                            <h5 class="card-title">Nuevas actividades de Matemáticas</h5>
-                            <p class="card-text">Aprende sumas y restas con juegos y ejercicios interactivos.</p>
+            
+         
+<!-- Sección de Novedades con mejor diseño -->
+<section class="content-section">
+    <h2>Actividad de tus niños</h2>
+    <div class="row">
+        <div class="col-lg-6 mb-4" style="--animation-order: 4">
+            <div class="student-activity-card">
+                <div class="student-avatar">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="activity-badge">2</span>
+                </div>
+                <div class="student-info">
+                    <h5 class="student-name">Juan Pérez</h5>
+                    <p class="activity-summary">Ha completado <strong>2 actividades</strong> esta semana</p>
+                    <div class="activities-list">
+                        <div class="activity-item">
+                            <i class="fas fa-"></i>
+                            <span>Sumas y restas</span>
+                            <span class="activity-date">22 Abr</span>
+                        </div>
+                        <div class="activity-item">
+                            <i class="fas "></i>
+                            <span>Multiplicaciones</span>
+                            <span class="activity-date">20 Abr</span>
                         </div>
                     </div>
-                    <div class="col-md-5 mb-4">
-                        <div class="card p-4 shadow-sm">
-                            <h5 class="card-title">Nuevas lecturas</h5>
-                            <p class="card-text">Descubre historias emocionantes con nuevos cuentos.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4" style="--animation-order: 5">
+            <div class="student-progress-card">
+                <div class="progress-header">
+                    <h5><i class="fas fa-chart-bar"></i> Promedios</h5>
+                </div>
+                <div class="student-progress">
+                    <div class="student-progress-item">
+                        <div class="student-progress-info">
+                            <div class="student-avatar-sm">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div>
+                                <h6 class="student-name">Juan Pérez</h6>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-value">9.4</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+            
+            <!-- Acciones Rápidas -->
+            <section class="content-section">
+                <h2>Acciones Rápidas</h2>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 7">
+                        <div class="card p-4 shadow-sm text-center h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-user-plus fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title text-center">Añadir Niño</h5>
+                            <p class="card-text">Registra un nuevo niño a tu cuenta</p>
+                            <a href="../P-AñadirN.jsp" class="card-link">Registrar <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-md-5 mb-4">
-                        <div class="card p-4 shadow-sm">
-                            <h5 class="card-title">¡Nuevos juegos de palabras!</h5>
-                            <p class="card-text">Juega y mejora tu vocabulario con desafíos divertidos.</p>
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 8">
+                        <div class="card p-4 shadow-sm text-center h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-eye fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title text-center">Ver Mis Niños</h5>
+                            <p class="card-text">Consulta la lista de niños registrados</p>
+                            <a href="../P-VerNiños.jsp" class="card-link">Ver lista <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 9">
+                        <div class="card p-4 shadow-sm text-center h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-file-alt fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title text-center">Informes</h5>
+                            <p class="card-text">Revisa el progreso académico</p>
+                            <a href="../P-Informe.jsp" class="card-link">Ver informes <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 10">
+                        <div class="card p-4 shadow-sm text-center h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-user-circle fa-3x text-info"></i>
+                            </div>
+                            <h5 class="card-title text-center">Mi Perfil</h5>
+                            <p class="card-text">Administra tu información personal</p>
+                            <a href="../P-perfilT.jsp" class="card-link">Editar perfil <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -742,5 +623,3 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
-
-
