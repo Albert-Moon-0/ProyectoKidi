@@ -707,7 +707,7 @@
     </head>
     <body>
         <jsp:include page="BarraNavegacion.jsp" />
-        <div class="container mt-5">
+        <div class="container mt-5 text-center">
             <div class="header-title">
                 <h1 class="display-4 fw-bold">Bienvenido a Kidi</h1>
             </div>
