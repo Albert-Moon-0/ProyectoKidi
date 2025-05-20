@@ -340,6 +340,17 @@
                         </div>
                     </div>
                 </div>
+                <!-- Juego 2 -->
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="card">
+                        <img class="card-img-top" src="../img/numrs.jpg" alt="Adivina el número" loading="lazy">
+                        <div class="card-body">
+                            <h5 class="card-title">Adivina el número</h5>
+                            <p class="card-text">Intenta adivinar el número oculto con las pistas que te damos.</p>
+                            <a href="Juego2.html" class="btn btn-game">¡Jugar ahora!</a>
+                        </div>
+                    </div>
+                </div>
                 
             </div>
         </div>

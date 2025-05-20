@@ -294,7 +294,11 @@ INSERT INTO LECCIONES_M (ID_LM, DESC_LM, NOMBRE_LM, ID_M) VALUES
 (1, 'Lección de álgebra', 'Reconoce los numeros', 1),
 (2, 'Lección de sumas y restas', 'Suma y resta', 1),
 (3, 'Lección de multiplicaciones', 'Multiplicaciones', 1),
-(4, 'Lección de divisiones', 'Divisiones', 1);
+(4, 'Lección de divisiones', 'Divisiones', 1),
+(5, 'Fracciones Basicas', 'Fracciones Basicas', 1),
+(6, 'Medidas', 'Medidas', 1),
+(7, 'Tiempo y Dinero', 'Tiempo y Dinero', 1),
+(8, 'Patrones', 'Patrones', 1);
 
 
 -- Insertando datos en la tabla JUEGOS_M
