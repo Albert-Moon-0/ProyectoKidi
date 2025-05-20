@@ -5,22 +5,26 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*"%>
-
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ include file="../Sistema/ConexionBD.jsp" %>
 
 <%
     ResultSet r = null;
+    int IdT =1;
     try {
-        PreparedStatement ps = c.prepareStatement("SELECT * FROM TUTOR WHERE CORREO_T = ?");
-        ps.setString(1, userEmail);
-        r = ps.executeQuery();
-        while (r.next()) {
+        PreparedStatement p = c.prepareStatement("SELECT * FROM TUTOR WHERE CORREO_T = ?");
+        p.setString(1, userEmail);
+        r = p.executeQuery();
+        if (r.next()) {
+            IdT = r.getInt("ID_T");
             Nombre = r.getString("NOMBRE_T");
-            Correo = r.getString("CORREO_T");
+            Correo = r.getString("CORREO_T");             
         }
     } catch (SQLException error) {
         out.print(error.toString());
     }
+    
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -513,61 +517,130 @@
             </div>
             <div class="greeting mb-4">
                 <h2>Hola de nuevo, <span><%= Nombre %></span></h2>
-            </div>
-            
-         
-<!-- Sección de Novedades con mejor diseño -->
+            </div>            
+
 <section class="content-section">
     <h2>Actividad de tus niños</h2>
+    
+        
     <div class="row">
-        <div class="col-lg-6 mb-4" style="--animation-order: 4">
+        <%
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean hayNinos = false;
+        
+        try {
+            // Mostrar el ID del tutor para depuración
+            System.out.println("ID del Tutor para consulta: " + IdT);
+            
+            // Obtenemos los usuarios asociados al tutor
+            ps = c.prepareStatement("SELECT ID_U, NOMBRE_U FROM USUARIO WHERE ID_T=?");
+            ps.setInt(1, IdT);
+            rs = ps.executeQuery();
+            
+            // Verificar si hay resultados
+            while (rs.next()) {
+                int idUser = rs.getInt("ID_U");
+                String nombreUsuario = rs.getString("NOMBRE_U");
+                hayNinos= true;
+                
+        %>
+        <div class="col-lg-6 mb-4" style="--animation-order: 4">            
             <div class="student-activity-card">
                 <div class="student-avatar">
+                    <%
+                    // Consulta para obtener cantidad de actividades en la última semana
+                    try (PreparedStatement ps2 = c.prepareStatement(
+                            "SELECT COUNT(*) as numActividades FROM REALIZA " +
+                            "WHERE ID_U = ? AND FECHA_REALIZA >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)")) {
+                        
+                        ps2.setInt(1, idUser);
+                        try (ResultSet rs2 = ps2.executeQuery()) {
+                            int actividadesSemana = 0;
+                            if (rs2.next()) {
+                                actividadesSemana = rs2.getInt("numActividades");
+                            }
+                    %>
                     <i class="fas fa-user-graduate"></i>
-                    <span class="activity-badge">2</span>
+                    <span class="activity-badge"><%= actividadesSemana %></span>
                 </div>
                 <div class="student-info">
-                    <h5 class="student-name">Juan Pérez</h5>
-                    <p class="activity-summary">Ha completado <strong>2 actividades</strong> esta semana</p>
+                    <h5 class="student-name"><%= nombreUsuario %></h5>
+                    <p class="activity-summary">Ha completado <strong><%= actividadesSemana %> actividades</strong> esta semana</p>
                     <div class="activities-list">
-                        <div class="activity-item">
-                            <i class="fas fa-"></i>
-                            <span>Sumas y restas</span>
-                            <span class="activity-date">22 Abr</span>
-                        </div>
-                        <div class="activity-item">
-                            <i class="fas "></i>
-                            <span>Multiplicaciones</span>
-                            <span class="activity-date">20 Abr</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 mb-4" style="--animation-order: 5">
-            <div class="student-progress-card">
-                <div class="progress-header">
-                    <h5><i class="fas fa-chart-bar"></i> Promedios</h5>
-                </div>
-                <div class="student-progress">
-                    <div class="student-progress-item">
-                        <div class="student-progress-info">
-                            <div class="student-avatar-sm">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div>
-                                <h6 class="student-name">Juan Pérez</h6>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="progress-value">9.4</div>
-                    </div>
+                        <%
+                        }
+                    }
                     
+                    // Consulta para obtener detalles de actividades en la última semana
+                    try (PreparedStatement ps3 = c.prepareStatement(
+                            "SELECT A.DESC_ACT, R.FECHA_REALIZA " +
+                            "FROM REALIZA R " +
+                            "JOIN ACTIVIDADES A ON R.ID_ACT = A.ID_ACT " +
+                            "WHERE R.ID_U = ? AND R.FECHA_REALIZA >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)" +
+                            "ORDER BY R.FECHA_REALIZA DESC")) {
+                        
+                        ps3.setInt(1, idUser);
+                        try (ResultSet rs3 = ps3.executeQuery()) {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            
+                            while (rs3.next()) {
+                                String nombreActividad = rs3.getString("DESC_ACT");
+                                java.sql.Date fecha = rs3.getDate("FECHA_REALIZA");
+                        %>
+                        <div class="activity-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span><%= nombreActividad %></span>
+                            <span class="activity-date"><%= dateFormat.format(fecha) %></span>
+                        </div>
+                        <%
+                            }
+                        }
+                    } catch (SQLException e) {
+                        // Log el error en lugar de mostrarlo al usuario
+                        // logger.error("Error al obtener actividades del estudiante", e);
+                    }
+                    %>
+                    </div>
                 </div>
             </div>
         </div>
+                    
+        
+        <%
+            // Fin del while para cada usuario
+            }
+            if (!hayNinos) {
+                %>
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        No se encontraron niños asociados.
+                    </div>
+                </div>
+                <%
+            }
+        } catch(Exception e) {
+            // Log el error en lugar de mostrarlo directamente al usuario
+            System.out.println("Error al obtener datos de estudiantes: " + e.getMessage());
+            e.printStackTrace();
+            %>
+            <div class="col-12">
+                <div class="alert alert-danger">
+                    Ocurrió un error al cargar la información. Por favor intenta más tarde.
+                </div>
+            </div>
+            <%
+        } finally {
+            // Cerrar recursos adecuadamente
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                // No cerramos c porque podría ser utilizado después
+            } catch (SQLException e) {
+                // logger.error("Error al cerrar recursos", e);
+            }
+        }
+        %>
     </div>
 </section>
 
@@ -621,5 +694,6 @@
             </section>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        
     </body>
 </html>
