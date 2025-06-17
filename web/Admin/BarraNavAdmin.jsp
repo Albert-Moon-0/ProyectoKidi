@@ -30,8 +30,8 @@
 </script>
         <style>
             :root {
-                --primary-color: #3B7DDD;
-                --secondary-color: #E5F0FA;
+                --primary-color: #3B7DDD; /*oscuro*/
+                --secondary-color: #E5F0FA; /*clarito*/
                 --text-color: #555;
                 --hover-color: #C4E3FE;
                 --transition-speed: 0.3s;
