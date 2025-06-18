@@ -1,28 +1,30 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,org.mindrot.jbcrypt.BCrypt"%>
 <%@ include file="../Sistema/ConexionBD.jsp" %>
-<%
-    String nombre = request.getParameter("Nombre");
+
+<%    String nombre = request.getParameter("Nombre");
     String correo = request.getParameter("Correo");
     String contrasena = request.getParameter("Contrasena");
     String edadStr = request.getParameter("Edad");
     int edad = 0;
     try {
         edad = Integer.parseInt(edadStr);
-    } catch(Exception e) {
+    } catch (Exception e) {
         out.println("<script>alert('Edad inválida');window.history.back();</script>");
         return;
     }
 
     // Imagen por defecto (ejemplo: 1)
     int idFotoDefault = 1;
-    
+
     // Obtener ID_T del tutor actual
     int idTutor = 1; // default si no encuentras nada
     try {
         PreparedStatement p = c.prepareStatement("SELECT ID_T FROM TUTOR WHERE CORREO_T = ?");
         // Aquí asumimos que tienes en sesión el correo del tutor, si no cámbialo
-        String correoTutor = (String)session.getAttribute("correoTutor");
-        if (correoTutor == null) correoTutor = "tutor@example.com"; // Valor por defecto
+        String correoTutor = (String) session.getAttribute("correoTutor");
+        if (correoTutor == null) {
+            correoTutor = "tutor@example.com"; // Valor por defecto
+        }
         p.setString(1, correoTutor);
         ResultSet r = p.executeQuery();
         if (r.next()) {
@@ -31,7 +33,7 @@
         r.close();
         p.close();
     } catch (SQLException ex) {
-        out.println("Error obteniendo tutor: "+ex.getMessage());
+        out.println("Error obteniendo tutor: " + ex.getMessage());
     }
 
     // Verificar que no exista correo duplicado en USUARIO
@@ -40,7 +42,7 @@
         check.setString(1, correo);
         ResultSet rsCheck = check.executeQuery();
         if (rsCheck.next()) {
-            out.println("<script>alert('Ya existe un usuario con ese correo.');window.location='../registro_nino.jsp';</script>");
+            out.println("<script>alert('Ya existe un usuario con ese correo.');window.location='P-AñadirN.jsp';</script>");
             rsCheck.close();
             check.close();
             return;
@@ -48,7 +50,7 @@
         rsCheck.close();
         check.close();
     } catch (SQLException ex) {
-        out.println("Error comprobando correo duplicado: "+ex.getMessage());
+        out.println("Error comprobando correo duplicado: " + ex.getMessage());
         return;
     }
 
@@ -69,12 +71,17 @@
         ps.close();
 
         if (res > 0) {
-            // Registro exitoso, redirigir al JSP de verificación de correo que mencionaste
-            response.sendRedirect("proceso-registro-usuario.jsp"); // Cambia al JSP que usa verificación si quieres
+            // Registro exitoso
+           out.println("<script>");
+out.println("alert('Usuario registrado con éxito.');");
+out.println("window.location = 'P-AnadirN.jsp';");
+out.println("</script>");
+            
+
         } else {
             out.println("<script>alert('Error al registrar usuario.');window.history.back();</script>");
         }
     } catch (SQLException ex) {
-        out.println("Error insertando usuario: "+ex.getMessage());
+        out.println("Error insertando usuario: " + ex.getMessage());
     }
 %>

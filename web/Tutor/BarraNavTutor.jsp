@@ -213,7 +213,7 @@
                             <i class="fas fa-eye"></i>
                             <span>Mis niños</span>
                         </a>
-                        <a href="P-AñadirN.jsp" class="nav-link">
+                        <a href="P-AnadirN.jsp" class="nav-link">
                             <i class="fas fa-user-plus"></i>
                             <span>Añadir niño</span>
                         </a>

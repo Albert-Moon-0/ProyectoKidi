@@ -21,8 +21,13 @@
             Nombre = r.getString("NOMBRE_T");
             Correo = r.getString("CORREO_T");             
         }
+        else{
+       out.println("<script>alert('Usuario no encontrado');window.location='../iniciodesesion.jsp';</script>"); 
+    }
     } catch (SQLException error) {
         out.print(error.toString());
+        
+        
     }
     
 %>
@@ -657,7 +662,7 @@
                             </div>
                             <h5 class="card-title text-center">Añadir Niño</h5>
                             <p class="card-text">Registra un nuevo niño a tu cuenta</p>
-                            <a href="../P-AñadirN.jsp" class="card-link">Registrar <i class="fas fa-arrow-right"></i></a>
+                            <a href="P-AnadirN.jsp" class="card-link">Registrar <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 8">
