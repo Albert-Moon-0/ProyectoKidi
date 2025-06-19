@@ -30,14 +30,16 @@
         </script>
         
         <!-- Código de instalación Cliengo para diego.alberto.luna.martinez@gmail.com -->
-<script type="text/javascript">
+        <script type="text/javascript">
+            /*
   (function () {
     var ldk = document.createElement('script');
     ldk.type = 'text/javascript';
     ldk.async = true;
     ldk.src = 'https://s.cliengo.com/weboptimizer/67f86cf651e42e6ec120582b/67f86cf651e42e6ec120582e.js?platform=onboarding_modular';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ldk, s);
-  })();
+  })();     
+             */
 </script>
         <style>
             :root {
@@ -258,20 +260,11 @@
                         <i class="fas fa-chart-line"></i>
                         <span>Progreso</span>
                     </a>
-                    <div class="submenu">
-                        <a href="../Progreso/P-seguimiento.jsp" class="nav-link">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Seguimiento</span>
-                        </a>
+                    <div class="submenu">                       
                         <a href="../Progreso/P-graficos.jsp" class="nav-link">
                             <i class="fas fa-chart-pie"></i>
-                            <span>Gráficos de logro</span>
-                        </a>
-                        
-                        <a href="../Progreso/P-informesAct.jsp" class="nav-link">
-                            <i class="fas fa-file-invoice"></i>
-                            <span>Informes de actividad</span>
-                        </a>
+                            <span>Mis gráficos de logro</span>
+                        </a>     
                     </div>
                 </li>
 
