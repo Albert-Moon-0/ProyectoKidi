@@ -520,35 +520,45 @@
                 psStats.close();
             %>
             <div class="user-card" style="--animation-order: <%= cardIndex %>">
-                <div class="user-content">
-                    <div class="user-avatar">
-                        <img src="../ImgPerfil/<%= nombreFoto %>" alt="Foto de <%= nombreUsuario %>">
-                        <div class="avatar-badge">
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="user-info">
-                        <h3 class="user-name">
-                            <i class="fas fa-user"></i>
-                            <%= nombreUsuario %>
-                        </h3>
-                        <p class="user-email">
-                            <i class="fas fa-envelope"></i>
-                            <%= correoUsuario %>
-                        </p>
-                        <div class="user-stats">
-                            <div class="stat-item">
-                                <i class="fas fa-trophy"></i>
-                                <%= totalActividades %> actividades
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-clock"></i>
-                                Activo
-                            </div>
-                        </div>
-                    </div>
+    <div class="user-content">
+        <div class="user-avatar">
+            <img src="../ImgPerfil/<%= nombreFoto %>" alt="Foto de <%= nombreUsuario %>">
+            <div class="avatar-badge">
+                <i class="fas fa-star"></i>
+            </div>
+        </div>
+        <div class="user-info">
+            <h3 class="user-name">
+                <i class="fas fa-user"></i>
+                <%= nombreUsuario %>
+            </h3>
+            <p class="user-email">
+                <i class="fas fa-envelope"></i>
+                <%= correoUsuario %>
+            </p>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <%= totalActividades %> actividades
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    Activo
                 </div>
             </div>
+
+            <!-- Formulario para eliminar -->
+            <form method="post" action="EliminarUsuario.jsp"
+                  onsubmit="return confirm('¿Estás seguro de eliminar este perfil? Esta acción no se puede deshacer.');">
+                <input type="hidden" name="idUsuario" value="<%= idUsuario %>">
+                <button type="submit" class="btn btn-danger mt-3">
+                    <i class="fas fa-trash-alt"></i> Eliminar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
             <%
                 cardIndex++;
             }

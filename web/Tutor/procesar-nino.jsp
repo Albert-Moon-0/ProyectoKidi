@@ -42,7 +42,7 @@
         check.setString(1, correo);
         ResultSet rsCheck = check.executeQuery();
         if (rsCheck.next()) {
-            out.println("<script>alert('Ya existe un usuario con ese correo.');window.location='P-AñadirN.jsp';</script>");
+            out.println("<script>alert('Ya existe un usuario con ese correo.');window.location='P-AnadirN.jsp';</script>");
             rsCheck.close();
             check.close();
             return;
