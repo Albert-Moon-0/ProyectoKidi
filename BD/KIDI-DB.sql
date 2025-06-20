@@ -2,6 +2,17 @@ DROP DATABASE IF EXISTS Kidi;
 CREATE DATABASE Kidi;
 USE Kidi;
 
+-- esta tabla si dejenla en minisculas
+CREATE TABLE login_attempts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip_address VARCHAR(45) NOT NULL,
+    email VARCHAR(255),
+    intentos_fallidos INT DEFAULT 1,
+    ultimo_intento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_ip_email (ip_address, email),
+    INDEX idx_ultimo_intento (ultimo_intento)
+);
+
 CREATE TABLE ADMIN_ (
   ID_A INT PRIMARY KEY AUTO_INCREMENT,
   NOMBRE_A VARCHAR(40),
@@ -1081,7 +1092,7 @@ INSERT INTO OPCIONES VALUES
 (335, 'comiendo', FALSE, 81);
 
 
-select * from Usuario;
+select * from USUARIO;
 select * from LECCIONES_M;
 select * from EJERCICIOS_M;
 
