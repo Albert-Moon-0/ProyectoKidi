@@ -199,7 +199,7 @@
                     <div class="submenu">
                         <a href="menu_T.jsp" class="nav-link">
                             <i class="fas fa-bell"></i>
-                            <span>Novedades</span>
+                            <span>Bienvenida</span>
                         </a>
                     </div>
                 </li>               
@@ -209,18 +209,14 @@
                         <span>Gestión de niños</span>
                     </a>
                     <div class="submenu">
-                        <a href="P-VerNiños.jsp" class="nav-link">
+                        <a href="ver-ninos.jsp" class="nav-link">
                             <i class="fas fa-eye"></i>
                             <span>Mis niños</span>
                         </a>
                         <a href="P-AnadirN.jsp" class="nav-link">
                             <i class="fas fa-user-plus"></i>
                             <span>Añadir niño</span>
-                        </a>
-                        <a href="P-EliminarN.jsp" class="nav-link">
-                            <i class="fas fa-user-minus"></i>
-                            <span>Eliminar niño</span>
-                        </a>                        
+                        </a>                     
                     </div>
                     
                 </li>

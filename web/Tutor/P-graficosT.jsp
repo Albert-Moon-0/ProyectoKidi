@@ -5,10 +5,25 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,org.json.simple.*"%>
 <%@ include file="../Sistema/ConexionBD.jsp" %>
+
 <%
-response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-response.setHeader("Pragma", "no-cache");
-response.setDateHeader("Expires", 0);
+    ResultSet r = null;
+    int IdT = 1;
+    try {
+        PreparedStatement p = c.prepareStatement("SELECT * FROM TUTOR WHERE CORREO_T = ?");
+        p.setString(1, userEmail);
+        r = p.executeQuery();
+        if (r.next()) {
+            IdT = r.getInt("ID_T");
+            Nombre = r.getString("NOMBRE_T");
+            Correo = r.getString("CORREO_T");             
+        }
+        else{
+       out.println("<script>alert('Usuario no encontrado');window.location='../iniciodesesion.jsp';</script>"); 
+    }
+    } catch (SQLException error) {
+        out.print(error.toString());
+    }
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,11 +34,8 @@ response.setDateHeader("Expires", 0);
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <!-- ECharts para gráficos -->
-        <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-        <!-- jsPDF para generar PDF -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+
         <style>
             :root {
                 --primary-color: #6C8AE8;
@@ -82,756 +94,628 @@ response.setDateHeader("Expires", 0);
                 font-size: 1.1rem;
             }
 
-            /* Selector de estudiante */
-            .student-selector {
-                background-color: white;
-                border-radius: 15px;
-                box-shadow: var(--card-shadow);
-                padding: 1.5rem;
-                margin-bottom: 2rem;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex-wrap: wrap;
+            /* Animaciones y efectos */
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
 
-            .selector-label {
-                font-weight: 500;
-                color: var(--text-primary);
-                margin-right: 1rem;
-            }
-
-            .selector-container {
-                display: flex;
-                align-items: center;
-                flex: 1;
-                max-width: 500px;
-            }
-
-            .student-select {
-                flex-grow: 1;
-                padding: 0.5rem 1rem;
-                border-radius: 10px;
-                border: 2px solid var(--primary-light);
-                background-color: white;
-                color: var(--text-primary);
-                font-family: 'Poppins', sans-serif;
-                transition: all 0.3s ease;
-                margin-right: 1rem;
-            }
-
-            .student-select:focus {
-                outline: none;
-                border-color: var(--primary-color);
-                box-shadow: 0 0 0 3px rgba(108, 138, 232, 0.2);
-            }
-
-            .download-btn {
-                background-color: var(--primary-color);
-                color: white;
-                border: none;
-                border-radius: 10px;
-                padding: 0.5rem 1.2rem;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-
-            .download-btn:hover {
-                background-color: var(--hover-color);
-                transform: translateY(-2px);
+            .stat-card, .chart-card, .info-card {
+                animation: slideInUp 0.6s ease-out;
+                animation-delay: calc(var(--animation-order, 0) * 0.1s);
+                animation-fill-mode: both;
             }
 
             /* Tarjetas de estadísticas */
             .stat-card {
-                background-color: white;
+                background: linear-gradient(135deg, white 0%, var(--primary-light) 100%);
                 border-radius: 15px;
-                box-shadow: var(--card-shadow);
                 padding: 1.5rem;
-                margin-bottom: 1.5rem;
-                display: flex;
-                align-items: center;
+                box-shadow: var(--card-shadow);
                 transition: all 0.3s ease;
+                border: 1px solid rgba(108, 138, 232, 0.1);
                 height: 100%;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .stat-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
             }
 
             .stat-card:hover {
+                transform: translateY(-5px);
                 box-shadow: var(--card-hover-shadow);
-                transform: translateY(-3px);
             }
 
             .stat-icon {
-                background-color: var(--primary-light);
-                color: var(--primary-color);
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--hover-color) 100%);
                 border-radius: 12px;
-                min-width: 60px;
-                height: 60px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin-right: 1rem;
+                margin-bottom: 1rem;
+                box-shadow: 0 4px 15px rgba(108, 138, 232, 0.3);
+            }
+
+            .stat-icon i {
+                color: white;
                 font-size: 1.5rem;
             }
 
-            .stat-info {
-                flex-grow: 1;
-            }
-
             .stat-value {
-                font-size: 1.8rem;
-                font-weight: 600;
-                color: var(--text-primary);
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--primary-color);
                 margin: 0;
                 line-height: 1;
             }
 
             .stat-label {
-                font-size: 0.9rem;
                 color: var(--text-secondary);
-                margin: 0;
+                font-size: 0.9rem;
+                margin: 0.5rem 0;
+                font-weight: 500;
             }
 
             .stat-trend {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 font-weight: 500;
-                display: flex;
-                align-items: center;
-                gap: 0.25rem;
-                margin-top: 0.25rem;
+                padding: 0.25rem 0.5rem;
+                border-radius: 20px;
+                display: inline-block;
             }
 
             .trend-up {
-                color: #28a745;
+                color: #4CAF50;
+                background-color: rgba(76, 175, 80, 0.1);
             }
 
             .trend-down {
-                color: #dc3545;
+                color: #F44336;
+                background-color: rgba(244, 67, 54, 0.1);
+            }
+
+            .trend-neutral {
+                color: #FF9800;
+                background-color: rgba(255, 152, 0, 0.1);
             }
 
             /* Tarjetas de gráficos */
-            .chart-card {
-                background-color: white;
-                border-radius: 20px;
-                box-shadow: var(--card-shadow);
+            .chart-card, .info-card {
+                background: white;
+                border-radius: 15px;
                 padding: 1.5rem;
-                margin-bottom: 2rem;
+                box-shadow: var(--card-shadow);
+                margin-bottom: 1.5rem;
+                border: 1px solid rgba(108, 138, 232, 0.1);
                 transition: all 0.3s ease;
-                border-top: 4px solid var(--primary-color);
+            }
+
+            .chart-card:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--card-hover-shadow);
+            }
+
+            .chart-header {
+                border-bottom: 2px solid var(--secondary-color);
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                position: relative;
+            }
+
+            .chart-header::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 50px;
+                height: 2px;
+                background-color: var(--primary-color);
+            }
+
+            .chart-header h3 {
+                color: var(--primary-color);
+                font-weight: 600;
+                margin: 0;
+                font-size: 1.1rem;
+            }
+
+            .chart-container {
                 height: 400px;
                 width: 100%;
                 position: relative;
             }
 
-            .chart-card:hover {
-                box-shadow: var(--card-hover-shadow);
-                transform: translateY(-5px);
-            }
-
-            .chart-container {
-                height: 100%;
-                width: 100%;
-            }
-
-            .chart-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1rem;
-            }
-
-            .chart-header h3 {
-                font-size: 1.2rem;
-                font-weight: 600;
-                color: var(--text-primary);
-                margin: 0;
-            }
-
-            /* Sección de pestañas */
-            .tab-buttons {
-                display: flex;
-                background-color: white;
-                border-radius: 15px;
-                padding: 0.5rem;
-                margin-bottom: 2rem;
-                box-shadow: var(--card-shadow);
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .tab-btn {
-                padding: 0.75rem 1.5rem;
-                background: none;
-                border: none;
-                border-radius: 10px;
-                margin-right: 0.5rem;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 500;
-                color: var(--text-secondary);
-                cursor: pointer;
-                transition: all 0.3s ease;
-                white-space: nowrap;
-            }
-
-            .tab-btn:last-child {
-                margin-right: 0;
-            }
-
-            .tab-btn.active {
-                background-color: var(--primary-color);
-                color: white;
-            }
-
-            .tab-btn:hover:not(.active) {
-                background-color: var(--primary-light);
-                color: var(--primary-color);
-            }
-
-            .tab-content {
-                display: none;
-            }
-
-            .tab-content.active {
-                display: block;
-                animation: fadeIn 0.5s ease-out forwards;
-            }
-
-            /* Info card */
+            /* Tarjeta de información */
             .info-card {
-                background-color: var(--primary-light);
-                border-radius: 20px;
-                padding: 1.5rem;
-                margin-bottom: 2rem;
-                border-left: 4px solid var(--primary-color);
+                background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+                color: white;
+                border: none;
             }
 
             .info-card h3 {
-                font-size: 1.2rem;
+                color: white;
                 font-weight: 600;
-                color: var(--primary-color);
-                margin-top: 0;
+                margin-bottom: 1rem;
                 display: flex;
                 align-items: center;
-                gap: 10px;
+            }
+
+            .info-card h3 i {
+                margin-right: 0.5rem;
+                font-size: 1.3rem;
             }
 
             .info-card p {
-                font-size: 0.9rem;
-                color: var(--text-primary);
-                margin-bottom: 0;
+                margin: 0;
+                line-height: 1.6;
+                opacity: 0.95;
             }
 
-            /* Tabla de actividades */
-            .activities-table {
-                background-color: white;
-                border-radius: 15px;
-                overflow: hidden;
-                box-shadow: var(--card-shadow);
-                margin-bottom: 2rem;
-            }
-
-            .activities-table table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-            .activities-table th {
-                background-color: var(--primary-light);
-                color: var(--primary-color);
-                font-weight: 600;
-                text-align: left;
-                padding: 1rem;
-                font-size: 0.95rem;
-            }
-
-            .activities-table td {
-                padding: 1rem;
-                border-top: 1px solid var(--primary-light);
-                color: var(--text-primary);
-                font-size: 0.9rem;
-            }
-
-            .activities-table tr:hover {
-                background-color: rgba(108, 138, 232, 0.05);
-            }
-
-            .status-badge {
-                padding: 0.25rem 0.75rem;
-                border-radius: 20px;
-                font-size: 0.8rem;
-                font-weight: 500;
-                display: inline-flex;
-                align-items: center;
-                gap: 5px;
-            }
-
-            .status-completed {
-                background-color: rgba(40, 167, 69, 0.1);
-                color: #28a745;
-            }
-
-            .status-pending {
-                background-color: rgba(255, 193, 7, 0.1);
-                color: #ffc107;
-            }
-
-            .score-badge {
-                background-color: var(--primary-light);
-                color: var(--primary-color);
-                padding: 0.25rem 0.5rem;
-                border-radius: 5px;
-                font-weight: 600;
-                min-width: 40px;
-                text-align: center;
-            }
-
-            .activity-icon {
-                width: 40px;
-                height: 40px;
-                background-color: var(--primary-light);
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: var(--primary-color);
-                margin-right: 10px;
-            }
-
-            .activity-info {
-                display: flex;
-                align-items: center;
-            }
-
-            /* Tarjetas de materias */
-            .subject-card {
-                background-color: white;
-                border-radius: 15px;
-                padding: 1.5rem;
-                margin-bottom: 1.5rem;
-                box-shadow: var(--card-shadow);
-                transition: all 0.3s ease;
+            /* Sección de estudiante */
+            .student-section {
+                border-left: 4px solid var(--primary-color);
+                padding-left: 1.5rem;
+                margin-bottom: 3rem;
                 position: relative;
-                overflow: hidden;
             }
 
-            .subject-card::before {
+            .student-section::before {
                 content: '';
                 position: absolute;
+                left: -8px;
                 top: 0;
-                left: 0;
                 width: 8px;
-                height: 100%;
-                background-color: var(--subject-color, var(--primary-color));
+                height: 30px;
+                background: var(--accent-color);
+                border-radius: 0 4px 4px 0;
             }
 
-            .subject-card:hover {
-                box-shadow: var(--card-hover-shadow);
-                transform: translateY(-3px);
-            }
-
-            .subject-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1rem;
-            }
-
-            .subject-name {
+            .student-name {
+                color: var(--primary-color);
                 font-weight: 600;
-                font-size: 1.1rem;
-                color: var(--text-primary);
-                margin: 0;
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
                 display: flex;
                 align-items: center;
-                gap: 10px;
             }
 
-            .subject-score {
-                font-size: 1.8rem;
-                font-weight: 700;
-                color: var(--subject-color, var(--primary-color));
+            .student-name i {
+                margin-right: 0.5rem;
+                font-size: 1.2rem;
             }
 
-            .progress-title {
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-                margin-bottom: 0.5rem;
-            }
-
-            .progress-bar-wrapper {
-                height: 10px;
-                background-color: var(--primary-light);
-                border-radius: 5px;
-                overflow: hidden;
-                margin-bottom: 0.5rem;
-            }
-
-            .progress-bar-inner {
-                height: 100%;
-                background-color: var(--subject-color, var(--primary-color));
-                border-radius: 5px;
-            }
-
-            .progress-info {
-                display: flex;
-                justify-content: space-between;
-                font-size: 0.8rem;
-                color: var(--text-secondary);
-            }
-
-            .recommendations {
-                margin-top: 1rem;
-                font-size: 0.9rem;
-                color: var(--text-secondary);
-                background-color: var(--primary-light);
-                padding: 0.75rem;
-                border-radius: 10px;
-            }
-
-            .recommendations strong {
-                color: var(--subject-color, var(--primary-color));
-            }
-
-            /* Animaciones */
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-
-            .chart-card, .stat-card, .info-card, .activities-table, .subject-card {
-                animation: fadeIn 0.5s ease-out forwards;
-                animation-delay: calc(var(--animation-order) * 0.1s);
-            }
-
-            /* Diseño Responsive */
-            @media (max-width: 992px) {
+            /* Efectos responsive */
+            @media (max-width: 768px) {
                 body {
                     margin-left: 0;
                 }
                 
                 .container {
-                    padding: 20px;
-                }
-                
-                .chart-card {
-                    height: 350px;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .chart-card {
-                    height: 300px;
-                }
-                
-                .student-selector {
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-                
-                .selector-container {
-                    margin-top: 1rem;
-                    max-width: 100%;
-                    width: 100%;
-                }
-                
-                .download-btn {
-                    margin-top: 1rem;
-                    width: 100%;
-                    justify-content: center;
-                }
-            }
-
-            @media (max-width: 576px) {
-                .container {
                     padding: 15px;
                 }
                 
-                .tab-buttons {
-                    padding: 0.3rem;
+                .stat-card {
+                    margin-bottom: 1rem;
                 }
                 
-                .tab-btn {
-                    padding: 0.5rem 1rem;
-                    font-size: 0.9rem;
+                .chart-container {
+                    height: 300px;
                 }
             }
 
-            /* Estilos para impresión/PDF */
-            @media print {
-                body {
-                    margin: 0;
-                    padding: 0;
-                    background-color: white;
-                    background-image: none;
-                }
-                
-                .container {
-                    max-width: 100%;
-                    width: 100%;
-                    padding: 0;
-                }
-                
-                .chart-card, .stat-card, .info-card, .activities-table, .subject-card {
-                    box-shadow: none;
-                    border: 1px solid #ddd;
-                    page-break-inside: avoid;
-                }
-                
-                .download-btn, .tab-buttons {
-                    display: none;
-                }
-                
-                .tab-content {
-                    display: block !important;
-                }
+            /* Loading state para gráficos */
+            .chart-loading {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 400px;
+                color: var(--text-secondary);
+            }
+
+            .chart-loading i {
+                font-size: 2rem;
+                margin-right: 0.5rem;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+
+            /* Estado vacío */
+            .empty-state {
+                text-align: center;
+                padding: 3rem;
+                color: var(--text-secondary);
+            }
+
+            .empty-state i {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+                color: var(--primary-color);
+                opacity: 0.5;
+            }
+
+            .empty-state h4 {
+                color: var(--text-primary);
+                margin-bottom: 0.5rem;
             }
         </style>
     </head>
     <body>
         <!-- Barra de Navegación -->
-        <jsp:include page="../Sistema/BarraNavegacion.jsp" />
+        <jsp:include page="BarraNavTutor.jsp" />
         
         <div class="container mt-4" id="reportContainer">
             <!-- Header principal -->
             <div class="page-header">
-                <h1>Informe de Progreso</h1>
-                <p class="lead">Análisis detallado del rendimiento académico</p>
-            </div>
+                <h1>Informe de Progreso Académico</h1>
+                <p class="lead">Análisis detallado del rendimiento de tus estudiantes</p>
+            </div>     
             
-            <!-- Selector de estudiante -->
-            <div class="student-selector">
-                <div>
-                    <span class="selector-label">Estudiante:</span>
+            <%
+                Connection conn = null;
+                conn = c; // Guardar la conexión en una variable local
+                PreparedStatement ps = null;
+                ResultSet rs = null;
+                ResultSet rs2 = null;
+                PreparedStatement ps2 = null;
+                boolean hayNinos = false;
+                int contadorEstudiante = 0;
+
+                try {
+                    // Mostrar el ID del tutor para depuración
+                    System.out.println("ID del Tutor para consulta: " + IdT);
+
+                    // Obtenemos los usuarios asociados al tutor
+                    ps = c.prepareStatement("SELECT ID_U, NOMBRE_U FROM USUARIO WHERE ID_T=?");
+                    ps.setInt(1, IdT);
+                    rs = ps.executeQuery();
+
+                    // Verificar si hay resultados
+                    while (rs.next()) {
+                        int idUser = rs.getInt("ID_U");
+                        String nombreUsuario = rs.getString("NOMBRE_U");
+                        hayNinos = true;
+                        contadorEstudiante++;
+            %>
+            
+            <!-- Sección por estudiante -->
+            <div class="student-section" style="--animation-order: <%= contadorEstudiante %>">
+                <div class="student-name">
+                    <i class="fas fa-user-graduate"></i>
+                    <%= nombreUsuario %>
                 </div>
-                <div class="selector-container">
-                    <select id="studentSelect" class="student-select">
-                        <!-- Aquí se agregarán los niños con un ciclo for desde JSP -->
-                        <option value="1">Juan Pérez González</option>
-                        <option value="2">María López Sánchez</option>
-                    </select>
-                    <button id="downloadPDF" class="download-btn">
-                        <i class="fas fa-file-pdf"></i> Descargar PDF
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Pestañas de navegación -->
-            <div class="tab-buttons">
-                <button class="tab-btn active" data-tab="resumen">Resumen General</button>
-                <button class="tab-btn" data-tab="materias">Materias</button>
-                <button class="tab-btn" data-tab="actividades">Actividades</button>
-                <button class="tab-btn" data-tab="recomendaciones">Recomendaciones</button>
-            </div>
-            
-            <!-- TAB: Resumen general -->
-            <div id="resumen" class="tab-content active">
-                <!-- Estadísticas generales -->
-                <div class="row mb-4">
-                    <div class="col-lg-4 col-md-6 mb-3" style="--animation-order: 1">
+                
+                <!-- Estadísticas del estudiante -->
+                <div class="row mb-3">
+                    <div class="col-lg-4 col-md-6 mb-3" style="--animation-order: <%= contadorEstudiante * 3 + 1 %>">
+                        <%                                
+                            int ID_U = rs.getInt("ID_U");
+                            int[] sumas = {0, 0, 0};
+                            int[] contadores = {0, 0, 0};
+                            double[] promedios = {0, 0, 0};
+                            // 1 español, 2 ingles, 3 matematicas
+                            String[] materias = {"Español", "Inglés", "Matemáticas"};
+
+                            // Cerrar el ResultSet antes de reutilizar
+                            if (rs2 != null) try { rs2.close(); } catch (SQLException e) { e.printStackTrace(); }
+                            if (ps2 != null) try { ps2.close(); } catch (SQLException e) { e.printStackTrace(); }
+
+                            int actividadesT = 0;
+                            int actividadesSemana = 0;
+
+                            for (int i = 0; i < 3; i++) {
+                                int materia = i + 1;
+
+                                String queryActividades = "SELECT COUNT(*) as numActividades FROM REALIZA " +
+                                               "WHERE ID_U = ?";
+                                ps2 = conn.prepareStatement(queryActividades);
+                                ps2.setInt(1, ID_U);
+                                rs2 = ps2.executeQuery();
+
+                                if (rs2.next()) {
+                                    actividadesT = rs2.getInt("numActividades");
+                                }
+
+                                // Cerrar recursos
+                                rs2.close();
+                                ps2.close();
+
+                                String queryActividadesSemana = "SELECT COUNT(*) as numActividades FROM REALIZA " +
+                                               "WHERE ID_U = ? AND FECHA_REALIZA >= DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY)";
+                                ps2 = conn.prepareStatement(queryActividadesSemana);
+                                ps2.setInt(1, ID_U);
+                                rs2 = ps2.executeQuery();
+                                if (rs2.next()) {
+                                    actividadesSemana = rs2.getInt("numActividades");
+                                }
+
+                                // Cerrar recursos
+                                rs2.close();
+                                ps2.close();
+
+                                String query2 = "SELECT r.PUNTAJE_ACT FROM REALIZA r " +
+                               "JOIN ACTIVIDADES a ON a.ID_ACT = r.ID_ACT " +
+                               "WHERE r.ID_U = ? AND a.ID_MAT = ?";
+                                ps2 = conn.prepareStatement(query2);
+                                ps2.setInt(1, ID_U);
+                                ps2.setInt(2, materia);
+                                rs2 = ps2.executeQuery();
+
+                                while (rs2.next()) {
+                                    sumas[i] = sumas[i] + rs2.getInt("PUNTAJE_ACT");
+                                    contadores[i] = contadores[i] + 1;
+                                }
+
+                                // Cerrar recursos antes de reutilizar
+                                rs2.close();
+                                ps2.close();
+
+                                if (contadores[i] == 0) {
+                                    promedios[i] = 0;
+                                } else {
+                                    promedios[i] = (double)sumas[i] / contadores[i];
+                                }
+                            }
+
+                            // Calcular promedio general
+                            double sumaG = 0;
+                            int materiasConDatos = 0;
+
+                            for (int j = 0; j < 3; j++) {
+                                if (contadores[j] > 0) {
+                                    sumaG += promedios[j];
+                                    materiasConDatos++;
+                                }
+                            }
+
+                            double promG2 = (materiasConDatos > 0) ? sumaG / materiasConDatos : 0;   
+                            double promG = promG2 * 10;
+                        %>
+                        
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-chart-line"></i>
                             </div>
                             <div class="stat-info">
-                                <h3 class="stat-value">92%</h3>
+                                <h3 class="stat-value"><%= String.format("%.2f", promG) %>%</h3>
                                 <p class="stat-label">Promedio General</p>
-                                <div class="stat-trend trend-up">
-                                    <i class="fas fa-arrow-up"></i> 2.5% desde el mes pasado
+                                <div class="stat-trend <%= promG >= 80 ? "trend-up" : promG >= 60 ? "trend-neutral" : "trend-down" %>">
+                                    <i class="fas fa-<%= promG >= 80 ? "arrow-up" : promG >= 60 ? "minus" : "arrow-down" %>"></i> 
+                                    <%= promG >= 80 ? "Excelente rendimiento" : promG >= 60 ? "Rendimiento moderado" : "Necesita mejorar" %>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="col-lg-4 col-md-6 mb-3" style="--animation-order: 2">
+                    <div class="col-lg-4 col-md-6 mb-3" style="--animation-order: <%= contadorEstudiante * 3 + 2 %>">                        
                         <div class="stat-card">
                             <div class="stat-icon">
                                 <i class="fas fa-tasks"></i>
                             </div>
                             <div class="stat-info">
-                                <h3 class="stat-value">24</h3>
+                                <h3 class="stat-value"><%= actividadesT %></h3>
                                 <p class="stat-label">Actividades Completadas</p>
-                                <div class="stat-trend trend-up">
-                                    <i class="fas fa-arrow-up"></i> 6 esta semana
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-4 col-md-6 mb-3" style="--animation-order: 3">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <div class="stat-info">
-                                <h3 class="stat-value">8</h3>
-                                <p class="stat-label">Logros Obtenidos</p>
-                                <div class="stat-trend trend-up">
-                                    <i class="fas fa-arrow-up"></i> 2 nuevos este mes
+                                <div class="stat-trend <%= actividadesSemana > 0 ? "trend-up" : "trend-neutral" %>">
+                                    <i class="fas fa-<%= actividadesSemana > 0 ? "arrow-up" : "minus" %>"></i> 
+                                    <%= actividadesSemana %> esta semana
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Tarjeta de información -->
-                <div class="info-card mb-4" style="--animation-order: 4">
-                    <h3><i class="fas fa-lightbulb"></i> Análisis de Progreso</h3>
-                    <p>Juan ha mostrado un excelente rendimiento académico general. Sus fortalezas están en Matemáticas y Ciencias Naturales, donde mantiene promedios superiores al 90%. Se recomienda reforzar Lengua y Literatura para mejorar la comprensión lectora.</p>
+
+                <!-- Tarjeta de análisis personalizado -->
+                <div class="info-card mb-4" style="--animation-order: <%= contadorEstudiante * 3 + 4 %>">
+                    <h3><i class="fas fa-lightbulb"></i> Análisis de Progreso - <%= nombreUsuario %></h3>
+                    <p>
+                        <%= nombreUsuario %> ha mostrado un 
+                        <%= promG >= 80 ? "excelente" : promG >= 60 ? "buen" : "moderado" %> 
+                        rendimiento académico con un promedio de <%= String.format("%.2f", promG) %>%. 
+                        Ha completado <%= actividadesT %> actividades en total
+                        <%= actividadesSemana > 0 ? ", incluyendo " + actividadesSemana + " en la última semana" : "" %>.
+                        <%= promG >= 80 ? "¡Mantén el excelente trabajo!" : 
+                            promG >= 60 ? "Sigue esforzándote para alcanzar la excelencia." : 
+                            "Se recomienda brindar apoyo adicional para mejorar el rendimiento." %>
+                    </p>
                 </div>
                 
-                <!-- Gráfico principal de rendimiento -->
-                <div class="row" style="--animation-order: 5">
+                <!-- Gráfico del estudiante -->
+                <div class="row" style="--animation-order: <%= contadorEstudiante * 3 + 5 %>">
                     <div class="col-12">
                         <div class="chart-card">
                             <div class="chart-header">
-                                <h3>Evolución de Rendimiento por Materia</h3>
+                                <h3>Desempeño por Materias - <%= nombreUsuario %></h3>
                             </div>
-                            <div id="rendimientoChart" class="chart-container"></div>
+                            <div id="actividadesChart<%= idUser %>" class="chart-container" style="height: 400px; width: 100%;"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Script específico para este estudiante -->
+                <script type="text/javascript">
+                    // Datos para el estudiante <%= idUser %>
+                    window.chartData<%= idUser %> = [
+                        {"materia": "Español", "promedio": <%= String.format("%.2f", promedios[0]) %>},
+                        {"materia": "Inglés", "promedio": <%= String.format("%.2f", promedios[1]) %>},
+                        {"materia": "Matemáticas", "promedio": <%= String.format("%.2f", promedios[2]) %>}
+                    ];
+
+                    // Función para inicializar el gráfico del estudiante <%= idUser %>
+                    function initChart<%= idUser %>() {
+                        const chartElement = document.getElementById('actividadesChart<%= idUser %>');
+                        if (!chartElement) {
+                            console.error('No se encontró el elemento del gráfico para el estudiante <%= idUser %>');
+                            return;
+                        }
+
+                        if (typeof echarts === 'undefined') {
+                            console.error('ECharts no está cargado');
+                            return;
+                        }
+
+                        const chart = echarts.init(chartElement);
+                        
+                        const datos = window.chartData<%= idUser %>;
+                        const materias = datos.map(item => item.materia);
+                        const promedios = datos.map(item => item.promedio);
+
+                        const option = {
+                            title: {
+                                text: 'Desempeño por Materias',
+                                left: 'center',
+                                textStyle: {
+                                    fontSize: 16
+                                }
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'shadow'
+                                },
+                                formatter: function(params) {
+                                    return params[0].name + '<br/>' + 
+                                           params[0].seriesName + ': ' + 
+                                           params[0].value + '/10';
+                                }
+                            },
+                            toolbox: {
+                                feature: {
+                                    saveAsImage: {
+                                        title: 'Guardar como imagen'
+                                    }
+                                }
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            xAxis: {
+                                type: 'category',
+                                data: materias,
+                                axisLabel: {
+                                    interval: 0,
+                                    rotate: 0
+                                }
+                            },
+                            yAxis: {
+                                type: 'value',
+                                min: 0,
+                                max: 10,
+                                axisLabel: {
+                                    formatter: '{value}/10'
+                                }
+                            },
+                            series: [{
+                                name: 'Promedio',
+                                type: 'bar',
+                                data: promedios,
+                                itemStyle: {
+                                    color: function(params) {
+                                        const colors = ['#6C8AE8', '#E8766C', '#6CE8A4'];
+                                        return colors[params.dataIndex % colors.length];
+                                    }
+                                },
+                                label: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}/10'
+                                },
+                                barWidth: '60%'
+                            }]
+                        };
+
+                        chart.setOption(option);
+
+                        // Redimensionar gráfico cuando cambie el tamaño de la ventana
+                        window.addEventListener('resize', function() {
+                            chart.resize();
+                        });
+
+                        console.log('Gráfico inicializado para estudiante <%= idUser %>');
+                    }
+
+                    // Inicializar el gráfico cuando el DOM esté listo
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', function() {
+                            setTimeout(initChart<%= idUser %>, 100);
+                        });
+                    } else {
+                        setTimeout(initChart<%= idUser %>, 100);
+                    }
+                </script>
+            </div>
+            
+            <%
+                // Fin del while para cada usuario
+                }
                 
-                <!-- Gráfico de actividades completadas -->
-                <div class="row" style="--animation-order: 6">
-                    <div class="col-lg-6 mb-4">
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h3>Actividades Completadas por Materia</h3>
-                            </div>
-                            <div id="actividadesChart" class="chart-container"></div>
-                        </div>
+                if (!hayNinos) {
+            %>
+                    <div class="empty-state">
+                        <i class="fas fa-user-graduate"></i>
+                        <h4>No hay estudiantes registrados</h4>
+                        <p>Aún no tienes estudiantes asignados para generar informes.</p>
                     </div>
-                    <div class="col-lg-6 mb-4">
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <h3>Distribución de Calificaciones</h3>
-                            </div>
-                            <div id="calificacionesChart" class="chart-container"></div>
-                        </div>
+            <%
+                }
+                
+            } catch(Exception e) {
+                // Log el error en lugar de mostrarlo directamente al usuario
+                System.out.println("Error al obtener datos de estudiantes: " + e.getMessage());
+                e.printStackTrace();
+            %>
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Ocurrió un error al cargar la información. Por favor intenta más tarde.
                     </div>
                 </div>
-            </div>
-            
-            <!-- TAB: Materias -->
-            <div id="materias" class="tab-content">
-                <div class="row">
-                    <!-- Matemáticas -->
-                    <div class="col-lg-6 mb-4" style="--animation-order: 1">
-                        <div class="subject-card" style="--subject-color: #4CAF50;">
-                            <div class="subject-header">
-                                <h3 class="subject-name">
-                                    <i class="fas fa-calculator"></i>
-                                    Matemáticas
-                                </h3>
-                                <div class="subject-score">95%</div>
-                            </div>
-                            <div class="progress-title">Progreso del curso</div>
-                            <div class="progress-bar-wrapper">
-                                <div class="progress-bar-inner" style="width: 80%;"></div>
-                            </div>
-                            <div class="progress-info">
-                                <span>24 actividades completadas</span>
-                                <span>80% del curso</span>
-                            </div>
-                            <div class="recommendations">
-                                <strong>Fortalezas:</strong> Operaciones aritméticas, resolución de problemas.<br>
-                                <strong>Áreas de mejora:</strong> Geometría.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Lengua y Literatura -->
-                    <div class="col-lg-6 mb-4" style="--animation-order: 2">
-                        <div class="subject-card" style="--subject-color: #FF9800;">
-                            <div class="subject-header">
-                                <h3 class="subject-name">
-                                    <i class="fas fa-book"></i>
-                                    Español
-                                </h3>
-                                <div class="subject-score">84%</div>
-                            </div>
-                            <div class="progress-title">Progreso del curso</div>
-                            <div class="progress-bar-wrapper">
-                                <div class="progress-bar-inner" style="width: 60%; background-color: #FF9800;"></div>
-                            </div>
-                            <div class="progress-info">
-                                <span>18 actividades completadas</span>
-                                <span>60% del curso</span>
-                            </div>
-                            <div class="recommendations">
-                                <strong>Fortalezas:</strong> Escritura creativa, vocabulario.<br>
-                                <strong>Áreas de mejora:</strong> Comprensión lectora, gramática.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Ciencias Naturales -->
-                    <div class="col-lg-6 mb-4" style="--animation-order: 3">
-                        <div class="subject-card" style="--subject-color: #2196F3;">
-                            <div class="subject-header">
-                                <h3 class="subject-name">
-                                    <i class="fas fa-flask"></i>
-                                    Ingles
-                                </h3>
-                                <div class="subject-score">93%</div>
-                            </div>
-                            <div class="progress-title">Progreso del curso</div>
-                            <div class="progress-bar-wrapper">
-                                <div class="progress-bar-inner" style="width: 75%; background-color: #2196F3;"></div>
-                            </div>
-                            <div class="progress-info">
-                                <span>22 actividades completadas</span>
-                                <span>75% del curso</span>
-                            </div>
-                            <div class="recommendations">
-                                <strong>Fortalezas:</strong> Clasificación de seres vivos, experimentación.<br>
-                                <strong>Áreas de mejora:</strong> Ciclos naturales.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-            </div>
-            
-            <!-- TAB: Actividades -->
-            <div id="actividades" class="tab-content">
-                <div class="activities-table" style="--animation-order: 1">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Actividad</th>
-                                <th>Materia</th>
-                                <th>Fecha</th>
-                                <th>Estado</th>
-                                <th>Calificación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Las actividades se generarían dinámicamente en un bucle JSP -->
-                            <tr>
-                                <td>
-                                    <div class="activity-info">
-                                        <div class="activity-icon">
-                                            <i class="fas fa-calculator"></i>
-                                        </div>
-                                        <div>Sumas y restas</div>
-                                    </div>
-                                </td>
-                                <td>Matemáticas</td>
-                                <td>20/Abr/2025</td>
-                                <td><span class="status-badge status-completed"><i class="fas fa-check-circle"></i> Completado</span></td>
-                                <td><span class="score-badge">9.5</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
+            <%
+            } finally {
+                // Cerrar recursos adecuadamente
+                try {
+                    if (rs2 != null) rs2.close();
+                    if (ps2 != null) ps2.close();
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                    // No cerramos c porque podría ser utilizado después
+                } catch (SQLException e) {
+                    System.out.println("Error al cerrar recursos: " + e.getMessage());
+                }
+            }
+            %>
         </div>
+
+        <!-- Asegurar que ECharts esté disponible -->
+        <script>
+            // Verificar que ECharts esté cargado
+            if (typeof echarts === 'undefined') {
+                console.error('ECharts no está disponible. Asegúrate de incluir el script de ECharts antes de este código.');
+            } else {
+                console.log('ECharts está disponible y listo para usar.');
+            }
+        </script>
     </body>
+    
 </html>
-                          

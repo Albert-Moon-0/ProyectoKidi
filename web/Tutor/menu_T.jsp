@@ -672,7 +672,7 @@
                             </div>
                             <h5 class="card-title text-center">Ver Mis Niños</h5>
                             <p class="card-text">Consulta la lista de niños registrados</p>
-                            <a href="../P-VerNiños.jsp" class="card-link">Ver lista <i class="fas fa-arrow-right"></i></a>
+                            <a href="ver-ninos.jsp" class="card-link">Ver lista <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 9">
