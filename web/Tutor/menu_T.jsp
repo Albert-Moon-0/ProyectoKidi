@@ -682,7 +682,7 @@
                             </div>
                             <h5 class="card-title text-center">Informes</h5>
                             <p class="card-text">Revisa el progreso académico</p>
-                            <a href="../P-Informe.jsp" class="card-link">Ver informes <i class="fas fa-arrow-right"></i></a>
+                            <a href="../Tutor/P-graficosT.jsp" class="card-link">Ver informes <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 10">
@@ -692,7 +692,7 @@
                             </div>
                             <h5 class="card-title text-center">Mi Perfil</h5>
                             <p class="card-text">Administra tu información personal</p>
-                            <a href="../P-perfilT.jsp" class="card-link">Editar perfil <i class="fas fa-arrow-right"></i></a>
+                            <a href="../Tutor/P-perfilT.jsp" class="card-link">Editar perfil <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>

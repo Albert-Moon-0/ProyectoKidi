@@ -18,6 +18,8 @@
             String enteredCode = request.getParameter("code");
             String savedCode = (String) session.getAttribute("verificationCode");
             Long codeExpiry = (Long) session.getAttribute("codeExpiry");
+            // Imagen por defecto (ejemplo: 1)
+            int idFotoDefault = 1;
             
             // Verificar si el código ha expirado
             if (codeExpiry == null || System.currentTimeMillis() > codeExpiry) {
@@ -51,11 +53,12 @@
                 
                 String contrasenaHash = BCrypt.hashpw(contrasena, BCrypt.gensalt(12));                        
                 
-                String sql = "INSERT INTO TUTOR (NOMBRE_T, CORREO_T, CONTRA_T) VALUES (?, ?, ?)";
+                String sql = "INSERT INTO TUTOR (NOMBRE_T, CORREO_T, CONTRA_T,ID_FOTO) VALUES (?, ?, ?,?)";
                 ps = c.prepareStatement(sql);
                 ps.setString(1, nombre);
                 ps.setString(2, correo);
                 ps.setString(3, contrasenaHash);
+                ps.setInt(4, idFotoDefault);
                 ps.executeUpdate();
                 
                 // Limpiar datos de sesión
