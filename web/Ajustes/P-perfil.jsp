@@ -463,8 +463,10 @@
                 </a>
             </div>
             
-            <!-- Subscription Card -->
-            <div class="profile-card">
+             <!-- Subscription Card -->
+             
+                <!--
+             <div class="profile-card">
                 <div class="profile-header">
                     <h2>Mi Suscripción</h2>
                     <p class="text-muted">Administra tu plan y pagos</p>
@@ -489,9 +491,12 @@
                     <i class="fas fa-times-circle"></i> Cancelar Suscripción
                 </a>
             </div>
+                -->
+            
+            
             
             <!-- Security Card -->
-            <div class="profile-card">
+             <div class="profile-card"> 
                 <div class="profile-header">
                     <h2>Seguridad</h2>
                     <p class="text-muted">Gestiona tu acceso a la cuenta</p>

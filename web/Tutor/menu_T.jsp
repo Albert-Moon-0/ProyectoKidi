@@ -19,15 +19,20 @@
         if (r.next()) {
             IdT = r.getInt("ID_T");
             Nombre = r.getString("NOMBRE_T");
-            Correo = r.getString("CORREO_T");             
+            Correo = r.getString("CORREO_T");
+%>
+<script>
+                alert("Bienvenido <%=Nombre%>, tu correo es <%=Correo%>");
+            </script>
+
+<%
         }
         else{
        out.println("<script>alert('Usuario no encontrado');window.location='../iniciodesesion.jsp';</script>"); 
     }
+    
     } catch (SQLException error) {
         out.print(error.toString());
-        
-        
     }
     
 %>
