@@ -45,7 +45,13 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-                <link rel="stylesheet" href="EstilosPMaterias.css"><style>
+        
+        <!-- Intro.js CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
+        
+        <link rel="stylesheet" href="EstilosPMaterias.css">
+        
+        <style>
     /* Estilos para las tarjetas de actividad del estudiante */
     .student-activity-card, .student-progress-card {
         background-color: white;
@@ -237,6 +243,83 @@
         .progress-value {
             font-size: 1.5rem;
         }
+    }
+    
+    /* Estilos personalizados para el tour */
+    .tour-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, var(--primary-color), var(--hover-color));
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 15px 25px;
+        font-size: 16px;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(108, 138, 232, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .tour-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(108, 138, 232, 0.4);
+    }
+    
+    .tour-btn i {
+        font-size: 18px;
+    }
+    
+    /* Personalización de Intro.js */
+    .introjs-tooltip {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        border: none;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .introjs-tooltiptext {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333;
+    }
+    
+    .introjs-button {
+        border-radius: 25px;
+        padding: 8px 20px;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    
+    .introjs-nextbutton {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    .introjs-nextbutton:hover {
+        background-color: var(--hover-color);
+        transform: translateY(-1px);
+    }
+    
+    .introjs-prevbutton {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+    }
+    
+    .introjs-skipbutton {
+        color: var(--text-secondary);
+    }
+    
+    .introjs-skipbutton:hover {
+        color: var(--primary-color);
     }
 </style>
         <style>
@@ -521,15 +604,22 @@
     </head>
     <body>
         <jsp:include page="BarraNavTutor.jsp" />
+        
+        <!-- Botón flotante para iniciar el tour -->
+        <button class="tour-btn" onclick="startTour()" title="Iniciar tour guiado">
+            <i class="fas fa-question-circle"></i>
+            Tour Guiado
+        </button>
+        
         <div class="container mt-4">
-            <div class="header-title">
+            <div class="header-title" data-intro="¡Bienvenido a Kidi! Esta es tu página principal donde puedes ver toda la información importante." data-step="1">
                 <h1>Bienvenido a Kidi</h1>
             </div>
-            <div class="greeting mb-4">
+            <div class="greeting mb-4" data-intro="Aquí aparece tu saludo personalizado con tu nombre de usuario." data-step="2">
                 <h2>Hola de nuevo, <span><%= Nombre %></span></h2>
             </div>            
 
-<section class="content-section">
+<section class="content-section" data-intro="En esta sección puedes ver toda la actividad reciente de los niños que tienes registrados. Cada tarjeta muestra las actividades completadas en la última semana." data-step="3">
     <h2>Actividad de tus niños</h2>
     
         
@@ -657,10 +747,10 @@
 
             
             <!-- Acciones Rápidas -->
-            <section class="content-section">
+            <section class="content-section" data-intro="Estas son las acciones rápidas que puedes realizar desde aquí. Cada tarjeta te lleva a una funcionalidad específica de la plataforma." data-step="4">
                 <h2>Acciones Rápidas</h2>
                 <div class="row">
-                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 7">
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 7" data-intro="Haz clic aquí para registrar un nuevo niño en tu cuenta. Podrás agregar su información y comenzar a hacer seguimiento de su progreso." data-step="5">
                         <div class="card p-4 shadow-sm text-center h-100">
                             <div class="mb-3">
                                 <i class="fas fa-user-plus fa-3x text-primary"></i>
@@ -670,7 +760,7 @@
                             <a href="P-AnadirN.jsp" class="card-link">Registrar <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 8">
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 8" data-intro="Aquí puedes ver la lista completa de todos los niños que tienes registrados en tu cuenta." data-step="6">
                         <div class="card p-4 shadow-sm text-center h-100">
                             <div class="mb-3">
                                 <i class="fas fa-eye fa-3x text-success"></i>
@@ -680,7 +770,7 @@
                             <a href="ver-ninos.jsp" class="card-link">Ver lista <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 9">
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 9" data-intro="En esta sección puedes revisar informes detallados del progreso académico de cada niño, con gráficos y estadísticas." data-step="7">
                         <div class="card p-4 shadow-sm text-center h-100">
                             <div class="mb-3">
                                 <i class="fas fa-file-alt fa-3x text-warning"></i>
@@ -690,7 +780,7 @@
                             <a href="../Tutor/P-graficosT.jsp" class="card-link">Ver informes <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 10">
+                    <div class="col-lg-3 col-md-6 mb-4" style="--animation-order: 10" data-intro="Desde aquí puedes administrar tu información personal, cambiar tu contraseña y actualizar tus datos de contacto." data-step="8">
                         <div class="card p-4 shadow-sm text-center h-100">
                             <div class="mb-3">
                                 <i class="fas fa-user-circle fa-3x text-info"></i>
@@ -703,7 +793,181 @@
                 </div>
             </section>
         </div>
+        
+        <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Intro.js JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+        
+        <script>
+            function startTour() {
+                introJs().setOptions({
+                    nextLabel: 'Siguiente →',
+                    prevLabel: '← Anterior',
+                    skipLabel: 'Omitir',
+                    doneLabel: '¡Terminado!',
+                    exitOnOverlayClick: false,
+                    showStepNumbers: true,
+                    scrollToElement: true,
+                    overlayOpacity: 0.8,
+                    tooltipPosition: 'auto',
+                    positionPrecedence: ['bottom', 'top', 'right', 'left']
+                }).start();
+            }
+            
+            // Verificar si es la primera visita del usuario
+            function checkFirstVisit() {
+                // Verificar si existe una marca en sessionStorage para saber si ya vio el tour
+                if (!sessionStorage.getItem('tourCompleted')) {
+                    // Mostrar el tour automáticamente después de 2 segundos
+                    setTimeout(function() {
+                        startTour();
+                    }, 2000);
+                }
+            }
+            
+            // Marcar que el usuario completó el tour
+            function markTourCompleted() {
+                sessionStorage.setItem('tourCompleted', 'true');
+            }
+            
+            // Función mejorada para iniciar el tour
+            function startTour() {
+                introJs().setOptions({
+                    nextLabel: 'Siguiente →',
+                    prevLabel: '← Anterior',
+                    skipLabel: 'Omitir',
+                    doneLabel: '¡Terminado!',
+                    exitOnOverlayClick: false,
+                    showStepNumbers: true,
+                    scrollToElement: true,
+                    overlayOpacity: 0.8,
+                    tooltipPosition: 'auto',
+                    positionPrecedence: ['bottom', 'top', 'right', 'left'],
+                    disableInteraction: true,
+                    highlightClass: 'introjs-custom-highlight'
+                }).oncomplete(function() {
+                    // Cuando el tour se completa
+                    markTourCompleted();
+                    showCompletionMessage();
+                }).onexit(function() {
+                    // Cuando el usuario sale del tour
+                    markTourCompleted();
+                }).start();
+            }
+            
+            // Mostrar mensaje de completación
+            function showCompletionMessage() {
+                // Crear un elemento de notificación
+                const notification = document.createElement('div');
+                notification.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: linear-gradient(135deg, #6C8AE8, #5A7BE0);
+                        color: white;
+                        padding: 15px 25px;
+                        border-radius: 15px;
+                        box-shadow: 0 4px 15px rgba(108, 138, 232, 0.3);
+                        z-index: 9999;
+                        font-family: 'Poppins', sans-serif;
+                        font-weight: 500;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        animation: slideIn 0.5s ease-out;
+                    ">
+                        <i class="fas fa-check-circle"></i>
+                        ¡Tour completado! Ya conoces todas las funcionalidades principales.
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remover la notificación después de 4 segundos
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.5s ease-out';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 500);
+                }, 4000);
+            }
+            
+            // Agregar animaciones CSS para las notificaciones
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(100%);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                
+                @keyframes slideOut {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(100%);
+                        opacity: 0;
+                    }
+                }
+                
+                .introjs-custom-highlight {
+                    box-shadow: 0 0 0 4px rgba(108, 138, 232, 0.4) !important;
+                    border-radius: 15px !important;
+                }
+                
+                /* Efecto pulsante en el botón del tour */
+                @keyframes pulse {
+                    0% {
+                        box-shadow: 0 4px 15px rgba(108, 138, 232, 0.3);
+                    }
+                    50% {
+                        box-shadow: 0 4px 25px rgba(108, 138, 232, 0.6);
+                        transform: translateY(-2px);
+                    }
+                    100% {
+                        box-shadow: 0 4px 15px rgba(108, 138, 232, 0.3);
+                    }
+                }
+                
+                .tour-btn-pulse {
+                    animation: pulse 2s infinite;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Ejecutar cuando la página esté lista
+            document.addEventListener('DOMContentLoaded', function() {
+                // Verificar si es primera visita después de un pequeño delay
+                setTimeout(checkFirstVisit, 1000);
+                
+                // Agregar efecto pulsante al botón del tour si no ha completado el tour
+                if (!sessionStorage.getItem('tourCompleted')) {
+                    setTimeout(() => {
+                        const tourBtn = document.querySelector('.tour-btn');
+                        if (tourBtn) {
+                            tourBtn.classList.add('tour-btn-pulse');
+                        }
+                    }, 5000);
+                }
+            });
+            
+            // Función para resetear el tour (útil para testing)
+            function resetTour() {
+                sessionStorage.removeItem('tourCompleted');
+                location.reload();
+            }
+        </script>
         
     </body>
 </html>
