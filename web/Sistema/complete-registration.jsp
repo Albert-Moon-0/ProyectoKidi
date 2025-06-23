@@ -37,7 +37,7 @@
             String contrasena = (String) session.getAttribute("contrasena");
             
             if (nombre == null ||  correo == null || contrasena == null) {
-                out.println("<script>alert('Información de registro incompleta. Por favor, inicia el registro nuevamente.');window.location='../registro.jsp';</script>");
+                out.println("<script>alert('Información de registro incompleta. Por favor, inicia el registro nuevamente.');window.location='../Registro.jsp';</script>");
                 return;
             }
             
