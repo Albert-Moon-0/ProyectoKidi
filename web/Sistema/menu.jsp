@@ -42,6 +42,7 @@
         <title>Kidi - Inicio</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="EstilosPMaterias.css">
+        <%@ include file="../includes/pwa_head.jsp" %>
         <style>
             /* ===== VARIABLES GLOBALES ===== */
             :root {
@@ -751,6 +752,7 @@
                 </div>
             </section>
         </div>
+                <%@ include file="../includes/pwa_footer.jsp" %>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
