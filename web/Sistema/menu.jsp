@@ -9,17 +9,30 @@
 
 <%
     ResultSet r = null;
+    int IdU =1;
     try {
-        PreparedStatement ps = c.prepareStatement("SELECT * FROM USUARIO WHERE CORREO_U = ?");
-        ps.setString(1, userEmail);
-        r = ps.executeQuery();
-        while (r.next()) {
+        PreparedStatement p = c.prepareStatement("SELECT * FROM USUARIO WHERE CORREO_U = ?");
+        p.setString(1, userEmail);
+        r = p.executeQuery();
+        if (r.next()) {
+            IdU = r.getInt("ID_U");
             Nombre = r.getString("NOMBRE_U");
             Correo = r.getString("CORREO_U");
+%>
+<script>
+                alert("Bienvenido <%=Nombre%>, tu correo es <%=Correo%>");
+            </script>
+
+<%
         }
+        else{
+       out.println("<script>alert('Usuario no encontrado');window.location='../iniciodesesion.jsp';</script>"); 
+    }
+    
     } catch (SQLException error) {
         out.print(error.toString());
     }
+    
 %>
 <!DOCTYPE html>
 <html lang="es">
