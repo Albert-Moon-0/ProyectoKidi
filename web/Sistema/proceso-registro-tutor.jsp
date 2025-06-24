@@ -18,6 +18,10 @@
         function mensaje2(){
             alert("Este usuario ya se creó anteriormente, cree uno nuevo");
         }
+        
+        function debugAlert(mensaje){
+            alert("DEBUG: " + mensaje);
+        }
     </script>
     </head>
     <body>
@@ -43,11 +47,14 @@
                         out.println("<script>mensaje2();</script>");
                         out.println("<script>window.location='Registro.jsp';</script>");
                     } else {
+                        out.println("<script>debugAlert('Iniciando proceso de registro para: " + correo + "');</script>");
                     
                         // Generar código de verificación de 6 dígitos
                         SecureRandom random = new SecureRandom();
                         int code = 100000 + random.nextInt(900000);
                         String verificationCode = String.valueOf(code);
+                        
+                        out.println("<script>debugAlert('Código de verificación generado: " + verificationCode + "');</script>");
                        
                         // Guardar datos temporalmente en la sesión
                         session.setAttribute("nombre", nombre);
@@ -56,13 +63,22 @@
                         session.setAttribute("verificationCode", verificationCode);
                         session.setAttribute("codeExpiry", System.currentTimeMillis() + 15*60*1000); // 15 minutos para expirar
 
+                        out.println("<script>debugAlert('Datos guardados en sesión');</script>");
+
                         // Enviar correo de verificación
-                        boolean mailSent = sendVerificationEmail(correo, verificationCode);
+                        out.println("<script>debugAlert('Intentando enviar correo...');</script>");
+                        
+                        String[] emailResult = sendVerificationEmailWithDebug(correo, verificationCode);
+                        boolean mailSent = Boolean.parseBoolean(emailResult[0]);
+                        String debugMessage = emailResult[1];
+
+                        out.println("<script>debugAlert('Resultado del envío: " + debugMessage + "');</script>");
 
                         if (mailSent) {
+                            out.println("<script>debugAlert('Correo enviado exitosamente, redirigiendo...');</script>");
                             response.sendRedirect("verify-email.jsp");
                         } else {
-                            out.println("<script>alert('Error al enviar el correo de verificación. Intente de nuevo.');window.location='../registro.jsp';</script>");
+                            out.println("<script>alert('Error al enviar el correo de verificación: " + debugMessage + "');window.location='registro.jsp';</script>");
                         }
                     }
                 } catch (SQLException error) {
@@ -79,31 +95,45 @@
         %>
         
         <%!
-            private boolean sendVerificationEmail(String toEmail, String verificationCode) {
-                // Configura estos valores según tu proveedor de correo
-                final String fromEmail = "da.moonnight.167@gmail.com"; // Reemplaza con tu correo
-                final String password = "qqvs krmb sosd ooge"; // Usa contraseña de aplicación para Gmail
-                
-                // Propiedades para el servidor SMTP de Gmail
-                Properties props = new Properties();
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.port", "587");
-                
-                // Crear sesión con autenticación
-                Session session = Session.getInstance(props, new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(fromEmail, password);
-                    }
-                });
+            private String[] sendVerificationEmailWithDebug(String toEmail, String verificationCode) {
+                String debugInfo = "";
                 
                 try {
+                    debugInfo += "Iniciando configuración de correo... ";
+                    
+                    // Configura estos valores según tu proveedor de correo
+                    final String fromEmail = "da.moonnight.167@gmail.com";
+                    final String password = "qqvs krmb sosd ooge";
+                    
+                    debugInfo += "Credenciales configuradas... ";
+                    
+                    // Propiedades para el servidor SMTP de Gmail
+                    Properties props = new Properties();
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.starttls.enable", "true");
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.port", "587");
+                    props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+                    props.put("mail.debug", "true");
+                    
+                    debugInfo += "Propiedades SMTP configuradas... ";
+                    
+                    // Crear sesión con autenticación
+                    Session session = Session.getInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(fromEmail, password);
+                        }
+                    });
+                    
+                    debugInfo += "Sesión de correo creada... ";
+                    
                     // Crear mensaje
                     Message message = new MimeMessage(session);
                     message.setFrom(new InternetAddress(fromEmail));
                     message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
                     message.setSubject("Verificación de Correo - Kidi");
+                    
+                    debugInfo += "Mensaje configurado... ";
                     
                     // Crea el contenido HTML del correo
                     String htmlContent = 
@@ -121,14 +151,31 @@
                     
                     message.setContent(htmlContent, "text/html; charset=utf-8");
                     
+                    debugInfo += "Contenido HTML configurado... ";
+                    
                     // Enviar mensaje
                     Transport.send(message);
                     
-                    return true;
+                    debugInfo += "Mensaje enviado exitosamente!";
+                    
+                    return new String[]{"true", debugInfo};
+                    
                 } catch (MessagingException e) {
-                    e.printStackTrace();
-                    return false;
+                    debugInfo += "ERROR MessagingException: " + e.getMessage();
+                    if (e.getCause() != null) {
+                        debugInfo += " Causa: " + e.getCause().getMessage();
+                    }
+                    return new String[]{"false", debugInfo};
+                } catch (Exception e) {
+                    debugInfo += "ERROR Exception: " + e.getMessage();
+                    return new String[]{"false", debugInfo};
                 }
+            }
+            
+            // Mantener el método original por compatibilidad
+            private boolean sendVerificationEmail(String toEmail, String verificationCode) {
+                String[] result = sendVerificationEmailWithDebug(toEmail, verificationCode);
+                return Boolean.parseBoolean(result[0]);
             }
         %>
     </body>
