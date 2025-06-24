@@ -25,58 +25,68 @@
     --background-light: #F9F7F3; /* Crema suave */
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Nunito', sans-serif;
     color: var(--text-color);
     background-color: var(--background-light);
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234ecdc4' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
     transition: all 0.3s ease;
-    padding-right: 140px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding: 0;
+    margin: 0;
 }
 
-/* Header más divertido y llamativo */
+/* Header más divertido y llamativo - Completamente responsivo */
 .header-title {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
     color: var(--primary-color);
     text-shadow: 3px 3px 0 var(--accent-color), 
                  5px 5px 0 rgba(0, 0, 0, 0.1);
     margin: 1.5rem 0;
     position: relative;
-    padding-bottom: 1rem;
-    letter-spacing: 2px;
+    padding: 1rem;
+    letter-spacing: clamp(1px, 0.5vw, 2px);
     text-align: center;
+    word-wrap: break-word;
 }
 
 .header-title:before {
     content: "✏️";
-    margin-right: 15px;
+    margin-right: clamp(5px, 2vw, 15px);
+    font-size: clamp(1.5rem, 4vw, 3rem);
 }
 
 .header-title:after {
     content: "📚";
-    margin-left: 15px;
+    margin-left: clamp(5px, 2vw, 15px);
+    font-size: clamp(1.5rem, 4vw, 3rem);
 }
 
-/* Botón de regreso estilizado */
+/* Botón de regreso estilizado - Responsivo */
 .back-button-container {
     display: flex;
     justify-content: center;
     width: 100%;
     margin: 1rem auto;
+    padding: 0 1rem;
 }
 
 .back-btn {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 6vw, 3.5rem);
     color: var(--secondary-color);
     background: none;
     border: none;
     cursor: pointer;
     transition: transform 0.4s ease;
     animation: float 4s ease-in-out infinite;
+    padding: 0.5rem;
 }
 
 .back-btn:hover {
@@ -84,7 +94,21 @@ body {
     color: var(--primary-color);
 }
 
-/* Tarjetas con formas divertidas y efectos */
+/* Contenedor principal - Responsivo */
+.main-container {
+    flex: 1;
+    width: 100%;
+    padding: 0 clamp(15px, 3vw, 140px);
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Tarjetas con formas divertidas y efectos - Completamente responsivas */
 .card {
     height: 100%;
     border-radius: 20px;
@@ -93,6 +117,8 @@ body {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     border: none;
     position: relative;
+    margin-bottom: 2rem;
+    max-width: 100%;
 }
 
 .card:before {
@@ -120,7 +146,7 @@ body {
 
 .card-img-top {
     width: 100%;
-    height: 220px;
+    height: clamp(180px, 25vw, 220px);
     object-fit: cover;
     transition: transform 0.5s ease;
     border-bottom: 5px solid var(--accent-color);
@@ -131,7 +157,7 @@ body {
 }
 
 .card-body {
-    padding: 1.8rem;
+    padding: clamp(1rem, 3vw, 1.8rem);
     background: white;
     border-top: 5px dashed var(--accent-color);
 }
@@ -140,24 +166,27 @@ body {
     font-weight: 400;
     color: var(--text-color);
     margin-bottom: 0.75rem;
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
-/* Checkbox estilizado como estrella para niños */
+/* Checkbox estilizado como estrella para niños - Responsivo */
 input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 30px;
-    height: 30px;
+    width: clamp(25px, 5vw, 30px);
+    height: clamp(25px, 5vw, 30px);
     background: #f0f0f0;
     border-radius: 50%;
     position: relative;
     cursor: not-allowed;
     transition: all 0.3s;
     box-shadow: inset 0 0 0 2px #ddd;
+    flex-shrink: 0;
 }
 
 input[type="checkbox"]:before {
@@ -166,7 +195,7 @@ input[type="checkbox"]:before {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 20px;
+    font-size: clamp(16px, 4vw, 20px);
     color: #ccc;
     transition: all 0.3s;
 }
@@ -188,26 +217,28 @@ a {
     position: relative;
 }
 
-/* Mejoras para el contenedor principal */
-.container {
-    width: 100%;
-    max-width: 1140px;
-    margin: 0 auto;
+/* Grid responsivo mejorado */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 -15px;
+    gap: 0;
+}
+
+.col-sm-6.col-md-4 {
+    flex: 1 1 auto;
+    max-width: 100%;
     padding: 0 15px;
+    margin-bottom: 30px;
 }
 
-.exercise-container {
-    margin: 2rem auto 3rem;
-    text-align: center;
-    width: 100%;
-}
-
-/* Footer infantil */
+/* Footer infantil - Completamente responsivo */
 footer {
-    padding: 2rem 0 1rem;
+    padding: clamp(1rem, 3vw, 2rem) 0 1rem;
     margin-top: auto !important;
     background-color: var(--accent-color);
-    border-top: 10px solid var(--primary-color);
+    border-top: clamp(5px, 2vw, 10px) solid var(--primary-color);
     border-top-left-radius: 50% 30px;
     border-top-right-radius: 50% 30px;
     position: relative;
@@ -217,21 +248,24 @@ footer {
 footer:before {
     content: "";
     position: absolute;
-    top: -20px;
+    top: clamp(-15px, -3vw, -20px);
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
-    height: 40px;
+    width: clamp(30px, 6vw, 40px);
+    height: clamp(30px, 6vw, 40px);
     background-color: var(--primary-color);
     border-radius: 50%;
-    box-shadow: -60px -15px 0 -10px var(--accent2-color),
-                60px -15px 0 -10px var(--accent3-color);
+    box-shadow: clamp(-40px, -8vw, -60px) clamp(-10px, -2vw, -15px) 0 clamp(-8px, -1.5vw, -10px) var(--accent2-color),
+                clamp(40px, 8vw, 60px) clamp(-10px, -2vw, -15px) 0 clamp(-8px, -1.5vw, -10px) var(--accent3-color);
 }
 
 footer p {
     font-weight: 600;
     color: var(--text-color);
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    margin: 0;
+    padding: 0 1rem;
+    text-align: center;
 }
 
 /* Animaciones para elementos */
@@ -243,78 +277,177 @@ footer p {
 
 .card {
     animation: float 5s ease-in-out infinite;
-    animation-delay: calc(var(--animation-order) * 0.5s);
+    animation-delay: calc(var(--animation-order, 0) * 0.5s);
 }
 
-/* Estructura de la cuadrícula */
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-right: -15px;
-    margin-left: -15px;
-}
+/* Breakpoints específicos para mejor control */
 
-.col-sm-6.col-md-3 {
-    flex: 0 0 auto;
-    width: 25%;
-    padding: 0 15px;
-    margin-bottom: 30px;
-}
-
-/* Responsividad mejorada */
-@media (max-width: 992px) {
-    .col-sm-6.col-md-3 {
-        width: 33.33%;
-    }
-}
-
-@media (max-width: 768px) {
-    .header-title {
-        font-size: 2.5rem;
+/* Extra Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .col-sm-6.col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
     }
     
-    .back-btn {
-        font-size: 2.8rem;
+    body {
+        padding-right: 140px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .col-sm-6.col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
     }
     
-    .card-title {
-        font-size: 1.2rem;
+    body {
+        padding-right: 80px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .col-sm-6.col-md-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    body {
+        padding-right: 40px;
     }
     
     .card:hover {
         transform: translateY(-10px) rotate(1deg);
     }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .col-sm-6.col-md-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
     
-    .col-sm-6.col-md-3 {
-        width: 50%;
+    body {
+        padding-right: 20px;
+    }
+    
+    .card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .card:hover {
+        transform: translateY(-8px) rotate(0.5deg);
     }
 }
 
-@media (max-width: 576px) {
-    .header-title {
-        font-size: 2rem;
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    body {
+        padding-right: 0;
+        padding: 0 10px;
+    }
+    
+    .main-container {
+        padding: 0;
+    }
+    
+    .container {
+        padding: 0 10px;
+    }
+    
+    .col-sm-6.col-md-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding: 0 5px;
+    }
+    
+    .card {
+        margin-bottom: 1.5rem;
+        border-radius: 15px;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-title {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
     }
     
     .header-title:before,
     .header-title:after {
-        content: "";
-        margin: 0;
+        display: block;
+        margin: 0.5rem 0;
+    }
+    
+    .row {
+        margin: 0 -5px;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+    .header-title {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+    }
+    
+    .card-img-top {
+        height: clamp(120px, 20vw, 160px);
+    }
+    
+    .main-container {
+        padding: 0 10px;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .card-img-top {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Focus and accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .card:hover {
+        transform: none;
+    }
+}
+
+/* Dark mode support removed - keeping original light theme */
+
+/* Print styles */
+@media print {
+    .back-btn,
+    footer:before {
+        display: none;
     }
     
     .card {
-        margin-bottom: 2rem;
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
     }
     
-    .col-sm-6.col-md-3 {
-        width: 100%;
+    .card:hover {
+        transform: none;
     }
     
-    footer:before {
-        width: 30px;
-        height: 30px;
-        box-shadow: -40px -10px 0 -8px var(--accent2-color),
-                    40px -10px 0 -8px var(--accent3-color);
+    body {
+        padding-right: 0;
+        background-image: none;
     }
 }
     </style>
@@ -327,7 +460,6 @@ footer p {
     
     <!-- Mini Header -->
     <div class="header-title text-center">Español</div>
-    <br> <br> <br> <br>
     
     <!-- Contenido principal -->
     <div class="main-container">
@@ -339,7 +471,7 @@ footer p {
                             <img class="card-img-top" src="../Imagenes/EjerciciosG.png" alt="Ejercicios de gramática" loading="lazy">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    Ejercicios de gramática
+                                    <span>Ejercicios de gramática</span>
                                     <input type="checkbox" name="CheckEjerGramaEspañol" value="ON" disabled />
                                 </h5>
                             </div>
@@ -352,7 +484,7 @@ footer p {
                             <img class="card-img-top" src="../Imagenes/JuegosPalabrasEspanol.png" alt="Juegos de palabras" loading="lazy">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    Juegos de palabras
+                                    <span>Juegos de palabras</span>
                                     <input type="checkbox" name="CheckJuegosPalaEspanol" value="ON" disabled />
                                 </h5>
                             </div>
@@ -365,7 +497,7 @@ footer p {
                             <img class="card-img-top" src="../Imagenes/LecturaHistoriasEspanol.png" alt="Lectura de historias" loading="lazy">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    Lectura de historias
+                                    <span>Lectura de historias</span>
                                     <input type="checkbox" name="CheckLecturaHistoriasEspanol" value="ON" disabled />
                                 </h5>
                             </div>
@@ -375,7 +507,6 @@ footer p {
             </div>
         </div>
     </div>
-    <br> <br> <br> <br> <br>
     
     <!-- Footer -->
     <footer class="py-3">

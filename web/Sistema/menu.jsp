@@ -19,9 +19,7 @@
             Nombre = r.getString("NOMBRE_U");
             Correo = r.getString("CORREO_U");
 %>
-<script>
-                alert("Bienvenido <%=Nombre%>, tu correo es <%=Correo%>");
-            </script>
+
 
 <%
         }
