@@ -1,279 +1,404 @@
-<%-- 
-    Document   : BarraNavTutor
-    Created on : 14 abr. 2025, 18:24:39
-    Author     : P500
---%>
+<%-- BarraNavTutor.jsp --%>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Barra de Navegación - KIDI</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-        <script>
-                    
-        </script>
+<style>
+:root {
+    --primary-color: #2563EB;
+    --secondary-color: #3B82F6;
+    --accent-color: #60A5FA;
+    --accent2-color: #1D4ED8;
+    --text-color: #1E293B;
+    --background-light: #F8FAFC;
+}
+
+.navbar-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    font-family: 'Nunito', sans-serif;
+}
+
+.hamburger-btn {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 4px 15px rgba(255, 158, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.hamburger-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent2-color));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 15px;
+}
+
+.hamburger-btn:hover::before {
+    opacity: 1;
+}
+
+.hamburger-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.hamburger-line {
+    width: 25px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.nav-menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px) scale(0.95);
+    transition: all 0.3s ease;
+    min-width: 200px;
+    overflow: hidden;
+    border: 3px solid var(--accent-color);
+    z-index: 1001;
+}
+
+.nav-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    animation: fadeInDown 0.3s ease;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.nav-item:last-child {
+    border-bottom: none;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.nav-item:hover::before {
+    left: 0;
+}
+
+.nav-item:hover {
+    color: white;
+    transform: translateX(5px);
+}
+
+.nav-item i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover i {
+    color: white;
+    transform: scale(1.2);
+}
+
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: rgba(248, 250, 252, 0.8);
+}
+
+.submenu.show {
+    max-height: 300px;
+}
+
+.submenu .nav-item {
+    padding-left: 40px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        top: 15px;
+        left: 15px;
+    }
+
+    .hamburger-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .hamburger-line {
+        width: 20px;
+        height: 2px;
+    }
+
+    .nav-menu {
+        min-width: 180px;
+        top: 55px;
+    }
+
+    .nav-item {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .submenu .nav-item {
+        padding-left: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-container {
+        top: 10px;
+        left: 10px;
+    }
+
+    .hamburger-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav-menu {
+        min-width: 160px;
+        top: 50px;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+<!-- HTML de la barra -->
+<div class="navbar-container">
+    <div class="nav-overlay" id="navOverlay_tutor"></div>
+
+    <button class="hamburger-btn" id="hamburgerBtn_tutor" aria-label="Menú de navegación">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+
+    <nav class="nav-menu" id="navMenu_tutor">
+        <div class="nav-item" data-nav-parent>
+            <i class="fas fa-home"></i> Home
+        </div>
+        <div class="submenu">
+            <a href="menu_T.jsp" class="nav-item" data-nav-link>
+                <i class="fas fa-bell"></i> Bienvenida
+            </a>
+        </div>
         
-        <!-- Código de instalación Cliengo para diego.alberto.luna.martinez@gmail.com -->
-<script type="text/javascript">
-  (function () {
-    var ldk = document.createElement('script');
-    ldk.type = 'text/javascript';
-    ldk.async = true;
-    ldk.src = 'https://s.cliengo.com/weboptimizer/67f86cf651e42e6ec120582b/67f86cf651e42e6ec120582e.js?platform=onboarding_modular';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ldk, s);
-  })();
-</script>
-        <style>
-            :root {
-                --primary-color: #3B7DDD;
-                --secondary-color: #E5F0FA;
-                --text-color: #555;
-                --hover-color: #C4E3FE;
-                --transition-speed: 0.3s;
-            }
+        <div class="nav-item" data-nav-parent>
+            <i class="fas fa-child"></i> Gestión de niños
+        </div>
+        <div class="submenu">
+            <a href="ver-ninos.jsp" class="nav-item" data-nav-link>
+                <i class="fas fa-eye"></i> Mis niños
+            </a>
+            <a href="P-AnadirN.jsp" class="nav-item" data-nav-link>
+                <i class="fas fa-user-plus"></i> Añadir niño
+            </a>
+        </div>
+        
+        <div class="nav-item" data-nav-parent>
+            <i class="fas fa-chart-line"></i> Progreso académico
+        </div>
+        <div class="submenu">
+            <a href="P-graficosT.jsp" class="nav-item" data-nav-link>
+                <i class="fas fa-file-alt"></i> Informe de progreso
+            </a>
+        </div>
+        
+        <div class="nav-item" data-nav-parent>
+            <i class="fas fa-cog"></i> Ajustes
+        </div>
+        <div class="submenu">
+            <a href="P-perfilT.jsp" class="nav-item" data-nav-link>
+                <i class="fas fa-user-circle"></i> Perfil
+            </a>
+            <a href="../Sistema/invalidateSession.jsp" class="nav-item" data-nav-link>
+                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </a>
+        </div>
+    </nav>
+</div>
 
-            body {
-                font-family: 'Poppins', sans-serif;
-                transition: margin-left var(--transition-speed) ease;
-                margin-left: 100px; /* Wider collapsed width */
-            }
+<script>
+window.NavbarTutorController = window.NavbarTutorController || (function() {
+    let isInitialized = false;
 
-            .sidebar {
-                height: 100vh;
-                width: 100px; /* Wider collapsed width */
-                position: fixed;
-                top: 0;
-                left: 0;
-                background-color: var(--secondary-color);
-                transition: width var(--transition-speed) ease;
-                overflow-x: hidden;
-                z-index: 1000;
-                display: flex;
-                flex-direction: column;
-            }
+    function initializeNavbar() {
+        if (isInitialized) return;
 
-            .sidebar.expanded {
-                width:280px; /* Slightly wider expanded width */
-            }
+        const hamburgerBtn = document.getElementById('hamburgerBtn_tutor');
+        const navMenu = document.getElementById('navMenu_tutor');
+        const navOverlay = document.getElementById('navOverlay_tutor');
 
-            .sidebar-logo {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 80px;
-                border-bottom: 1px solid rgba(0,0,0,0.1);
-                visibility: hidden;
-            }
+        if (!hamburgerBtn || !navMenu || !navOverlay) {
+            console.warn('Elementos de navegación no encontrados');
+            return;
+        }
 
-            .sidebar-logo img {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                transition: transform var(--transition-speed) ease;
-            }
+        function toggleMenu() {
+            hamburgerBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+        }
 
-            .sidebar.expanded .sidebar-logo img {
-                transform: rotate(360deg);
-                visibility: visible;
-            }
+        function closeMenu() {
+            hamburgerBtn.classList.remove('active');
+            navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+        }
 
-            .sidebar-toggle {
-                position: absolute;
-                top: 20px;
-                right: 10px;
-                background: none;
-                border: none;
-                color: var(--primary-color);
-                font-size: 1.5rem;
-                cursor: pointer;
-                z-index: 1001;
-                transition: transform var(--transition-speed) ease;
-            }
+        hamburgerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMenu();
+        });
 
-            .sidebar.expanded .sidebar-toggle {
-                transform: rotate(180deg);
-            }
+        navOverlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeMenu();
+        });
 
-            .nav-list {
-                list-style: none;
-                padding: 0;
-                flex-grow: 1;
-                overflow-y: auto;
-            }
-
-            .nav-item {
-                position: relative;
-            }
-
-            .nav-link {
-                display: flex;
-                align-items: center;
-                padding: 12px 20px;
-                color: var(--text-color);
-                text-decoration: none;
-                transition: all var(--transition-speed) ease;
-            }
-
-            .nav-link i {
-                margin-right: 15px;
-                min-width: 25px;
-                text-align: center;
-                color: var(--primary-color);
-            }
-
-            .nav-link span {
-                opacity: 0;
-                width: 0;
-                overflow: hidden;
-                transition: opacity var(--transition-speed) ease, width var(--transition-speed) ease;
-                white-space: nowrap;
-            }
-
-            .sidebar.expanded .nav-link span {
-                opacity: 1;
-                width: auto;
-            }
-
-            .nav-link:hover {
-                background-color: var(--hover-color);
-            }
-
-            .nav-link.active {
-                background-color: rgba(59, 125, 221, 0.1);
-                color: var(--primary-color);
-            }
-
-            .sidebar-footer {
-                padding: 15px;
-                text-align: center;
-                border-top: 1px solid rgba(0,0,0,0.1);
-            }
-
-            .sidebar-footer span {
-                opacity: 0;
-                width: 0;
-                overflow: hidden;
-                transition: opacity var(--transition-speed) ease, width var(--transition-speed) ease;
-            }
-
-            .sidebar.expanded .sidebar-footer span {
-                opacity: 1;
-                width: auto;
-            }
-
-            /* Submenu styles */
-            .submenu {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height var(--transition-speed) ease;
-                background-color: rgba(255,255,255,0.5);
-            }
-
-            .submenu.show {
-                max-height: 300px;
-            }
-
-            .submenu a {
-                padding-left: 50px;
-                font-size: 0.9rem;
-            }
-        </style>
-    </head>
-    <body>
-        <nav class="sidebar" id="sidebar">
-            <button class="sidebar-toggle" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="sidebar-logo">
-                <img src="../img/logito.png" alt="KIDI Logo">
-            </div>
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="menu_T.jsp" class="nav-link">
-                            <i class="fas fa-bell"></i>
-                            <span>Bienvenida</span>
-                        </a>
-                    </div>
-                </li>               
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-child"></i>
-                        <span>Gestión de niños</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="ver-ninos.jsp" class="nav-link">
-                            <i class="fas fa-eye"></i>
-                            <span>Mis niños</span>
-                        </a>
-                        <a href="P-AnadirN.jsp" class="nav-link">
-                            <i class="fas fa-user-plus"></i>
-                            <span>Añadir niño</span>
-                        </a>                     
-                    </div>
-                    
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Progreso académico</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="P-graficosT.jsp" class="nav-link">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Informe de progreso</span>
-                        </a>                        
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-cog"></i>
-                        <span>Ajustes</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="P-perfilT.jsp" class="nav-link">
-                            <i class="fas fa-user-circle"></i>
-                            <span>Perfil</span>
-                        </a>                        
-                        <a href="../Sistema/invalidateSession.jsp" class="nav-link">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Cerrar sesión</span>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-            <div class="sidebar-footer">
-                <span>© KIDI 2025</span>
-            </div>
-        </nav>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const sidebar = document.getElementById('sidebar');
-                const sidebarToggle = document.getElementById('sidebarToggle');
-                const navItems = document.querySelectorAll('.nav-item');
-
-                sidebarToggle.addEventListener('click', () => {
-                    sidebar.classList.toggle('expanded');
-                });
-
-                navItems.forEach(item => {
-                    const mainLink = item.querySelector('.nav-link');
-                    const submenu = item.querySelector('.submenu');
-
-                    mainLink.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        submenu.classList.toggle('show');
-                    });
-                });
+        // Manejo de submenús
+        const navParents = document.querySelectorAll('[data-nav-parent]');
+        navParents.forEach(parent => {
+            parent.addEventListener('click', function() {
+                const submenu = this.nextElementSibling;
+                if (submenu && submenu.classList.contains('submenu')) {
+                    submenu.classList.toggle('show');
+                }
             });
-        </script>
-    </body>
-</html>
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        const navItems = document.querySelectorAll('[data-nav-link]');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                closeMenu();
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        navMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!hamburgerBtn.contains(e.target) && !navMenu.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        isInitialized = true;
+        console.log('Navbar Tutor inicializada correctamente');
+    }
+
+    function reinitialize() {
+        isInitialized = false;
+        initializeNavbar();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeNavbar);
+    } else {
+        initializeNavbar();
+    }
+
+    return {
+        reinitialize: reinitialize
+    };
+})();
+</script>
