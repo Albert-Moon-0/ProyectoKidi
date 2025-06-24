@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,org.mindrot.jbcrypt.BCrypt"%>
 <%@ include file="../Sistema/ConexionBD.jsp" %>
 
+
 <%    String nombre = request.getParameter("Nombre");
     String correo = request.getParameter("Correo");
     String contrasena = request.getParameter("Contrasena");
@@ -17,23 +18,21 @@
     int idFotoDefault = 1;
 
     // Obtener ID_T del tutor actual
-    int idTutor = 1; // default si no encuentras nada
+    ResultSet r = null;
+    int IdT = 1;
     try {
-        PreparedStatement p = c.prepareStatement("SELECT ID_T FROM TUTOR WHERE CORREO_T = ?");
-        // Aquí asumimos que tienes en sesión el correo del tutor, si no cámbialo
-        String correoTutor = (String) session.getAttribute("correoTutor");
-        if (correoTutor == null) {
-            correoTutor = "tutor@example.com"; // Valor por defecto
-        }
-        p.setString(1, correoTutor);
-        ResultSet r = p.executeQuery();
+        PreparedStatement p = c.prepareStatement("SELECT * FROM TUTOR WHERE CORREO_T = ?");
+        p.setString(1, userEmail);
+        r = p.executeQuery();
         if (r.next()) {
-            idTutor = r.getInt("ID_T");
+            IdT = r.getInt("ID_T");
+            Nombre = r.getString("NOMBRE_T");
+            Correo = r.getString("CORREO_T");
+        } else {
+            out.println("<script>alert('Usuario no encontrado');window.location='../iniciodesesion.jsp';</script>");
         }
-        r.close();
-        p.close();
-    } catch (SQLException ex) {
-        out.println("Error obteniendo tutor: " + ex.getMessage());
+    } catch (SQLException error) {
+        out.print(error.toString());
     }
 
     // Verificar que no exista correo duplicado en USUARIO
@@ -65,7 +64,7 @@
         ps.setString(3, correo);
         ps.setString(4, hashedPass);
         ps.setInt(5, idFotoDefault);
-        ps.setInt(6, idTutor);
+        ps.setInt(6, IdT);
 
         int res = ps.executeUpdate();
         ps.close();
