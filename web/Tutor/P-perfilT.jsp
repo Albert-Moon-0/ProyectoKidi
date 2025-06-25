@@ -461,7 +461,7 @@
                     <button type="submit" class="btn save-btn">
                         <i class="fas fa-lock"></i> Actualizar Contraseña
                     </button>
-                    <a href="../Sistema/invalidateSessionTutor.jsp" class="btn security-btn">
+                    <a href="../Sistema/invalidateSession.jsp" class="btn security-btn">
                         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                     </a>
                 </form>
