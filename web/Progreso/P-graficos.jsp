@@ -1,14 +1,19 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,org.json.simple.*"%>
+<%@ include file="../Sistema/ConexionBD.jsp" %>
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Kidi - Gr�ficos de Logros</title>
+        <title>Kidi - Gráficos de Logros</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <!-- ECharts -->
-        <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+        
+        <!-- Prevenir caché en todos los recursos -->
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
         <style>
             :root {
                 --primary-color: #6C8AE8;
@@ -71,7 +76,7 @@
                 margin-bottom: 2rem;
                 transition: all 0.3s ease;
                 border-top: 4px solid var(--primary-color);
-                height: 450px; /* Ajustado para mejor proporci�n */
+                height: 450px; /* Ajustado para mejor proporción */
                 width: 100%;
                 position: relative;
             }
@@ -241,7 +246,7 @@
                 }
                 
                 body {
-                    margin-left: 0; /* Eliminar margen en dispositivos peque�os */
+                    margin-left: 0; /* Eliminar margen en dispositivos pequeños */
                     padding: 20px;
                 }
                 
@@ -276,17 +281,17 @@
         </style>
     </head>
     <body>
-        <!-- Barra de Navegaci�n -->
+        <!-- Barra de Navegación -->
         <jsp:include page="../Sistema/BarraNavegacion.jsp" />
         
         <div class="container-fluid dashboard-container">
             <!-- Header principal -->
             <div class="page-header">
-                <h1>An�lisis de tu Progreso</h1>
+                <h1><i class="fas fa-chart-bar"></i> Análisis de tu Progreso</h1>
                 <p class="lead">Visualiza y analiza tu rendimiento en nuestra app</p>
             </div> 
             
-            <!-- Estad�sticas generales -->
+            <!-- Estadísticas generales -->
             <div class="row mb-4">
                 <div class="col-lg-4 col-md-6 mb-3">
                     <div class="stat-card">
@@ -294,9 +299,10 @@
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <div class="stat-info">
-                            <h3 class="stat-value"><span id="promG"></span></h3>
+                            <h3 class="stat-value"><span id="promG">...</span></h3>
                             <p class="stat-label">Promedio General</p>
-                            <div class="stat-trend trend-up">
+                            <div class="stat-trend">
+                                <i class="fas fa-info-circle"></i> Sobre 10 puntos
                             </div>
                         </div>
                     </div>
@@ -308,10 +314,10 @@
                             <i class="fas fa-tasks"></i>
                         </div>
                         <div class="stat-info">
-                            <h3 class="stat-value"><span id="numActvs"></span></h3>
+                            <h3 class="stat-value"><span id="numActvs">...</span></h3>
                             <p class="stat-label">Actividades Completadas</p>
-                            <div class="stat-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> <span id="numActvsSemana"></span> esta semana
+                            <div class="stat-trend">
+                                <i class="fas fa-arrow-up"></i> <span id="numActvsSemana">--</span> esta semana
                             </div>
                         </div>
                     </div>
@@ -325,7 +331,7 @@
                         <div class="stat-info">
                             <h3 class="stat-value"><span id="numLogros">12</span></h3>
                             <p class="stat-label">Logros Obtenidos</p>
-                            <div class="stat-trend trend-up">
+                            <div class="stat-trend">
                                 <i class="fas fa-arrow-up"></i> <span id="numLogrosSemana">2</span> nuevos
                             </div>
                         </div>
@@ -333,24 +339,74 @@
                 </div>
             </div>
             
-            <!-- Tarjeta de informaci�n -->
+            <!-- Tarjeta de información -->
             <div class="info-card mb-4">
                 <h3><i class="fas fa-lightbulb"></i> Consejos para mejorar</h3>
-                <p>Basado en tu desempe�o reciente, te recomendamos enfocarte en mejorar tus habilidades en <span id="matBaja">Matem�ticas</span>. Completar o repetir las actividades de pr�ctica adicionales podr�a ayudarte a alcanzar un mejor rendimiento.</p>
+                <p>Basado en tu desempeño reciente, te recomendamos enfocarte en mejorar tus habilidades en <span id="matBaja">las materias con menor puntuación</span>. Completar actividades de práctica adicionales podría ayudarte a alcanzar un mejor rendimiento.</p>
             </div>
             
-            <!-- Gr�fico principal -->
+            <!-- Gráfico principal -->
             <div class="row">
                 <div class="col-12">
-                    <div class="chart-card">                        
-                        <div id="actividadesChart" class="chart-container"></div>                        
+                    <div class="chart-card">
+                        <div id="chartStatus" class="loading-message">
+                            <div><i class="fas fa-spinner fa-spin"></i></div>
+                            <div>Cargando datos del gráfico...</div>
+                        </div>
+                        <div id="actividadesChart" class="chart-container" style="display: none;"></div>                        
                     </div>                    
                 </div>                 
             </div>
         </div>
         
-        <!-- Script de Bootstrap -->
+        <!-- Scripts cargados en orden específico -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="ScriptGraficas.js?v=<%= System.currentTimeMillis() %>"></script>        
+        <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+        
+        <!-- Script para prevenir problemas de caché y variables globales -->
+        <script>
+            // Limpiar variables globales previas
+            if (window.chartInstance) {
+                window.chartInstance.dispose();
+                window.chartInstance = null;
+            }
+            
+            // Generar timestamp único para evitar caché
+            const timestamp = new Date().getTime();
+            const randomId = Math.random().toString(36).substr(2, 9);
+            const cacheBreaker = timestamp + '_' + randomId;
+            
+            // Función para cargar script dinámicamente con cache busting
+            function loadScriptWithCacheBuster(src, callback) {
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = src + '?v=' + cacheBreaker;
+                script.onload = callback;
+                script.onerror = function() {
+                    console.error('Error cargando script:', src);
+                    // Mostrar mensaje de error al usuario
+                    document.getElementById('chartStatus').innerHTML = 
+                        '<div style="color: red;"><i class="fas fa-exclamation-triangle"></i> Error cargando recursos</div>';
+                };
+                document.head.appendChild(script);
+            }
+            
+            // Cargar el script de gráficas cuando el DOM esté listo
+            document.addEventListener('DOMContentLoaded', function() {
+                // Asegurarse de que ECharts esté cargado
+                if (typeof echarts === 'undefined') {
+                    console.error('ECharts no está disponible');
+                    document.getElementById('chartStatus').innerHTML = 
+                        '<div style="color: red;">Error: Biblioteca de gráficos no disponible</div>';
+                    return;
+                }
+                
+                // Cargar el script personalizado
+                loadScriptWithCacheBuster('ScriptGraficas.js', function() {
+                    console.log('Script de gráficas cargado exitosamente');
+                    // El script se ejecutará automáticamente cuando se cargue
+                });
+            });
+        </script>
     </body>
 </html>

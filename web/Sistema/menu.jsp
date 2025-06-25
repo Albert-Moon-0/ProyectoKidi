@@ -3,35 +3,75 @@
     Created on : 18 oct. 2024, 11:20:33
     Author     : Usuario
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*"%>
-
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,java.net.URLDecoder"%>
 <%@ include file="ConexionBD.jsp" %>
 
+<script>
+    function debugAlert(mensaje) {
+        alert("DEBUG MENU: " + mensaje);
+    }
+    
+    function errorAlert(mensaje) {
+        alert("ERROR MENU: " + mensaje);
+    }
+</script>
+
 <%
+    
+    // Continuar con la lógica de base de datos
+     Nombre = "";
+     Correo = "";
+    int IdU = 0;
+    
+    if (c == null) {
+        out.println("<script>errorAlert('Conexión a BD es null');window.location.href='../iniciodesesion.jsp';</script>");
+        return;
+    }
+    
+    PreparedStatement p = null;
     ResultSet r = null;
-    int IdU =1;
+    
     try {
-        PreparedStatement p = c.prepareStatement("SELECT * FROM USUARIO WHERE CORREO_U = ?");
-        p.setString(1, userEmail);
+        
+        p = c.prepareStatement("SELECT * FROM USUARIO WHERE CORREO_U = ?");
+        p.setString(1, userEmail.trim());
         r = p.executeQuery();
+        
         if (r.next()) {
             IdU = r.getInt("ID_U");
             Nombre = r.getString("NOMBRE_U");
             Correo = r.getString("CORREO_U");
-%>
-
-
-<%
+            
+        } else {
+            out.println("<script>errorAlert('Usuario no encontrado en BD para email: " + userEmail + "');</script>");
+            
+            // Debug: mostrar algunos emails de la BD
+            PreparedStatement debugPs = c.prepareStatement("SELECT CORREO_U FROM USUARIO LIMIT 3");
+            ResultSet debugRs = debugPs.executeQuery();
+            String emailsFound = "";
+            while (debugRs.next()) {
+                emailsFound += debugRs.getString("CORREO_U") + ", ";
+            }
+            debugRs.close();
+            debugPs.close();
+            
+            out.println("<script>debugAlert('Emails en BD: " + emailsFound + "');</script>");
+            out.println("<script>window.location.href='../iniciodesesion.jsp';</script>");
         }
-        else{
-       out.println("<script>alert('Usuario no encontrado');window.location='../iniciodesesion.jsp';</script>"); 
+        
+    } catch (Exception error) {
+        out.println("<script>errorAlert('Error en consulta BD: " + error.getMessage() + "');</script>");
+        error.printStackTrace();
+    } finally {
+        try {
+            if (r != null) r.close();
+            if (p != null) p.close();
+        } catch (SQLException e) {
+            out.println("<script>debugAlert('Error cerrando recursos: " + e.getMessage() + "');</script>");
+        }
     }
-    
-    } catch (SQLException error) {
-        out.print(error.toString());
-    }
-    
 %>
+
 <!DOCTYPE html>
 <html lang="es">
     <head>

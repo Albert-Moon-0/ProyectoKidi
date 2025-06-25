@@ -244,14 +244,14 @@
     </button>
 
     <nav class="nav-menu" id="navMenu_unique">
-        <a href="<%= request.getContextPath() %>/Sistema/menu.jsp" class="nav-item" data-nav-link><i class="fas fa-home"></i> Home</a>
-        <a href="<%= request.getContextPath() %>/Espanol/P-Espanol.jsp" class="nav-item" data-nav-link><i class="fas fa-language"></i> Español</a>
-        <a href="<%= request.getContextPath() %>/Mates/P-Mates.jsp" class="nav-item" data-nav-link><i class="fas fa-calculator"></i> Matemáticas</a>
-        <a href="<%= request.getContextPath() %>/Ingles/P-Ingles.jsp" class="nav-item" data-nav-link><i class="fas fa-globe"></i> Inglés</a>
-        <a href="<%= request.getContextPath() %>/Actividades/P-Pruebas.jsp" class="nav-item" data-nav-link><i class="fas fa-graduation-cap"></i> Pruebas</a>
-        <a href="<%= request.getContextPath() %>/Progreso/P-graficos.jsp" class="nav-item" data-nav-link><i class="fas fa-chart-pie"></i> Mis gráficos</a>
-        <a href="<%= request.getContextPath() %>/Ajustes/P-perfil.jsp" class="nav-item" data-nav-link><i class="fas fa-user"></i> Perfil</a>
-        <a href="<%= request.getContextPath() %>/Sistema/invalidateSession.jsp" class="nav-item" data-nav-link><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+        <a href="../Sistema/menu.jsp" class="nav-item" data-nav-link><i class="fas fa-home"></i> Home</a>
+        <a href="../Espanol/P-Espanol.jsp" class="nav-item" data-nav-link><i class="fas fa-language"></i> Español</a>
+        <a href="../Mates/P-Mates.jsp" class="nav-item" data-nav-link><i class="fas fa-calculator"></i> Matemáticas</a>
+        <a href="../Ingles/P-Ingles.jsp" class="nav-item" data-nav-link><i class="fas fa-globe"></i> Inglés</a>
+        <a href="../Actividades/P-Pruebas.jsp" class="nav-item" data-nav-link><i class="fas fa-graduation-cap"></i> Pruebas</a>
+        <a href="../Progreso/P-graficos.jsp" class="nav-item" data-nav-link><i class="fas fa-chart-pie"></i> Mis gráficos</a>
+        <a href="../Ajustes/P-perfil.jsp" class="nav-item" data-nav-link><i class="fas fa-user"></i> Perfil</a>
+        <a href="../Sistema/invalidateSession.jsp" class="nav-item" data-nav-link><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
     </nav>
 </div>
 

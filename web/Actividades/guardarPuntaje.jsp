@@ -48,7 +48,8 @@
         pst.close();
         
         
-         response.sendRedirect("P-Pruebas.jsp");
+        out.println("<script>window.location='P-Pruebas.jsp';</script>");
+
         
 
     } catch(Exception e) {

@@ -4,5 +4,5 @@
     request.getSession().invalidate();
 
     // Redirigir a la página de inicio
-    response.sendRedirect("../iniciodesesion.jsp");
+    out.println("<script>window.location='../iniciodesesion.jsp';</script>");
 %>
