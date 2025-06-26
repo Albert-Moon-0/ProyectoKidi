@@ -233,6 +233,7 @@
 }
 </style>
 
+<!-- HTML de la barra -->
 <div class="navbar-container">
     <div class="nav-overlay" id="navOverlay_unique"></div>
 
@@ -340,48 +341,22 @@ window.NavbarController = window.NavbarController || (function() {
     };
 })();
 </script>
-
-<!-- ? SCRIPT Botsonic - kidibot -->
 <script>
-(function (w, d, s, o, f, js, fjs) {
+  (function (w, d, s, o, f, js, fjs) {
     w["botsonic_widget"] = o;
-    w[o] = w[o] || function () {
+    w[o] =
+      w[o] ||
+      function () {
         (w[o].q = w[o].q || []).push(arguments);
-    };
-    
-    js = d.createElement(s);
-    fjs = d.getElementsByTagName(s)[0];
+      };
+    (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
     js.id = o;
     js.src = f;
     js.async = 1;
-    
-    // Añadir manejo de errores
-    js.onerror = function() {
-        console.error('Error cargando Botsonic script desde:', f);
-        console.error('Posible problema de CSP, CORS o firewall del servidor');
-    };
-    
-    js.onload = function() {
-        console.log('Botsonic script cargado correctamente');
-    };
-    
     fjs.parentNode.insertBefore(js, fjs);
-})(window, document, "script", "Botsonic", "https://widget.botsonic.com/CDN/botsonic.min.js");
-
-// Intentar inicializar con timeout
-setTimeout(function() {
-    try {
-        if (typeof Botsonic !== 'undefined') {
-            Botsonic("init", {
-                serviceBaseUrl: "https://api-azure.botsonic.ai",
-                token: "f2ec2ed0-b3db-4bc8-ae5c-f8278601179c",
-            });
-            console.log('Botsonic inicializado correctamente');
-        } else {
-            console.error('Botsonic no se cargó - posible bloqueo del servidor');
-        }
-    } catch (error) {
-        console.error('Error inicializando Botsonic:', error);
-    }
-}, 1000);
+  })(window, document, "script", "Botsonic", "https://widget.botsonic.com/CDN/botsonic.min.js");
+  Botsonic("init", {
+    serviceBaseUrl: "https://api-azure.botsonic.ai",
+    token: "f2ec2ed0-b3db-4bc8-ae5c-f8278601179c",
+  });
 </script>
