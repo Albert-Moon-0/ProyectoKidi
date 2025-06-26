@@ -359,6 +359,7 @@ footer p {
     </style>
     <!-- Fuente Nunito de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Sistema/Estilos.css" />
 </head>
 <body>
     <!-- Barra de Navegación -->

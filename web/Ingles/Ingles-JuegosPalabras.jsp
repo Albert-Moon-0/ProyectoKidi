@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css"> 
     <title>¡Juegos de Vocabulario!</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Nunito:wght@400;700&display=swap');
         
@@ -331,6 +332,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../Sistema/Estilos.css" />
 </head>
 <body>
     <!-- Burbujas de fondo -->

@@ -1,0 +1,131 @@
+/* Fuente general y fondo */
+body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background-color: #f9f7e8;
+    padding: 15px;
+}
+
+/* Títulos */
+.header {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #2c3e50;
+}
+
+/* Tarjetas de ejercicios */
+.exercise-card {
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Números y operadores */
+.number-box {
+    display: inline-block;
+    min-width: 40px;
+    padding: 10px 15px;
+    margin: 0 5px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background-color: #e3f2fd;
+    border-radius: 10px;
+    text-align: center;
+    user-select: none;
+}
+
+.operator {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 5px;
+}
+
+/* Inputs y botones */
+.form-control {
+    max-width: 120px;
+    font-size: 1.2rem;
+}
+
+button.btn-primary {
+    white-space: nowrap;
+}
+
+.feedback {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.feedback.correct {
+    color: green;
+}
+
+.feedback.incorrect {
+    color: red;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn-return {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+/* RESPONSIVE: TABLET */
+@media (max-width: 768px) {
+    .header {
+        font-size: 2rem;
+    }
+    .number-box {
+        min-width: 30px;
+        padding: 8px 10px;
+        font-size: 1.5rem;
+    }
+    .operator {
+        font-size: 1.5rem;
+    }
+    .form-control {
+        max-width: 100px;
+        font-size: 1rem;
+    }
+    button.btn-primary {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
+}
+
+/* RESPONSIVE: MÓVIL */
+@media (max-width: 480px) {
+    .header {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+    }
+    .number-box {
+        min-width: 25px;
+        padding: 6px 8px;
+        font-size: 1.2rem;
+    }
+    .operator {
+        font-size: 1.2rem;
+    }
+    .form-control {
+        max-width: 90px;
+        font-size: 0.9rem;
+    }
+    button.btn-primary {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

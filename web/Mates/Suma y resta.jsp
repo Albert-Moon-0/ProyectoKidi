@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lección de Matemáticas: Sumas y Restas</title>
@@ -15,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
     <link rel="stylesheet" href="estilosMate.css">
+    <link rel="stylesheet" href="../Sistema/Estilos.css" />
+    <link rel="stylesheet" href="../Sistema/Estilos.css" />
 </head>
 <body>
     <!-- Elementos flotantes de fondo -->

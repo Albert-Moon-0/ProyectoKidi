@@ -12,349 +12,408 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecciones de Números</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
-        :root {
-            --primary-color: #FF5757;
-            --secondary-color: #4FC1E9;
-            --accent-color: #FFDE59;
-            --green-color: #A0E57D;
-            --purple-color: #C990FF;
-            --text-color: #333333;
-            --background-color: #F7F9FC;
-        }
-        
-        body {
-            font-family: 'Nunito', sans-serif;
-            color: var(--text-color);
-            background-color: var(--background-color);
-            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="2" fill="%23FFDE59" opacity="0.3"/><text x="30" y="30" font-family="Arial" font-size="10" fill="%234FC1E9" opacity="0.3">1</text><text x="60" y="40" font-family="Arial" font-size="12" fill="%23FF5757" opacity="0.3">2</text><text x="20" y="70" font-family="Arial" font-size="14" fill="%23A0E57D" opacity="0.3">3</text><text x="80" y="85" font-family="Arial" font-size="11" fill="%23C990FF" opacity="0.3">4</text></svg>');
-            transition: all 0.3s ease;
-            padding-right: 120px;
-            
-        }
-        
-        /* Header animado y divertido */
-        .header-title {
-            font-family: 'Baloo 2', cursive;
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--secondary-color);
-            text-shadow: 3px 3px 0 var(--accent-color);
-            margin: 1rem 0;
-            position: relative;
-            padding-bottom: 0.5rem;
-            text-align: center;
-            letter-spacing: 1px;
-            animation: wiggle 3s infinite;
-        }
-        
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(0); }
-            25% { transform: rotate(-3deg); }
-            75% { transform: rotate(3deg); }
-        }
-        
-        /* Mejoras para las tarjetas */
-        .card {
-            height: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            position: relative;
-            background: white;
-            margin-bottom: 2rem;
-        }
-        
-        .card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .card-img-top {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-            border-bottom: 5px solid var(--accent-color);
-        }
-        
-        .card:nth-child(3n+1) .card-img-top {
-            border-bottom-color: var(--primary-color);
-        }
-        
-        .card:nth-child(3n+2) .card-img-top {
-            border-bottom-color: var(--green-color);
-        }
-        
-        .card:nth-child(3n+3) .card-img-top {
-            border-bottom-color: var(--purple-color);
-        }
-        
-        .card:hover .card-img-top {
-            transform: scale(1.05);
-        }
-        
-        .card-body {
-            padding: 1.5rem;
-            background: white;
-        }
-        
-        .card-title {
-            font-family: 'Baloo 2', cursive;
-            font-weight: 700;
-            color: var(--text-color);
-            margin-bottom: 0.75rem;
-            font-size: 1.3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        /* Estilo para los checkboxes */
-        input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--secondary-color);
-            cursor: not-allowed;
-            border-radius: 5px;
-        }
-        
-        /* Mejoras en los enlaces */
-        a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        /* Botón de volver atrás mejorado y centrado */
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            width: 100%;
-            padding: 0 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .back-btn {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: absolute;
-            left: 1rem;
-            z-index: 10;
-            text-shadow: 2px 2px 0 var(--accent-color);
-        }
-        
-        .back-btn:hover {
-            transform: scale(1.2);
-        }
-        
-        /* Números flotantes y animados */
-        .floating-number {
-            position: absolute;
-            font-family: 'Baloo 2', cursive;
-            font-weight: bold;
-            opacity: 0.7;
-            animation: float 6s infinite ease-in-out;
-            z-index: -1;
-        }
-        
-        .number-1 {
-            top: 15%;
-            left: 5%;
-            font-size: 4rem;
-            color: var(--accent-color);
-            animation-delay: 0s;
-        }
-        
-        .number-2 {
-            top: 10%;
-            right: 10%;
-            font-size: 5rem;
-            color: var(--primary-color);
-            animation-delay: 1s;
-        }
-        
-        .number-3 {
-            bottom: 20%;
-            left: 8%;
-            font-size: 4.5rem;
-            color: var(--green-color);
-            animation-delay: 2s;
-        }
-        
-        .number-4 {
-            bottom: 15%;
-            right: 5%;
-            font-size: 3.5rem;
-            color: var(--purple-color);
-            animation-delay: 3s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-        
-        /* Contenedor con efecto de borde divertido */
-        .fun-container {
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-        }
-        
-        /* Footer colorido */
-        footer {
-            padding: 2rem 0 1rem;
-            margin-top: 3rem !important;
-            background-color: white;
-            border-top: 4px dashed var(--accent-color);
-        }
-        
-        footer p {
-            font-weight: 600;
-            color: var(--text-color);
-            font-family: 'Baloo 2', cursive;
-        }
-        
-        /* Botón flotante para volver arriba */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            opacity: 0.8;
-            z-index: 100;
-        }
-        
-        .back-to-top:hover {
-            transform: scale(1.1);
-            opacity: 1;
-        }
-        
-        /* Personalización del espacio central */
-        .lessons-container {
-            padding-top: 1rem;
-            padding-bottom: 4rem;
-        }
-        
-        /* Responsividad mejorada */
-        @media (max-width: 768px) {
-            .header-title {
-                font-size: 2.5rem;
-            }
-            
-            .card-title {
-                font-size: 1.1rem;
-            }
-            
-            .floating-number {
-                font-size: 3rem;
-            }
-            
-            .back-btn {
-                font-size: 2rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .header-title {
-                font-size: 2rem;
-            }
-            
-            .floating-number {
-                display: none;
-            }
-            
-            .back-btn {
-                font-size: 1.8rem;
-            }
-        }
+/* Colores vibrantes y amigables para niños */
+:root {
+    --primary-color: #FF9E00;    /* Naranja alegre */
+    --secondary-color: #4ECDC4;  /* Turquesa */
+    --accent-color: #FFD166;     /* Amarillo suave */
+    --accent2-color: #FF6B6B;    /* Coral */
+    --accent3-color: #8A4FFF;    /* Púrpura */
+    --text-color: #2D3047;       /* Azul oscuro */
+    --background-light: #F9F7F3; /* Crema suave */
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-light);
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234ecdc4' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    transition: all 0.3s ease;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header divertido y llamativo */
+.header-title {
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Tamaño responsivo */
+    font-weight: 800;
+    color: var(--primary-color);
+    text-shadow: 3px 3px 0 var(--accent-color), 
+                 5px 5px 0 rgba(0, 0, 0, 0.1);
+    margin: 1rem 0;
+    position: relative;
+    padding-bottom: 1rem;
+    letter-spacing: 1px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+.header-title:before {
+    content: "🔢";
+    margin-right: 10px;
+}
+
+.header-title:after {
+    content: "🧮";
+    margin-left: 10px;
+}
+
+/* Botón de regreso estilizado */
+.back-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0.5rem auto 1rem;
+}
+
+.back-btn {
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Tamaño responsivo */
+    color: var(--secondary-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+    animation: float 4s ease-in-out infinite;
+    padding: 0.5rem;
+}
+
+.back-btn:hover {
+    transform: scale(1.2) rotate(-5deg);
+    color: var(--primary-color);
+}
+
+/* Tarjetas con formas divertidas y efectos */
+.card {
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    border: none;
+    position: relative;
+    margin-bottom: 1.5rem;
+    animation: float 5s ease-in-out infinite;
+    animation-delay: calc(var(--animation-order) * 0.5s);
+}
+
+.card:before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent2-color), var(--accent3-color), var(--secondary-color));
+    border-radius: 25px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.card:hover:before {
+    opacity: 1;
+}
+
+.card:hover {
+    transform: translateY(-15px) rotate(2deg);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    border-bottom: 5px solid var(--accent-color);
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.08);
+}
+
+.card-body {
+    padding: 1.5rem;
+    background: white;
+    border-top: 5px dashed var(--accent-color);
+}
+
+.card-title {
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Checkbox estilizado como estrella para niños */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #f0f0f0;
+    border-radius: 50%;
+    position: relative;
+    cursor: not-allowed;
+    transition: all 0.3s;
+    box-shadow: inset 0 0 0 2px #ddd;
+    flex-shrink: 0;
+}
+
+input[type="checkbox"]:before {
+    content: "★";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #ccc;
+    transition: all 0.3s;
+}
+
+input[type="checkbox"]:checked {
+    background: var(--accent-color);
+}
+
+input[type="checkbox"]:checked:before {
+    content: "★";
+    color: var(--primary-color);
+}
+
+/* Enlaces sin subrayado */
+a {
+    text-decoration: none !important;
+    color: inherit;
+    display: block;
+    position: relative;
+}
+
+/* Mejoras para el contenedor principal */
+.container {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.lessons-container {
+    margin: 1rem auto 2rem;
+    text-align: center;
+    width: 100%;
+    padding: 0 10px;
+}
+
+/* Footer infantil */
+footer {
+    padding: 1.5rem 0;
+    margin-top: auto !important;
+    background-color: var(--accent-color);
+    border-top: 8px solid var(--primary-color);
+    border-top-left-radius: 50% 20px;
+    border-top-right-radius: 50% 20px;
+    position: relative;
+    width: 100%;
+}
+
+footer:before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: -40px -10px 0 -8px var(--accent2-color),
+                40px -10px 0 -8px var(--accent3-color);
+}
+
+footer p {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    margin-bottom: 0;
+    text-align: center;
+}
+
+/* Animaciones para elementos */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Estructura de la cuadrícula */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-right: -10px;
+    margin-left: -10px;
+}
+
+.col-sm-6.col-md-3 {
+    flex: 0 0 auto;
+    width: 25%;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+/* Responsividad mejorada */
+@media (max-width: 992px) {
+    .col-sm-6.col-md-3 {
+        width: 33.333%;
+    }
+    
+    .card-img-top {
+        height: 160px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-title:before,
+    .header-title:after {
+        margin: 0 5px;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .card:hover {
+        transform: translateY(-10px) rotate(1deg);
+    }
+    
+    .col-sm-6.col-md-3 {
+        width: 50%;
+    }
+    
+    .card-img-top {
+        height: 140px;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-title:before,
+    .header-title:after {
+        content: "";
+        margin: 0;
+    }
+    
+    .col-sm-6.col-md-3 {
+        width: 100%;
+        max-width: 350px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    footer:before {
+        width: 25px;
+        height: 25px;
+        box-shadow: -30px -8px 0 -6px var(--accent2-color),
+                    30px -8px 0 -6px var(--accent3-color);
+    }
+    
+    .card-img-top {
+        height: 200px;
+    }
+    
+    .back-button-container {
+        margin: 0.5rem auto;
+    }
+}
+
+/* Pequeños ajustes para pantallas muy pequeñas */
+@media (max-width: 400px) {
+    .card-img-top {
+        height: 160px;
+    }
+    
+    .card-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    input[type="checkbox"] {
+        margin-top: 0.5rem;
+        align-self: flex-end;
+    }
+}
     </style>
+    <!-- Fuente Nunito de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Sistema/Estilos.css" />
 </head>
 <body>
-    <!-- Elementos flotantes de fondo -->
-    <div class="floating-number number-1">1</div>
-    <div class="floating-number number-2">2</div>
-    <div class="floating-number number-3">3</div>
-    <div class="floating-number number-4">4</div>
-    
     <!-- Barra de Navegación -->
     <jsp:include page="../Sistema/BarraNavegacion.jsp" />
     
-    <!-- Header y botón de volver mejorados y centrados -->
-    <div class="nav-container">
+    <!-- Título principal -->
+    <div class="header-title">¡Lecciones de Números!</div>
+    
+    <!-- Botón de regreso con animación -->
+    <div class="back-button-container">
         <a href="P-Mates.jsp"><button class="back-btn">&larr;</button></a>
-        <div class="header-title text-center">¡Lecciones de Números!</div>
     </div>
-    <br>
-    <br>
-    <br>
-    <!-- Contenedor principal centrado -->
-    <div class="lessons-container">
-        <div class="container">
-            <div class="row text-center g-4 justify-content-center">
-                <%
-                    ResultSet r = null;
-                    String leccion;
-                    try {
-                        String queryStr = "SELECT NOMBRE_LM FROM LECCIONES_M";
-                        r = s.executeQuery(queryStr);
-                        while (r.next()) {
-                            leccion = r.getString("NOMBRE_LM");
-                %>
-                            <div class="col-sm-6 col-md-3 mb-4">
-                                <a href="<%=leccion%>.jsp">
-                                    <div class="card">
-                                        <img class="card-img-top" src="../Imagenes/<%=leccion%>.png" alt="<%=leccion%>" loading="lazy">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><%= leccion %>
-                                            <input type="checkbox" name="CheckLeccionNumerosMates" value="ON" disabled /></h5>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                <%
-                        }
-                    } catch (SQLException error) {
-                        out.print(error.toString());
-                    }
-                %>
+    
+    <!-- Contenedor principal de lecciones -->
+    <div class="container lessons-container">
+        <div class="row">
+            <%
+                ResultSet r = null;
+                String leccion;
+                int counter = 0;
+                try {
+                    String queryStr = "SELECT NOMBRE_LM FROM LECCIONES_M";
+                    r = s.executeQuery(queryStr);
+                    while (r.next()) {
+                        leccion = r.getString("NOMBRE_LM");
+                        counter++;
+            %>
+            <div class="col-sm-6 col-md-3" style="--animation-order: <%= counter %>;">
+                <a href="<%=leccion%>.jsp">
+                    <div class="card">
+                        <img class="card-img-top" src="../Imagenes/<%=leccion%>.png" alt="<%=leccion%>" loading="lazy">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span><%= leccion %></span>
+                                <input type="checkbox" name="CheckLeccionNumerosMates" value="ON" disabled />
+                            </h5>
+                        </div>
+                    </div>
+                </a>
             </div>
+            <%
+                    }
+                } catch (SQLException error) {
+                    out.print(error.toString());
+                }
+            %>
         </div>
     </div>
     
-   
     <!-- Footer -->
-    <footer class="py-3 mt-5">
+    <footer>
         <div class="container">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
             <p class="text-center">© 2024 KIDI, Inc ¡Aprendiendo matemáticas es divertido!</p>
         </div>
     </footer>
     
-    <!-- Script de Bootstrap -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

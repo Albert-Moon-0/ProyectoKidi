@@ -244,6 +244,7 @@
                 }
             }
         </style>
+        <link rel="stylesheet" href="../Sistema/Estilos.css" />
     </head>
     <body>
 

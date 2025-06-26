@@ -10,11 +10,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juegos de Palabras</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../Sistema/EstilosPMaterias.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
-/* Colores más vibrantes y amigables para niños */
+/* Colores vibrantes y amigables para niños */
 :root {
     --primary-color: #FF9E00;    /* Naranja alegre */
     --secondary-color: #4ECDC4;  /* Turquesa */
@@ -31,34 +30,36 @@ body {
     background-color: var(--background-light);
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234ecdc4' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
     transition: all 0.3s ease;
-    padding-right: 140px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Header más divertido y llamativo */
+/* Header divertido y llamativo */
 .header-title {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Tamaño responsivo */
     font-weight: 800;
     color: var(--primary-color);
     text-shadow: 3px 3px 0 var(--accent-color), 
                  5px 5px 0 rgba(0, 0, 0, 0.1);
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     position: relative;
     padding-bottom: 1rem;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-align: center;
+    word-wrap: break-word;
 }
 
 .header-title:before {
-    content: "✏️";
-    margin-right: 15px;
+    content: "📝";
+    margin-right: 10px;
 }
 
 .header-title:after {
-    content: "📚";
-    margin-left: 15px;
+    content: "🔤";
+    margin-left: 10px;
 }
 
 /* Botón de regreso estilizado */
@@ -66,17 +67,18 @@ body {
     display: flex;
     justify-content: center;
     width: 100%;
-    margin: 1rem auto;
+    margin: 0.5rem auto 1rem;
 }
 
 .back-btn {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 5vw, 3.5rem); /* Tamaño responsivo */
     color: var(--secondary-color);
     background: none;
     border: none;
     cursor: pointer;
     transition: transform 0.4s ease;
     animation: float 4s ease-in-out infinite;
+    padding: 0.5rem;
 }
 
 .back-btn:hover {
@@ -93,6 +95,9 @@ body {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     border: none;
     position: relative;
+    margin-bottom: 1.5rem;
+    animation: float 5s ease-in-out infinite;
+    animation-delay: calc(var(--animation-order) * 0.5s);
 }
 
 .card:before {
@@ -120,7 +125,7 @@ body {
 
 .card-img-top {
     width: 100%;
-    height: 220px;
+    height: 180px;
     object-fit: cover;
     transition: transform 0.5s ease;
     border-bottom: 5px solid var(--accent-color);
@@ -131,7 +136,7 @@ body {
 }
 
 .card-body {
-    padding: 1.8rem;
+    padding: 1.5rem;
     background: white;
     border-top: 5px dashed var(--accent-color);
 }
@@ -141,6 +146,11 @@ body {
     color: var(--text-color);
     margin-bottom: 0.75rem;
     font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .card-text {
@@ -157,13 +167,15 @@ body {
     font-weight: 600;
     transition: all 0.3s ease;
     text-decoration: none;
-    box-shadow: 0 4px 0 darken(var(--primary-color), 10%);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    text-align: center;
 }
 
 .card-link:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 0 darken(var(--primary-color), 10%);
-    background-color: lighten(var(--primary-color), 5%);
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+    background-color: var(--accent2-color);
 }
 
 /* Enlaces sin subrayado */
@@ -171,33 +183,32 @@ a {
     text-decoration: none !important;
     color: inherit;
     display: block;
+    position: relative;
 }
 
 /* Mejoras para el contenedor principal */
 .container {
     width: 100%;
     max-width: 1140px;
-    margin: 2rem auto;
+    margin: 0 auto;
     padding: 0 15px;
 }
 
-/* Estructura de la cuadrícula */
-.grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 2rem;
+.games-container {
+    margin: 1rem auto 2rem;
+    text-align: center;
+    width: 100%;
+    padding: 0 10px;
 }
 
 /* Footer infantil */
 footer {
-    padding: 2rem 0 1rem;
+    padding: 1.5rem 0;
     margin-top: auto !important;
     background-color: var(--accent-color);
-    border-top: 10px solid var(--primary-color);
-    border-top-left-radius: 50% 30px;
-    border-top-right-radius: 50% 30px;
+    border-top: 8px solid var(--primary-color);
+    border-top-left-radius: 50% 20px;
+    border-top-right-radius: 50% 20px;
     position: relative;
     width: 100%;
 }
@@ -205,21 +216,23 @@ footer {
 footer:before {
     content: "";
     position: absolute;
-    top: -20px;
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-color: var(--primary-color);
     border-radius: 50%;
-    box-shadow: -60px -15px 0 -10px var(--accent2-color),
-                60px -15px 0 -10px var(--accent3-color);
+    box-shadow: -40px -10px 0 -8px var(--accent2-color),
+                40px -10px 0 -8px var(--accent3-color);
 }
 
 footer p {
     font-weight: 600;
     color: var(--text-color);
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+    margin-bottom: 0;
+    text-align: center;
 }
 
 /* Animaciones para elementos */
@@ -229,101 +242,141 @@ footer p {
     100% { transform: translateY(0); }
 }
 
-.card {
-    animation: float 5s ease-in-out infinite;
-    animation-delay: calc(var(--animation-order) * 0.5s);
+/* Estructura de la cuadrícula */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-right: -10px;
+    margin-left: -10px;
+}
+
+.col-sm-6.col-md-4 {
+    flex: 0 0 auto;
+    width: 33.333%;
+    padding: 0 10px;
+    margin-bottom: 20px;
 }
 
 /* Responsividad mejorada */
 @media (max-width: 992px) {
-    .grid {
-        gap: 20px;
+    .col-sm-6.col-md-4 {
+        width: 50%;
+    }
+    
+    .card-img-top {
+        height: 160px;
     }
 }
 
 @media (max-width: 768px) {
-    .header-title {
-        font-size: 2.5rem;
-    }
-    
-    .back-btn {
-        font-size: 2.8rem;
+    .header-title:before,
+    .header-title:after {
+        margin: 0 5px;
     }
     
     .card-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     .card:hover {
         transform: translateY(-10px) rotate(1deg);
     }
+    
+    .card-img-top {
+        height: 140px;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
 }
 
 @media (max-width: 576px) {
-    .header-title {
-        font-size: 2rem;
-    }
-    
     .header-title:before,
     .header-title:after {
         content: "";
         margin: 0;
     }
     
-    .card {
+    .col-sm-6.col-md-4 {
         width: 100%;
-        margin-bottom: 1.5rem;
+        max-width: 350px;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     footer:before {
-        width: 30px;
-        height: 30px;
-        box-shadow: -40px -10px 0 -8px var(--accent2-color),
-                    40px -10px 0 -8px var(--accent3-color);
+        width: 25px;
+        height: 25px;
+        box-shadow: -30px -8px 0 -6px var(--accent2-color),
+                    30px -8px 0 -6px var(--accent3-color);
+    }
+    
+    .card-img-top {
+        height: 200px;
+    }
+    
+    .back-button-container {
+        margin: 0.5rem auto;
+    }
+}
+
+/* Pequeños ajustes para pantallas muy pequeñas */
+@media (max-width: 400px) {
+    .card-img-top {
+        height: 160px;
+    }
+    
+    .card-title {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
     </style>
     <!-- Fuente Nunito de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Sistema/Estilos.css" />
 </head>
 <body>
     <!-- Barra de Navegación -->
     <jsp:include page="../Sistema/BarraNavegacion.jsp" />
     
-    <!-- Mini Header -->
-    <div class="header-title text-center">Juegos de Palabras</div>
+    <!-- Título principal -->
+    <div class="header-title">Juegos de Palabras</div>
     
-    <!-- Contenido principal -->
-    <div class="container">
-        <div class="back-button-container">
-            <a href="P-Espanol.jsp"><button class="back-btn">&larr;</button></a>
-        </div>
-        
-        <div class="grid">
-            <div class="card" style="--animation-order: 1">
-                <img class="card-img-top" src="../img/oraciones.png" alt="Completa oraciones" loading="lazy">
-                <div class="card-body">
-                    <h5 class="card-title">Completa oraciones</h5>
-                    <p class="card-text">Aprende a usar el vocabulario aprendido de manera divertida.</p>
-                    <a href="EspanolJuego1.jsp" class="card-link">¡Jugar ahora!</a>
+    <!-- Botón de regreso con animación -->
+    <div class="back-button-container">
+        <a href="P-Espanol.jsp"><button class="back-btn">&larr;</button></a>
+    </div>
+    
+    <!-- Contenedor principal de juegos -->
+    <div class="container games-container">
+        <div class="row">
+            <!-- Juego 1 -->
+            <div class="col-sm-6 col-md-4" style="--animation-order: 1;">
+                <div class="card">
+                    <img class="card-img-top" src="../img/oraciones.png" alt="Completa oraciones" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">Completa oraciones</h5>
+                        <p class="card-text">Aprende a usar el vocabulario aprendido de manera divertida.</p>
+                        <a href="EspanolJuego1.jsp" class="card-link">¡Jugar ahora!</a>
+                    </div>
                 </div>
             </div>
             
             <!-- Puedes agregar más tarjetas de juegos aquí si lo necesitas -->
         </div>
     </div>
-    <br>
-    <br>
     
     <!-- Footer -->
-    <footer class="py-3">
+    <footer>
         <div class="container">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
-            <p class="text-center text-body-secondary">© 2024 KIDI, Inc Todos los derechos reservados</p>
+            <p class="text-center">© 2024 KIDI, Inc ¡Aprender es divertido!</p>
         </div>
     </footer>
     
-    <!-- Script de Bootstrap -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
