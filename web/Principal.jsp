@@ -1,18 +1,25 @@
+<%-- 
+    Document   : Principal
+    Created on : 26 jun 2025, 10:11:15
+    Author     : diego
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <title>Kidi - Aprendizaje divertido para niños</title>
         <meta charset="UTF-8">
-<link rel="icon" href="/Kidi-6IM9/Imagenes/logo.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Meta tags PWA -->
 <meta name="theme-color" content="#3B7DDD">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="KIDI">
 <meta name="description" content="Plataforma educativa KIDI - Aprendizaje interactivo">
 
 <!-- Manifest -->
-<link rel="manifest" href="/Kidi-6IM9/manifest.json">
+<link rel="manifest" href="<%= request.getContextPath() %>/manifest.json">
 
 <!-- Iconos para diferentes dispositivos -->
 <link rel="icon" type="image/png" sizes="32x32" href="<%= request.getContextPath() %>/img/icons/icon-32x32.png">
@@ -764,7 +771,7 @@
     // Verificar si el navegador soporta Service Workers
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/Kidi-6IM9/service-worker.js')
+            navigator.serviceWorker.register('<%= request.getContextPath() %>/service-worker.js')
                 .then(function(registration) {
                     console.log('Service Worker registrado con éxito:', registration.scope);
                     
@@ -859,8 +866,8 @@
             navigator.serviceWorker.ready.then(function(registration) {
                 registration.showNotification(title, {
                     body: body,
-                    icon: icon || '/Kidi-6IM9/img/icons/icon-192x192.png',
-                    badge: '/Kidi-6IM9/img/icons/icon-72x72.png',
+                    icon: icon || '<%= request.getContextPath() %>/img/icons/icon-192x192.png',
+                    badge: '<%= request.getContextPath() %>/img/icons/icon-72x72.png',
                     vibrate: [100, 50, 100],
                     data: {
                         dateOfArrival: Date.now(),

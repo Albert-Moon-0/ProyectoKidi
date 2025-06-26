@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIDI - Sin conexión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #E5F0FA 0%, #3B7DDD 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        .offline-container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+        .offline-icon {
+            font-size: 4rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            color: #3B7DDD;
+            margin-bottom: 1rem;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .retry-btn {
+            background: #3B7DDD;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .retry-btn:hover {
+            background: #2c5aa0;
+        }
+        .features {
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .feature {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📱</div>
+        <h1>¡Ups! Sin conexión</h1>
+        <p>No hay conexión a internet disponible. Algunas funciones pueden no estar disponibles.</p>
+        
+        <button class="retry-btn" onclick="window.location.reload()">
+            Intentar de nuevo
+        </button>
+        
+        <div class="features">
+            <h3>Mientras tanto puedes:</h3>
+            <div class="feature">✓ Revisar contenido previamente cargado</div>
+            <div class="feature">✓ Practicar ejercicios guardados</div>
+            <div class="feature">✓ Ver tu progreso offline</div>
+        </div>
+    </div>
+
+    <script>
+        // Detectar cuando se recupera la conexión
+        window.addEventListener('online', function() {
+            window.location.reload();
+        });
+        
+        // Mostrar estado de conexión
+        if (navigator.onLine) {
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
