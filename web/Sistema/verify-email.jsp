@@ -408,7 +408,7 @@
             <button type="submit" class="verify-btn">¡Verificar!</button>
         </form>
         
-        <a href="resend-code.jsp" class="resend-link">¿No recibiste el código? ¡Enviar de nuevo! 📬</a>
+        <a href="resend-verification.jsp" class="resend-link">¿No recibiste el código? ¡Enviar de nuevo! 📬</a>
     </div>
 
     <script>

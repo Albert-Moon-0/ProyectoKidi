@@ -4,7 +4,7 @@
     Author     : P500
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*, java.io.*, java.util.*, javax.mail.*, javax.mail.internet.*, org.mindrot.jbcrypt.BCrypt, java.security.SecureRandom"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*, java.io.*, java.util.*, javax.mail.*, javax.mail.internet.*, org.mindrot.jbcrypt.BCrypt, java.security.SecureRandom, java.net.URLEncoder, java.net.URLDecoder"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,14 +56,52 @@
                         
                         out.println("<script>debugAlert('Código de verificación generado: " + verificationCode + "');</script>");
                        
-                        // Guardar datos temporalmente en la sesión
+                        // MÉTODO 1: Cookies manuales con configuración específica para proxy
+                        Cookie nombreCookie = new Cookie("kidi_reg_nombre", URLEncoder.encode(nombre, "UTF-8"));
+                        Cookie correoCookie = new Cookie("kidi_reg_correo", URLEncoder.encode(correo, "UTF-8"));
+                        Cookie contrasenaCookie = new Cookie("kidi_reg_contrasena", URLEncoder.encode(contrasena, "UTF-8"));
+                        Cookie codeCookie = new Cookie("kidi_reg_code", verificationCode);
+                        Cookie expiryCookie = new Cookie("kidi_reg_expiry", String.valueOf(System.currentTimeMillis() + 15*60*1000));
+                        
+                        // Configuración específica para servidores con proxy
+                        nombreCookie.setPath("/");
+                        correoCookie.setPath("/");
+                        contrasenaCookie.setPath("/");
+                        codeCookie.setPath("/");
+                        expiryCookie.setPath("/");
+                        
+                        nombreCookie.setMaxAge(60 * 30); // 30 minutos
+                        correoCookie.setMaxAge(60 * 30);
+                        contrasenaCookie.setMaxAge(60 * 30);
+                        codeCookie.setMaxAge(60 * 30);
+                        expiryCookie.setMaxAge(60 * 30);
+                        
+                        nombreCookie.setSecure(false); // Importante: false para HTTP
+                        correoCookie.setSecure(false);
+                        contrasenaCookie.setSecure(false);
+                        codeCookie.setSecure(false);
+                        expiryCookie.setSecure(false);
+                        
+                        nombreCookie.setHttpOnly(false); // Permitir acceso desde JavaScript si es necesario
+                        correoCookie.setHttpOnly(false);
+                        contrasenaCookie.setHttpOnly(false);
+                        codeCookie.setHttpOnly(false);
+                        expiryCookie.setHttpOnly(false);
+                        
+                        response.addCookie(nombreCookie);
+                        response.addCookie(correoCookie);
+                        response.addCookie(contrasenaCookie);
+                        response.addCookie(codeCookie);
+                        response.addCookie(expiryCookie);
+
+                        // MÉTODO 2: Guardar datos en sesión tradicional
                         session.setAttribute("nombre", nombre);
                         session.setAttribute("correo", correo);
                         session.setAttribute("contrasena", contrasena);
                         session.setAttribute("verificationCode", verificationCode);
                         session.setAttribute("codeExpiry", System.currentTimeMillis() + 15*60*1000); // 15 minutos para expirar
 
-                        out.println("<script>debugAlert('Datos guardados en sesión');</script>");
+                        out.println("<script>debugAlert('Datos guardados en cookies y sesión');</script>");
 
                         // Enviar correo de verificación
                         out.println("<script>debugAlert('Intentando enviar correo...');</script>");
@@ -76,7 +114,16 @@
 
                         if (mailSent) {
                             out.println("<script>debugAlert('Correo enviado exitosamente, redirigiendo...');</script>");
-                            response.sendRedirect("verify-email.jsp");
+                            
+                            // MÉTODO 3: También usar parámetros URL como respaldo
+                            String redirectUrl = "verify-email.jsp?n=" + URLEncoder.encode(nombre, "UTF-8") + 
+                                                "&c=" + URLEncoder.encode(correo, "UTF-8") + 
+                                                "&p=" + URLEncoder.encode(contrasena, "UTF-8") + 
+                                                "&vc=" + verificationCode + 
+                                                "&ve=" + (System.currentTimeMillis() + 15*60*1000) +
+                                                "&ts=" + System.currentTimeMillis(); // timestamp para evitar cache
+                            
+                            out.println("<script>window.location='" + redirectUrl + "';</script>");
                         } else {
                             out.println("<script>alert('Error al enviar el correo de verificación: " + debugMessage + "');window.location='registro.jsp';</script>");
                         }

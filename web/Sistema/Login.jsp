@@ -159,7 +159,7 @@
                         "&t=" + URLEncoder.encode(tables[i].replace("_", ""), "UTF-8") + 
                         "&ts=" + System.currentTimeMillis(); // timestamp para evitar cache
     
-                                out.println("<script>debugAlert('Redirigiendo a: " + redirigir[i] + "');window.location='" + redirigir[i] + ".jsp';</script>");
+                                out.println("<script>window.location='" + redirigir[i] + ".jsp';</script>");
                                 return;
                             } else {
                                 // Contraseña incorrecta - registrar intento fallido
