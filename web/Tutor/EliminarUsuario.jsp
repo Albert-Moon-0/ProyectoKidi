@@ -21,7 +21,7 @@
             ps2.close();
 
             if (resultado > 0) {
-                response.sendRedirect("ver-ninos.jsp"); // Ajusta el nombre si tu archivo se llama diferente
+                                out.println("<script>window.location='ver-ninos.jsp';</script>");
             } else {
                 out.println("<script>alert('No se pudo eliminar el usuario.'); history.back();</script>");
             }
