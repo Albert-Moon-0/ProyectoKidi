@@ -406,7 +406,7 @@ footer p {
         </div>
     </div>
     
-    <!-- Footer -->
+    <!-- Footermm -->
     <footer>
         <div class="container">
             <p class="text-center">© 2024 KIDI, Inc ¡Aprendiendo matemáticas es divertido!</p>
