@@ -73,7 +73,7 @@
             <div class="units-container">
                 <div class="unit-card">
                     <div class="unit-image">
-                        <img src="../Imagenes/centimetro.png" alt="Regla con centímetros" class="img-fluid">
+                        <img src="../Imagenes/centimetro.jpg" alt="Regla con centímetros" class="img-fluid">
                     </div>
                     <h5>Centímetro (cm)</h5>
                     <p>Usamos centímetros para medir cosas pequeñas, como un lápiz o tu dedo.</p>
@@ -82,7 +82,7 @@
                 
                 <div class="unit-card">
                     <div class="unit-image">
-                        <img src="../Imagenes/metro.png" alt="Cinta métrica" class="img-fluid">
+                        <img src="../Imagenes/metro.jpg" alt="Cinta métrica" class="img-fluid">
                     </div>
                     <h5>Metro (m)</h5>
                     <p>Usamos metros para medir cosas más grandes, como la altura de una persona o el ancho de una habitación.</p>
@@ -91,7 +91,7 @@
                 
                 <div class="unit-card">
                     <div class="unit-image">
-                        <img src="../Imagenes/kilometro.png" alt="Señal de kilómetro" class="img-fluid">
+                        <img src="../Imagenes/kilometro.jpg" alt="Señal de kilómetro" class="img-fluid">
                     </div>
                     <h5>Kilómetro (km)</h5>
                     <p>Usamos kilómetros para medir distancias largas, como la distancia entre ciudades.</p>
@@ -128,7 +128,7 @@
                 
                 <div class="unit-card">
                     <div class="unit-image">
-                        <img src="../Imagenes/kilogramo.png" alt="Peso de 1 kilogramo" class="img-fluid">
+                        <img src="../Imagenes/kilogramo.jpg" alt="Peso de 1 kilogramo" class="img-fluid">
                     </div>
                     <h5>Kilogramo (kg)</h5>
                     <p>Usamos kilogramos para medir el peso de cosas más pesadas, como una sandía o una persona.</p>
@@ -155,7 +155,7 @@
             <div class="units-container">
                 <div class="unit-card">
                     <div class="unit-image">
-                        <img src="../Imagenes/mililitro.png" alt="Jeringa con mililitros" class="img-fluid">
+                        <img src="../Imagenes/mililitro.jpg" alt="Jeringa con mililitros" class="img-fluid">
                     </div>
                     <h5>Mililitro (ml)</h5>
                     <p>Usamos mililitros para medir pequeñas cantidades de líquido, como una cucharada de jarabe.</p>
@@ -164,7 +164,7 @@
                 
                 <div class="unit-card">
                     <div class="unit-image">
-                        <img src="../Imagenes/litro.png" alt="Botella de un litro" class="img-fluid">
+                        <img src="../Imagenes/litro.jpeg" alt="Botella de un litro" class="img-fluid">
                     </div>
                     <h5>Litro (l)</h5>
                     <p>Usamos litros para medir cantidades más grandes de líquido, como agua en una botella.</p>
@@ -189,7 +189,7 @@
             <div class="mt-4">
                 <div class="practice-item">
                     <div class="practice-question">
-                        <img src="../Imagenes/lapiz_medir.png" alt="Lápiz para medir" class="practice-image">
+                        <img src="../Imagenes/lapiz_medir.jpg" alt="Lápiz para medir" class="practice-image">
                         <p>¿Qué unidad usarías para medir la longitud de un lápiz?</p>
                         <div class="options">
                             <span class="option">Centímetros (cm)</span>
@@ -202,7 +202,7 @@
                 
                 <div class="practice-item">
                     <div class="practice-question">
-                        <img src="../Imagenes/manzana_pesar.png" alt="Manzana para pesar" class="practice-image">
+                        <img src="../Imagenes/manzana_pesar.jpg" alt="Manzana para pesar" class="practice-image">
                         <p>¿Qué unidad usarías para medir el peso de una manzana?</p>
                         <div class="options">
                             <span class="option">Metros (m)</span>
@@ -215,7 +215,7 @@
                 
                 <div class="practice-item">
                     <div class="practice-question">
-                        <img src="../Imagenes/botella_agua.png" alt="Botella de agua" class="practice-image">
+                        <img src="../Imagenes/botella_agua.jpg" alt="Botella de agua" class="practice-image">
                         <p>¿Qué unidad usarías para medir cuánta agua cabe en una botella grande?</p>
                         <div class="options">
                             <span class="option">Kilogramos (kg)</span>
