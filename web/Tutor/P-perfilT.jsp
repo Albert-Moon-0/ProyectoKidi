@@ -364,7 +364,7 @@
                     <p class="text-muted">Actualiza tu información de tutor</p>
                 </div>
 
-                <form class="registration-form" action="../Sistema/CambioTutor.jsp" method="post">
+                <form class="registration-form" action="CambioTutor.jsp" method="post">
                     <div class="profile-info">
                         <div class="form-input">
                             <i class="fas fa-user"></i>
@@ -414,7 +414,7 @@
                     <h2>Seguridad</h2>
                     <p class="text-muted">Gestiona tu acceso a la cuenta</p>
                 </div>
-                <form class="password-form" action="../Sistema/CambioPasswordTutor.jsp" method="post">
+                <form class="password-form" action="CambioPasswordTutor.jsp" method="post">
                     <div class="profile-info">
                         <div class="form-input">
                             <i class="fas fa-lock"></i>

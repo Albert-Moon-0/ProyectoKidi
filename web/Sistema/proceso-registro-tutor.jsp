@@ -47,14 +47,12 @@
                         out.println("<script>mensaje2();</script>");
                         out.println("<script>window.location='Registro.jsp';</script>");
                     } else {
-                        out.println("<script>debugAlert('Iniciando proceso de registro para: " + correo + "');</script>");
                     
                         // Generar código de verificación de 6 dígitos
                         SecureRandom random = new SecureRandom();
                         int code = 100000 + random.nextInt(900000);
                         String verificationCode = String.valueOf(code);
                         
-                        out.println("<script>debugAlert('Código de verificación generado: " + verificationCode + "');</script>");
                        
                         // MÉTODO 1: Cookies manuales con configuración específica para proxy
                         Cookie nombreCookie = new Cookie("kidi_reg_nombre", URLEncoder.encode(nombre, "UTF-8"));
@@ -101,19 +99,15 @@
                         session.setAttribute("verificationCode", verificationCode);
                         session.setAttribute("codeExpiry", System.currentTimeMillis() + 15*60*1000); // 15 minutos para expirar
 
-                        out.println("<script>debugAlert('Datos guardados en cookies y sesión');</script>");
 
                         // Enviar correo de verificación
-                        out.println("<script>debugAlert('Intentando enviar correo...');</script>");
                         
                         String[] emailResult = sendVerificationEmailWithDebug(correo, verificationCode);
                         boolean mailSent = Boolean.parseBoolean(emailResult[0]);
                         String debugMessage = emailResult[1];
 
-                        out.println("<script>debugAlert('Resultado del envío: " + debugMessage + "');</script>");
 
                         if (mailSent) {
-                            out.println("<script>debugAlert('Correo enviado exitosamente, redirigiendo...');</script>");
                             
                             // MÉTODO 3: También usar parámetros URL como respaldo
                             String redirectUrl = "verify-email.jsp?n=" + URLEncoder.encode(nombre, "UTF-8") + 

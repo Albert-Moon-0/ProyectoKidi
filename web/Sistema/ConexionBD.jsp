@@ -2,6 +2,7 @@
     Document   : ConexionBD
     Created on : 3 nov. 2024, 12:22:23
     Author     : P500
+    Updated    : March 2025 - Added automatic redirect for unauthenticated users
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"  import="java.sql.*,java.io.*,java.util.*,java.net.URLDecoder"%>
 <%   
@@ -66,14 +67,9 @@
         userType = (String) session.getAttribute("userType");
     }
     
-    // Verificar que tenemos los datos necesarios
-    if (userEmail == null || userEmail.trim().isEmpty()) {
-        // No hacer return aquí, simplemente continuar sin datos de usuario
-        userEmail = "";
-        userType = "";
-    }
-    
     // NUEVA SECCIÓN: Obtener datos específicos según el tipo de usuario
+    boolean userDataFound = false;
+    
     if (userEmail != null && !userEmail.trim().isEmpty() && userType != null) {
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -86,6 +82,7 @@
                 if (rs.next()) {
                     Nombre = rs.getString("NOMBRE_U");
                     Correo = rs.getString("CORREO_U");
+                    userDataFound = true;
                 }
             } else if ("TUTOR".equals(userType)) {
                 ps = c.prepareStatement("SELECT NOMBRE_T, CORREO_T FROM TUTOR WHERE CORREO_T = ?");
@@ -94,6 +91,7 @@
                 if (rs.next()) {
                     Nombre = rs.getString("NOMBRE_T");
                     Correo = rs.getString("CORREO_T");
+                    userDataFound = true;
                 }
             } else if ("ADMIN".equals(userType)) {
                 ps = c.prepareStatement("SELECT NOMBRE_A, CORREO_A FROM ADMIN_ WHERE CORREO_A = ?");
@@ -102,6 +100,7 @@
                 if (rs.next()) {
                     Nombre = rs.getString("NOMBRE_A");
                     Correo = rs.getString("CORREO_A");
+                    userDataFound = true;
                 }
             }
         } catch (SQLException e) {
@@ -122,4 +121,59 @@
     if (Correo == null) Correo = "";
     if (userEmail == null) userEmail = "";
     if (userType == null) userType = "";
+    
+    // SECCIÓN DE SEGURIDAD: Verificar autenticación
+    // Lista de páginas que NO requieren autenticación (páginas públicas)
+    String currentPage = request.getRequestURI();
+    boolean isPublicPage = currentPage.contains("iniciodesesion.jsp") || 
+                          currentPage.contains("registro.jsp") || 
+                          currentPage.contains("index.jsp") ||
+                          currentPage.contains("inicio.jsp") ||
+                          currentPage.contains("about.jsp") ||
+                          currentPage.contains("contacto.jsp") ||
+                          currentPage.contains("recuperar.jsp");
+    
+    // Si NO es una página pública Y no hay datos de usuario válidos, redirigir al login
+    if (!isPublicPage && (!userDataFound || userEmail.trim().isEmpty())) {
+        // Headers para evitar cache
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+        
+        // Limpiar cualquier cookie/sesión corrupta antes de redirigir
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("kidi_user_email".equals(cookie.getName()) || 
+                    "kidi_user_type".equals(cookie.getName())) {
+                    Cookie expiredCookie = new Cookie(cookie.getName(), "");
+                    expiredCookie.setPath("/");
+                    expiredCookie.setMaxAge(0);
+                    expiredCookie.setSecure(false);
+                    response.addCookie(expiredCookie);
+                }
+            }
+        }
+        
+        // Invalidar sesión si existe
+        if (userSession != null) {
+            try {
+                userSession.invalidate();
+            } catch (Exception e) {
+                System.out.println("Error invalidando sesión: " + e.getMessage());
+            }
+        }
+        
+        // Redirigir al login
+        out.println("<script>");
+        out.println("alert('Sesión expirada o no válida. Por favor, inicie sesión nuevamente.');");
+        out.println("window.location.replace('../iniciodesesion.jsp');");
+        out.println("</script>");
+        
+        // Fallback para navegadores sin JavaScript
+        out.println("<noscript>");
+        out.println("<meta http-equiv='refresh' content='0;url=../iniciodesesion.jsp'>");
+        out.println("</noscript>");
+        
+        return; // Detener ejecución del resto de la página
+    }
 %>
