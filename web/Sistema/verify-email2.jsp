@@ -391,10 +391,10 @@
         
         <div class="verification-header">
             <h1>¡Verifica tu Correo!</h1>
-            <p>Hemos enviado un código a tu correo electrónico. ¡Introdúcelo aquí para verificar tu cuenta!</p>
+            <p>Hemos enviado un código a tu correo electrónico. ¡Introdúcelo aquí para restablecer tu contraseña!</p>
         </div>
         
-        <form class="verification-form" action="complete-registration.jsp" method="post">
+        <form class="verification-form" action="verify-code-reset.jsp" method="post">
             <div class="code-input-container">
                 <input type="text" name="code" id="verification-code" maxlength="6" pattern="[0-9]{6}" 
                        title="El código debe contener 6 dígitos" required 

@@ -1,10 +1,9 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificación de Correo</title>
+    <title>Pedir Correo</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -17,7 +16,6 @@
             --text-dark: #2C3E50;
             --white: #FFFFFF;
             --shadow-color: rgba(0,0,0,0.1);
-            --error-color: #E74C3C;
         }
 
         * {
@@ -92,37 +90,25 @@
             animation-delay: 4s;
         }
 
-        .shape:nth-child(4) {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-bright);
-            top: 10%;
-            right: 25%;
-            animation-delay: 1s;
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        .verification-container {
+        .login-container {
             display: flex;
-            flex-direction: column;
             width: 100%;
-            max-width: 500px;
+            max-width: 1000px;
             background: var(--white);
             border-radius: 25px;
             box-shadow: 0 20px 40px var(--shadow-color);
             overflow: hidden;
-            padding: 3rem 2rem;
-            text-align: center;
             position: relative;
             z-index: 2;
             border: 3px solid var(--accent-yellow);
         }
 
-        .verification-container::before {
+        .login-container::before {
             content: '';
             position: absolute;
             top: -2px;
@@ -140,38 +126,32 @@
             100% { opacity: 1; }
         }
 
-        .verification-icon {
-            font-size: 5rem;
-            color: var(--primary-bright);
-            margin-bottom: 1.5rem;
-            animation: bounce 2s ease-in-out infinite;
-            text-shadow: 2px 2px 4px var(--shadow-color);
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .verification-header {
-            margin-bottom: 2rem;
-        }
-
-        .verification-header h1 {
-            color: var(--primary-bright);
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px var(--shadow-color);
+        .image-section {
+            width: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--secondary-bright));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
             position: relative;
         }
 
-        .verification-header h1::after {
-            content: '✉';
+        .image-section::before {
+            content: '?';
             position: absolute;
-            top: -10px;
-            right: -40px;
-            font-size: 1.5rem;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
             animation: twinkle 2s ease-in-out infinite;
+        }
+
+        .image-section::after {
+            content: '?';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            animation: twinkle 2s ease-in-out infinite 1s;
         }
 
         @keyframes twinkle {
@@ -179,53 +159,101 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        .verification-header p {
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+
+        .login-section {
+            width: 50%;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--white);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .login-header h1 {
+            color: var(--primary-bright);
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px var(--shadow-color);
+            position: relative;
+        }
+
+        .login-header h1::after {
+            content: '?';
+            position: absolute;
+            top: -10px;
+            right: -40px;
+            font-size: 2rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-header p {
             color: var(--text-dark);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
         }
 
-        .verification-form {
+        .login-form {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
         }
 
-        .code-input-container {
+        .form-input {
             position: relative;
-            margin-bottom: 1rem;
+            transform: scale(1);
         }
 
-        #verification-code {
-            width: 100%;
-            padding: 1.5rem;
-            font-size: 2rem;
-            text-align: center;
-            letter-spacing: 0.5rem;
-            border: 3px solid var(--secondary-bright);
-            border-radius: 20px;
-            outline: none;
-            background: var(--white);
-            font-family: 'Comic Sans MS', 'Arial', sans-serif;
-            font-weight: bold;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            transition: all 0.3s ease;
-        }
-
-        #verification-code:focus {
-            border-color: var(--primary-bright);
-            box-shadow: 0 8px 25px rgba(154, 200, 207, 0.3);
+        .form-input:hover {
             transform: scale(1.02);
         }
 
-        #verification-code::placeholder {
-            color: #A0A0A0;
-            font-style: italic;
-            letter-spacing: normal;
+        .form-input input {
+            width: 100%;
+            padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+            border: 3px solid var(--secondary-bright);
+            border-radius: 20px;
+            font-size: 1.1rem;
+            outline: none;
+            background: var(--white);
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            box-shadow: 0 5px 15px var(--shadow-color);
         }
 
-        .verify-btn {
+        .form-input input:focus {
+            border-color: var(--primary-bright);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+            transform: scale(1.02);
+        }
+
+        .form-input i {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-bright);
+            font-size: 1.3rem;
+            z-index: 1;
+        }
+
+        .login-btn {
             background: linear-gradient(45deg, var(--primary-bright), var(--accent-orange));
             color: var(--white);
             border: none;
@@ -243,7 +271,7 @@
             overflow: hidden;
         }
 
-        .verify-btn::before {
+        .login-btn::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -256,22 +284,26 @@
             transform: translate(-50%, -50%);
         }
 
-        .verify-btn:hover::before {
+        .login-btn:hover::before {
             width: 300px;
             height: 300px;
         }
 
-        .verify-btn:hover {
+        .login-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(154, 200, 207, 0.4);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
         }
 
-        .verify-btn:active {
+        .login-btn:active {
             transform: translateY(0px);
         }
 
-        .resend-link {
+        .register-link {
+            text-align: center;
             margin-top: 1.5rem;
+        }
+
+        .register-link a {
             color: var(--secondary-bright);
             text-decoration: none;
             font-weight: bold;
@@ -281,37 +313,71 @@
             transition: all 0.3s ease;
         }
 
-        .resend-link:hover {
+        .register-link a:hover {
             background: var(--secondary-bright);
             color: var(--white);
             transform: scale(1.1);
         }
 
-        .error-message {
-            color: var(--error-color);
-            margin-top: 1rem;
-            display: none;
-            background: rgba(231, 76, 60, 0.1);
-            padding: 1rem;
-            border-radius: 15px;
-            border: 2px solid var(--error-color);
-            font-weight: bold;
-            animation: shake 0.5s ease-in-out;
+        /* Fun input animations */
+        .form-input input::placeholder {
+            color: #A0A0A0;
+            font-style: italic;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        .form-input input:focus::placeholder {
+            transform: translateX(10px);
+            opacity: 0.7;
+        }
+
+        @media screen and (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                margin: 0.5rem;
+            }
+
+            .image-section, .login-section {
+                width: 100%;
+            }
+
+            .image-section {
+                max-height: 300px;
+                background: none;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .login-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .login-header h1::after {
+                right: -20px;
+                font-size: 1.5rem;
+            }
+
+            .floating-shapes {
+                display: none;
+            }
+        }
+
+        /* Success animation for form submission */
+        .form-input.success input {
+            border-color: #2ECC71;
+            background: #E8F8F5;
+        }
+
+        .form-input.success i {
+            color: #2ECC71;
         }
 
         /* Fun loading state */
-        .verify-btn.loading {
+        .login-btn.loading {
             position: relative;
             color: transparent;
         }
 
-        .verify-btn.loading::after {
+        .login-btn.loading::after {
             content: '';
             position: absolute;
             top: 50%;
@@ -329,51 +395,6 @@
             0% { transform: translate(-50%, -50%) rotate(0deg); }
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-
-        /* Success animation */
-        .code-input-container.success #verification-code {
-            border-color: #2ECC71;
-            background: #E8F8F5;
-        }
-
-        @media screen and (max-width: 768px) {
-            .verification-container {
-                margin: 0.5rem;
-                padding: 2rem 1.5rem;
-            }
-
-            .verification-header h1 {
-                font-size: 2rem;
-            }
-
-            .verification-header h1::after {
-                right: -20px;
-                font-size: 1.2rem;
-            }
-
-            .verification-icon {
-                font-size: 4rem;
-            }
-
-            #verification-code {
-                font-size: 1.5rem;
-                padding: 1.2rem;
-            }
-
-            .floating-shapes {
-                display: none;
-            }
-        }
-
-        /* Decorative elements */
-        .verification-container::after {
-            content: '🎉';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            animation: twinkle 3s ease-in-out infinite 1s;
-        }
     </style>
 </head>
 <body>
@@ -381,69 +402,46 @@
         <div class="shape"></div>
         <div class="shape"></div>
         <div class="shape"></div>
-        <div class="shape"></div>
     </div>
 
-    <div class="verification-container">
-        <div class="verification-icon">
-            <i class="fas fa-envelope"></i>
+    <div class="login-container">
+        <div class="image-section">
+            <img src="../img/kidilogin.png" alt="Login Image">
         </div>
         
-        <div class="verification-header">
-            <h1>¡Verifica tu Correo!</h1>
-            <p>Hemos enviado un código a tu correo electrónico. ¡Introdúcelo aquí para verificar tu cuenta!</p>
+        <div class="login-section">
+            <div class="login-header">
+                <h1>Restablecer contrase�a</h1>
+                <p>Si tu cuenta existe, se te enviara un c�digo a tu cuenta de correo para que se restablezca tu contrase�a</p>
+            </div>
+            
+            <form class="login-form" action="proceso-restablecer-contrase�a.jsp" method="get">
+                <div class="form-input">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" name="Correo" id="correo" placeholder="Correo electr�nico" required>
+                </div>   
+                <button type="submit" class="login-btn">Restablecer contrase�a</button>
+            </form>
         </div>
-        
-        <form class="verification-form" action="complete-registration.jsp" method="post">
-            <div class="code-input-container">
-                <input type="text" name="code" id="verification-code" maxlength="6" pattern="[0-9]{6}" 
-                       title="El código debe contener 6 dígitos" required 
-                       placeholder="000000">
-            </div>
-            
-            <div class="error-message" id="error-message">
-                ¡Ups! El código no es correcto. ¡Inténtalo de nuevo! 🤔
-            </div>
-            
-            <button type="submit" class="verify-btn">¡Verificar!</button>
-        </form>
-        
-        <a href="../iniciodesesion.jsp" class="resend-link">Volver 📬</a>
     </div>
 
     <script>
-        // Si hay un parámetro de error en la URL, mostrar el mensaje de error
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('error')) {
-            document.getElementById('error-message').style.display = 'block';
-        }
-
-        // Fun interactions
-        const codeInput = document.getElementById('verification-code');
-        const container = document.querySelector('.code-input-container');
-
-        codeInput.addEventListener('focus', function() {
-            container.style.transform = 'scale(1.05)';
-        });
-        
-        codeInput.addEventListener('blur', function() {
-            container.style.transform = 'scale(1)';
+        // Fun interactions for kids
+        document.querySelectorAll('.form-input input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.05)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
         });
 
         // Simulate loading state on form submission
-        document.querySelector('.verification-form').addEventListener('submit', function(e) {
-            const btn = this.querySelector('.verify-btn');
+        document.querySelector('.login-form').addEventListener('submit', function(e) {
+            const btn = this.querySelector('.login-btn');
             btn.classList.add('loading');
             btn.disabled = true;
-        });
-
-        // Add some fun input validation feedback
-        codeInput.addEventListener('input', function() {
-            if (this.value.length === 6) {
-                container.classList.add('success');
-            } else {
-                container.classList.remove('success');
-            }
         });
     </script>
 </body>

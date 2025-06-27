@@ -1,5 +1,6 @@
+
 <%-- 
-    Document   : proceso-registro-tutor
+    Document   : proceso-restablecer-contraseña
     Created on : 11 abr. 2025, 20:38:10
     Author     : P500
 --%>
@@ -16,7 +17,7 @@
         }
         
         function mensaje2(){
-            alert("Este usuario ya se creó anteriormente, cree uno nuevo");
+            alert("No se encontró nigun usuario para ese correo electrónico");
         }
         
         function debugAlert(mensaje){
@@ -26,8 +27,6 @@
     </head>
     <body>
         <%
-            String contrasena = request.getParameter("Contrasena");
-            String nombre = request.getParameter("Nombre");
             String correo = request.getParameter("Correo");
 
             Connection con = null;
@@ -39,15 +38,12 @@
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Kidi", "root", "n0m3l0");
                 sta = con.createStatement();
                 out.println("Conexión realizada...");
+                out.println("<script>debugAlert('Iniciando proceso... correo a verificar: " + correo + "');</script>");
 
                 try {
                     r = sta.executeQuery("SELECT * FROM TUTOR WHERE CORREO_T ='" + correo + "';");
 
-                    if (r.next()) {
-                        out.println("<script>mensaje2();</script>");
-                        out.println("<script>window.location='Registro.jsp';</script>");
-                    } else {
-                    
+                    if (r.next()) {                                               
                         // Generar código de verificación de 6 dígitos
                         SecureRandom random = new SecureRandom();
                         int code = 100000 + random.nextInt(900000);
@@ -55,48 +51,35 @@
                         
                        
                         // MÉTODO 1: Cookies manuales con configuración específica para proxy
-                        Cookie nombreCookie = new Cookie("kidi_reg_nombre", URLEncoder.encode(nombre, "UTF-8"));
-                        Cookie correoCookie = new Cookie("kidi_reg_correo", URLEncoder.encode(correo, "UTF-8"));
-                        Cookie contrasenaCookie = new Cookie("kidi_reg_contrasena", URLEncoder.encode(contrasena, "UTF-8"));
+                       
                         Cookie codeCookie = new Cookie("kidi_reg_code", verificationCode);
+                        Cookie correoCookie = new Cookie("kidi_reg_correo", URLEncoder.encode(correo, "UTF-8"));
                         Cookie expiryCookie = new Cookie("kidi_reg_expiry", String.valueOf(System.currentTimeMillis() + 15*60*1000));
                         
                         // Configuración específica para servidores con proxy
-                        nombreCookie.setPath("/");
-                        correoCookie.setPath("/");
-                        contrasenaCookie.setPath("/");
                         codeCookie.setPath("/");
+                        correoCookie.setPath("/");
                         expiryCookie.setPath("/");
                         
-                        nombreCookie.setMaxAge(60 * 30); // 30 minutos
-                        correoCookie.setMaxAge(60 * 30);
-                        contrasenaCookie.setMaxAge(60 * 30);
                         codeCookie.setMaxAge(60 * 30);
+                        correoCookie.setMaxAge(60 * 30);
                         expiryCookie.setMaxAge(60 * 30);
                         
-                        nombreCookie.setSecure(false); // Importante: false para HTTP
-                        correoCookie.setSecure(false);
-                        contrasenaCookie.setSecure(false);
                         codeCookie.setSecure(false);
+                        correoCookie.setSecure(false);
                         expiryCookie.setSecure(false);
                         
-                        nombreCookie.setHttpOnly(false); // Permitir acceso desde JavaScript si es necesario
-                        correoCookie.setHttpOnly(false);
-                        contrasenaCookie.setHttpOnly(false);
                         codeCookie.setHttpOnly(false);
+                        correoCookie.setHttpOnly(false);
                         expiryCookie.setHttpOnly(false);
                         
-                        response.addCookie(nombreCookie);
-                        response.addCookie(correoCookie);
-                        response.addCookie(contrasenaCookie);
                         response.addCookie(codeCookie);
+                        response.addCookie(correoCookie);
                         response.addCookie(expiryCookie);
 
                         // MÉTODO 2: Guardar datos en sesión tradicional
-                        session.setAttribute("nombre", nombre);
-                        session.setAttribute("correo", correo);
-                        session.setAttribute("contrasena", contrasena);
                         session.setAttribute("verificationCode", verificationCode);
+                        session.setAttribute("correo", correo);
                         session.setAttribute("codeExpiry", System.currentTimeMillis() + 15*60*1000); // 15 minutos para expirar
 
 
@@ -110,9 +93,7 @@
                         if (mailSent) {
                             
                             // MÉTODO 3: También usar parámetros URL como respaldo
-                            String redirectUrl = "verify-email.jsp?n=" + URLEncoder.encode(nombre, "UTF-8") + 
-                                                "&c=" + URLEncoder.encode(correo, "UTF-8") + 
-                                                "&p=" + URLEncoder.encode(contrasena, "UTF-8") + 
+                            String redirectUrl = "verify-email2.jsp?n=" + "&c=" + URLEncoder.encode(correo, "UTF-8") + 
                                                 "&vc=" + verificationCode + 
                                                 "&ve=" + (System.currentTimeMillis() + 15*60*1000) +
                                                 "&ts=" + System.currentTimeMillis(); // timestamp para evitar cache
@@ -121,6 +102,11 @@
                         } else {
                             out.println("<script>alert('Error al enviar el correo de verificación: " + debugMessage + "');window.location='registro.jsp';</script>");
                         }
+                        
+                    } else {
+                    
+                        out.println("<script>mensaje2();</script>");
+                        out.println("<script>window.location='../iniciodesesion.jsp';</script>");
                     }
                 } catch (SQLException error) {
                     out.print(error.toString());
@@ -179,8 +165,8 @@
                     // Crea el contenido HTML del correo
                     String htmlContent = 
                         "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;border:1px solid #e0e0e0;border-radius:5px'>" +
-                        "<h2 style='color:#4A235A;text-align:center'>Verificación de cuenta Kidi</h2>" +
-                        "<p>¡Gracias por registrarte! Para completar tu registro, utiliza el siguiente código de verificación:</p>" +
+                        "<h2 style='color:#4A235A;text-align:center'>Restablecer contraseña de cuenta Kidi</h2>" +
+                        "<p>Para completar el restablecimiento de tu contraseña, utiliza el siguiente código de verificación:</p>" +
                         "<div style='background-color:#f5f5f5;padding:15px;text-align:center;font-size:24px;letter-spacing:5px;margin:20px 0;border-radius:5px'>" +
                         verificationCode +
                         "</div>" +

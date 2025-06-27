@@ -434,7 +434,8 @@
             </form>
             
             <div class="register-link">
-                <a href="Sistema/Registro.jsp">¿No tienes cuenta? Regístrate</a>
+                <a href="Sistema/Registro.jsp">¿No tienes cuenta? Regístrate</a><br><br>
+                <a href="Sistema/pedirCorreo.jsp">¿Olvidaste tu contraseña?</a>
             </div>
         </div>
     </div>
