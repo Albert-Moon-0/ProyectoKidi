@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DT-Dreams - Del sueño a la solución</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+            :root {
+                --primary-color: #00bcd4;
+                --primary-dark: #0891b2;
+                --primary-light: #67e8f9;
+                --dark-bg: #0a1a2e;
+                --darker-bg: #041c33;
+                --text-color: #e8f4f8;
+                --text-secondary: rgba(232, 244, 248, 0.8);
+                --card-bg: rgba(255, 255, 255, 0.05);
+                --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body, html {
+                font-family: 'Inter', sans-serif;
+                background: linear-gradient(135deg, var(--dark-bg) 0%, #16213e 50%, #0f3460 100%);
+                color: var(--text-color);
+                overflow-x: hidden;
+                scroll-behavior: smooth;
+                line-height: 1.6;
+            }
+
+            /* Partículas de fondo mejoradas */
+            .background-animation {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                opacity: 0.15;
+                overflow: hidden;
+            }
+
+            .particle {
+                position: absolute;
+                background: var(--primary-color);
+                border-radius: 50%;
+                animation: float 8s ease-in-out infinite;
+                filter: blur(0.5px);
+            }
+
+            /* Generación de partículas dinámica */
+            .particle:nth-child(1) {
+                width: 6px;
+                height: 6px;
+                top: 15%;
+                left: 5%;
+                animation-delay: 0s;
+            }
+            .particle:nth-child(2) {
+                width: 8px;
+                height: 8px;
+                top: 65%;
+                left: 85%;
+                animation-delay: 1.5s;
+            }
+            .particle:nth-child(3) {
+                width: 4px;
+                height: 4px;
+                top: 75%;
+                left: 15%;
+                animation-delay: 3s;
+            }
+            .particle:nth-child(4) {
+                width: 7px;
+                height: 7px;
+                top: 25%;
+                left: 65%;
+                animation-delay: 0.5s;
+            }
+            .particle:nth-child(5) {
+                width: 5px;
+                height: 5px;
+                top: 60%;
+                left: 45%;
+                animation-delay: 2.5s;
+            }
+            .particle:nth-child(6) {
+                width: 3px;
+                height: 3px;
+                top: 40%;
+                left: 30%;
+                animation-delay: 4s;
+            }
+            .particle:nth-child(7) {
+                width: 5px;
+                height: 5px;
+                top: 80%;
+                left: 70%;
+                animation-delay: 1s;
+            }
+
+            @keyframes float {
+                0%, 100% {
+                    transform: translate(0, 0) rotate(0deg);
+                }
+                25% {
+                    transform: translate(10px, -15px) rotate(5deg);
+                }
+                50% {
+                    transform: translate(-5px, -25px) rotate(-5deg);
+                }
+                75% {
+                    transform: translate(15px, -10px) rotate(3deg);
+                }
+            }
+
+            /* Header premium */
+            header {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                background: rgba(4, 28, 51, 0.95);
+                backdrop-filter: blur(12px);
+                padding: 15px 0;
+                box-shadow: 0 8px 32px rgba(0, 188, 212, 0.1);
+                z-index: 1000;
+                transition: var(--transition);
+                border-bottom: 1px solid rgba(0, 188, 212, 0.1);
+            }
+
+            header.scrolled {
+                padding: 10px 0;
+                background: rgba(4, 28, 51, 0.98);
+                box-shadow: 0 12px 40px rgba(0, 188, 212, 0.15);
+            }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                margin: 0;
+                padding: 0 60px;
+            }
+
+            .logo-container {
+                margin-right: auto;
+            }
+
+            .imagen-logo {
+                height: 50px;
+                width: auto;
+                filter: drop-shadow(0 4px 8px rgba(0, 188, 212, 0.3));
+                transition: var(--transition);
+            }
+
+            .imagen-logo:hover {
+                transform: scale(1.1) rotate(5deg);
+                filter: drop-shadow(0 8px 16px rgba(0, 188, 212, 0.5));
+            }
+
+            nav ul li a {
+                color: var(--text-color);
+                font-size: 16px;
+                font-weight: 500;
+                text-decoration: none;
+                padding: 12px 24px;
+                border-radius: 25px;
+                position: relative;
+                transition: var(--transition);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            nav ul li a::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%) scaleX(0);
+                width: 0;
+                height: 2px;
+                background: var(--primary-color);
+                transition: var(--transition);
+            }
+
+            nav ul li a:hover {
+                color: var(--primary-color);
+            }
+
+            nav ul li a:hover::before {
+                width: 60%;
+                transform: translateX(-50%) scaleX(1);
+            }
+
+            nav ul li a.active {
+                background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
+                color: white;
+                box-shadow: 0 8px 20px rgba(0, 188, 212, 0.3);
+            }
+
+            nav ul li a i {
+                font-size: 0.9em;
+            }
+
+            /* Contenido principal mejorado */
+            .hero-section {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 150px 40px 80px;
+                position: relative;
+            }
+
+            .hero-content {
+                max-width: 900px;
+                animation: fadeInUp 1s ease-out;
+                position: relative;
+            }
+
+            .company-logo {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 40px;
+                filter: drop-shadow(0 10px 30px rgba(0, 188, 212, 0.4));
+                animation: logoFloat 4s ease-in-out infinite;
+                border-radius: 25px;
+                background: rgba(255, 255, 255, 0.05);
+                padding: 25px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(0, 188, 212, 0.2);
+                transition: var(--transition);
+                object-fit: contain;
+            }
+
+            @keyframes logoFloat {
+                0%, 100% {
+                    transform: translateY(0px) rotate(0deg);
+                }
+                50% {
+                    transform: translateY(-15px) rotate(2deg);
+                }
+            }
+
+            .company-name {
+                font-family: 'Poppins', sans-serif;
+                font-size: clamp(3rem, 8vw, 6.5rem);
+                font-weight: 700;
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 50%, var(--primary-light) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 25px;
+                text-shadow: 0 4px 20px rgba(0, 188, 212, 0.3);
+                animation: textGlow 3s ease-in-out infinite alternate;
+                letter-spacing: -1px;
+                line-height: 1.1;
+            }
+
+            @keyframes textGlow {
+                from {
+                    text-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+                }
+                to {
+                    text-shadow: 0 0 25px rgba(0, 188, 212, 0.6);
+                }
+            }
+
+            .company-slogan {
+                font-family: 'Poppins', sans-serif;
+                font-size: clamp(1.5rem, 4vw, 2.8rem);
+                font-weight: 400;
+                font-style: italic;
+                color: var(--primary-light);
+                margin-bottom: 60px;
+                opacity: 0.9;
+                position: relative;
+                display: inline-block;
+            }
+
+            .company-slogan::before, .company-slogan::after {
+                content: '"';
+                color: var(--primary-light);
+                opacity: 0.6;
+                font-size: 1.2em;
+                position: relative;
+                top: 0;
+            }
+
+            .company-slogan::before {
+                margin-right: 10px;
+            }
+
+            .company-slogan::after {
+                margin-left: 10px;
+            }
+
+            .welcome-section {
+                background: var(--card-bg);
+                backdrop-filter: blur(15px);
+                border-radius: 30px;
+                padding: 60px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(0, 188, 212, 0.2);
+                transition: var(--transition);
+                max-width: 100%;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .welcome-section::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(0, 188, 212, 0.05) 0%, transparent 70%);
+                z-index: -1;
+                animation: rotate 20s linear infinite;
+            }
+
+            @keyframes rotate {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .welcome-section:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 30px 80px rgba(0, 188, 212, 0.25);
+                border-color: rgba(0, 188, 212, 0.4);
+            }
+
+            .welcome-title {
+                font-size: 2.8rem;
+                font-weight: 600;
+                color: var(--primary-color);
+                margin-bottom: 35px;
+                position: relative;
+                display: inline-block;
+            }
+
+            .welcome-title::after {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 0;
+                width: 100px;
+                height: 4px;
+                background: linear-gradient(45deg, var(--primary-color), var(--primary-light));
+                border-radius: 2px;
+            }
+
+            .welcome-text {
+                font-size: 1.25rem;
+                line-height: 1.8;
+                color: var(--text-secondary);
+                font-weight: 400;
+                margin-bottom: 30px;
+            }
+
+            /* Botón CTA */
+            .cta-button {
+                display: inline-block;
+                padding: 15px 35px;
+                background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
+                color: white;
+                border-radius: 50px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1.1rem;
+                margin-top: 20px;
+                transition: var(--transition);
+                box-shadow: 0 10px 30px rgba(0, 188, 212, 0.3);
+                border: none;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                z-index: 1;
+            }
+
+            .cta-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+                z-index: -1;
+                opacity: 0;
+                transition: var(--transition);
+            }
+
+            .cta-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 40px rgba(0, 188, 212, 0.4);
+            }
+
+            .cta-button:hover::before {
+                opacity: 1;
+            }
+
+            /* Animaciones mejoradas */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(40px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Efecto de onda */
+            .wave-effect {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                z-index: -1;
+            }
+
+            .wave {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 200%;
+                height: 100px;
+                background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%2300bcd4" opacity=".05"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%2300bcd4" opacity=".1"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%2300bcd4" opacity=".15"/></svg>');
+                background-repeat: repeat-x;
+                animation: wave 15s linear infinite;
+                opacity: 0.3;
+            }
+
+            .wave:nth-child(2) {
+                animation-delay: -5s;
+                animation-duration: 20s;
+                opacity: 0.2;
+                bottom: 10px;
+            }
+
+            .wave:nth-child(3) {
+                animation-delay: -2s;
+                animation-duration: 25s;
+                opacity: 0.1;
+                bottom: 20px;
+            }
+
+            @keyframes wave {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            /* Responsive mejorado */
+            @media (max-width: 992px) {
+                nav ul {
+                    gap: 30px;
+                    padding: 0 40px;
+                }
+
+                .welcome-section {
+                    padding: 50px 40px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                nav ul {
+                    flex-direction: column;
+                    gap: 15px;
+                    padding: 20px;
+                }
+
+                .logo-container {
+                    margin-right: 0;
+                    margin-bottom: 15px;
+                }
+
+                .hero-section {
+                    padding: 140px 25px 50px;
+                }
+
+                .welcome-section {
+                    padding: 40px 30px;
+                    border-radius: 25px;
+                }
+
+                .company-logo {
+                    width: 150px;
+                    height: 150px;
+                }
+
+                .welcome-title {
+                    font-size: 2.2rem;
+                }
+
+                .welcome-text {
+                    font-size: 1.1rem;
+                }
+
+                .cta-button {
+                    padding: 12px 30px;
+                    font-size: 1rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                nav ul {
+                    gap: 12px;
+                }
+
+                nav ul li a {
+                    padding: 10px 16px;
+                    font-size: 14px;
+                }
+
+                .welcome-section {
+                    padding: 30px 20px;
+                }
+
+                .company-logo {
+                    width: 120px;
+                    height: 120px;
+                    padding: 15px;
+                }
+
+                .welcome-title {
+                    font-size: 1.8rem;
+                    margin-bottom: 25px;
+                }
+
+                .welcome-title::after {
+                    width: 70px;
+                    height: 3px;
+                    bottom: -10px;
+                }
+            }
+
+            /* Efecto de carga mejorado */
+            body {
+                opacity: 0;
+                animation: fadeIn 0.8s ease-out forwards;
+            }
+
+            @keyframes fadeIn {
+                to {
+                    opacity: 1;
+                }
+            }
+
+            .fade-in {
+                animation: fadeInUp 0.8s ease-out forwards;
+            }
+
+            .fade-in-delay {
+                animation: fadeInUp 0.8s ease-out 0.3s forwards;
+                opacity: 0;
+            }
+
+            /* Efecto de brillo al hover */
+            .glow-on-hover {
+                transition: var(--transition);
+            }
+
+            .glow-on-hover:hover {
+                filter: brightness(1.1);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Animación de fondo mejorada -->
+        <div class="background-animation">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <!-- Efecto de onda -->
+        <div class="wave-effect">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+
+        <header id="main-header">
+            <nav>
+                <ul>
+                    <li class="logo-container">
+                        <a href="#">
+                            <img class="imagen-logo" src="../Imagenes/logoempresa.png" alt="DT-Dreams Logo">
+                        </a>
+                    </li>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="Nosotros.html"><i class="fas fa-users"></i> Nosotros</a></li>
+                    <li><a href="Valores.html"><i class="fas fa-chart-line"></i> Valores y FODA</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="hero-section">
+            <div class="hero-content fade-in">
+                <img src="../Imagenes/logoempresa.png" alt="Logo DT-Dreams" class="company-logo glow-on-hover">
+
+                <h1 class="company-name">DT-DREAMS</h1>
+
+                <p class="company-slogan">Del sueño a la solución</p>
+
+                <div class="welcome-section fade-in-delay">
+                    <h2 class="welcome-title">Bienvenidos</h2>
+                    <p class="welcome-text">
+                        Somos una empresa especializada en el desarrollo de software innovador y soluciones tecnológicas avanzadas para satisfacer las necesidades de nuestros clientes. Con un equipo altamente capacitado y comprometido, estamos listos para transformar ideas en realidad.
+                    </p>
+                    
+                </div>
+
+                <div class="welcome-section fade-in-delay">
+                    <h2 class="welcome-title">Proyectos</h2>
+                    <p class="welcome-text">
+                        Nuestro portafolio de proyectos actualmente cuenta con Kidi, una plataforma educativa diseñada para ayudar a los niños a aprender de forma divertida y dinámica, evitando la monotonía del estudio tradicional.
+                    </p>                <a href="../index.html" class="cta-button glow-on-hover">
+                        <i class="fas fa-paper-plane"></i> Visitalo
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <script>
+            // Efecto de header al hacer scroll
+            const header = document.getElementById('main-header');
+            let lastScroll = 0;
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+
+                if (currentScroll <= 0) {
+                    header.classList.remove('scrolled');
+                    return;
+                }
+
+                if (currentScroll > lastScroll && !header.classList.contains('scrolled-down')) {
+                    header.classList.add('scrolled-down');
+                } else if (currentScroll < lastScroll && header.classList.contains('scrolled-down')) {
+                    header.classList.remove('scrolled-down');
+                }
+
+                header.classList.add('scrolled');
+                lastScroll = currentScroll;
+            });
+
+            // Efecto de parallax mejorado
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const particles = document.querySelectorAll('.particle');
+
+                particles.forEach((particle, index) => {
+                    const speed = (index + 1) * 0.3;
+                    const movementX = Math.sin(scrolled * 0.001 * (index + 1)) * 20;
+                    particle.style.transform = `translate(${movementX}px, ${scrolled * speed}px)`;
+                });
+            });
+
+            // Animación de entrada cuando la página carga
+            window.addEventListener('load', () => {
+                document.body.style.opacity = '1';
+
+                // Efecto de tipo máquina de escribir para el eslogan
+                const slogan = document.querySelector('.company-slogan');
+                const text = slogan.textContent;
+                slogan.textContent = '';
+
+                let i = 0;
+                const typingEffect = setInterval(() => {
+                    if (i < text.length) {
+                        slogan.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typingEffect);
+                    }
+                }, 100);
+            });
+
+            // Efecto hover mejorado para el logo
+            const logo = document.querySelector('.company-logo');
+            logo.addEventListener('mouseenter', () => {
+                logo.style.animation = 'none';
+                logo.style.transform = 'scale(1.1) rotate(5deg)';
+            });
+
+            logo.addEventListener('mouseleave', () => {
+                logo.style.animation = 'logoFloat 4s ease-in-out infinite';
+                logo.style.transform = 'scale(1) rotate(0deg)';
+            });
+
+            // Efecto de pulsación para el botón CTA
+            const ctaButton = document.querySelector('.cta-button');
+            ctaButton.addEventListener('mousedown', () => {
+                ctaButton.style.transform = 'translateY(1px)';
+            });
+
+            ctaButton.addEventListener('mouseup', () => {
+                ctaButton.style.transform = 'translateY(-3px)';
+            });
+
+            ctaButton.addEventListener('mouseleave', () => {
+                ctaButton.style.transform = 'translateY(0)';
+            });
+        </script>
+    </body>
+</html>

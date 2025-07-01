@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DT-Dreams - Nosotros</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+    <style>
+        /* ===== VARIABLES GLOBALES MEJORADAS ===== */
+        :root {
+            --primary-color: #00e5ff;
+            --primary-dark: #00b4d8;
+            --primary-light: #7dd3fc;
+            --accent-color: #ff6b35;
+            --dark-bg: #0a0f1c;
+            --darker-bg: #060b14;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --text-color: #f1f5f9;
+            --text-secondary: rgba(241, 245, 249, 0.75);
+            --text-muted: rgba(241, 245, 249, 0.5);
+            --border-color: rgba(0, 229, 255, 0.2);
+            --glow-color: rgba(0, 229, 255, 0.3);
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-slow: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-glow: 0 0 30px rgba(0, 229, 255, 0.3);
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            color: var(--text-color);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== FONDO ANIMADO ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(0, 229, 255, 0.05) 0%, transparent 40%);
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(2deg); }
+        }
+
+        /* ===== HEADER PREMIUM MEJORADO ===== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(6, 11, 20, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            padding: 20px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header.scrolled {
+            padding: 15px 0;
+            background: rgba(6, 11, 20, 0.95);
+            box-shadow: 0 12px 40px rgba(0, 229, 255, 0.15);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin: 0;
+            padding: 0 60px;
+        }
+
+        .logo-container {
+            margin-right: auto;
+        }
+
+        .imagen-logo {
+            height: 55px;
+            width: auto;
+            filter: drop-shadow(0 4px 20px var(--glow-color));
+            transition: var(--transition);
+        }
+
+        .imagen-logo:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 8px 30px var(--glow-color));
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            background: linear-gradient(45deg, transparent, var(--primary-color), transparent);
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+            background: rgba(0, 229, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        nav ul li a:hover::before {
+            opacity: 1;
+        }
+
+        nav ul li a.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-glow);
+            border: 1px solid var(--primary-color);
+        }
+
+        nav ul li a i {
+            font-size: 1em;
+            transition: var(--transition-fast);
+        }
+
+        nav ul li a:hover i {
+            transform: scale(1.2);
+        }
+
+        /* ===== CONTENIDO PRINCIPAL MEJORADO ===== */
+        .main-content {
+            padding: 180px 8% 100px;
+            max-width: 1500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* ===== SECCIÓN TÍTULO PREMIUM ===== */
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 80px 0 40px;
+            text-align: center;
+            position: relative;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            border-radius: 2px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { box-shadow: 0 0 5px var(--primary-color); }
+            100% { box-shadow: 0 0 20px var(--primary-color); }
+        }
+
+        /* ===== TEXTO MEJORADO ===== */
+        .text-content {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin: 25px 0;
+            text-align: justify;
+        }
+
+        .highlight {
+            color: var(--primary-light);
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }       
+      
+        /* ===== IMAGEN DE CONTENIDO PREMIUM ===== */
+        .content-img {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            margin: 50px auto;
+            border-radius: 20px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 229, 255, 0.2);
+            border: 2px solid var(--border-color);
+            transition: var(--transition-slow);
+            filter: brightness(1.1) saturate(1.2);
+        }
+
+        .content-img:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.5),
+                var(--shadow-glow);
+            border-color: var(--primary-color);
+        }
+
+        /* ===== CARDS PREMIUM MEJORADAS ===== */
+        .cards-container {
+            display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 60px 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color);
+            transition: var(--transition-slow);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            transform-style: preserve-3d;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            width: 100%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 0deg,
+                rgba(0, 229, 255, 0.1) 90deg,
+                transparent 180deg,
+                rgba(255, 107, 53, 0.05) 270deg,
+                transparent 360deg
+            );
+            z-index: -1;
+            animation: cardRotate 30s linear infinite;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            background: var(--card-bg);
+            border-radius: 23px;
+            z-index: -1;
+        }
+
+        @keyframes cardRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                var(--shadow-glow);
+            border-color: var(--primary-color);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+            filter: brightness(1.1) saturate(1.1);
+        }
+
+        .card-img:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: -0.01em;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== SECCIONES CON FONDO ===== */
+        .section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 50px 0;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.05), transparent);
+            transition: var(--transition-slow);
+        }
+
+        .section:hover::before {
+            left: 100%;
+        }
+
+        /* ===== ANIMACIONES DE ENTRADA ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotateX(15deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0deg);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in:nth-child(5) { animation-delay: 0.5s; }
+        .fade-in:nth-child(6) { animation-delay: 0.6s; }
+        .fade-in:nth-child(7) { animation-delay: 0.7s; }
+
+        /* ===== RESPONSIVE DESIGN MEJORADO ===== */
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 170px 6% 80px;
+            }
+            
+            .cards-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 35px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            nav ul {
+                gap: 30px;
+                padding: 0 40px;
+            }
+            
+            .main-content {
+                padding: 160px 5% 70px;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+
+            .cards-container {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 20px;
+                padding: 25px;
+            }
+
+            .logo-container {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .main-content {
+                padding: 200px 5% 60px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .section {
+                padding: 30px 25px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 180px 20px 50px;
+            }
+            
+            .section {
+                padding: 25px 20px;
+                border-radius: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .text-content, ul li {
+                font-size: 1rem;
+            }
+
+            .card {
+                padding: 25px 20px;
+                border-radius: 20px;
+            }
+
+            ul li {
+                padding: 12px 15px 12px 50px;
+            }
+        }
+
+        /* ===== SCROLL PERSONALIZADO MEJORADO ===== */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+            border-radius: 6px;
+            border: 2px solid var(--darker-bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--primary-light), var(--primary-color));
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* ===== EFECTOS DE CARGA ===== */
+        body {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* ===== PARTÍCULAS FLOTANTES ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <header id="main-header">
+        <nav>
+            <ul>
+                <li class="logo-container">
+                    <a href="#">
+                        <img class="imagen-logo" src="../Imagenes/logoempresa.png" alt="DT-Dreams Logo">
+                    </a>
+                </li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a href="Nosotros.html" class="active"><i class="fas fa-users"></i> Nosotros</a></li>
+                <li><a href="Valores.html"><i class="fas fa-chart-line"></i> Valores y FODA</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Organigrama -->
+        <section class="fade-in">
+            <h2 class="section-title">Organigrama</h2>
+            <img src="../Imagenes/Organigrama.png" alt="Organigrama" class="content-img">
+        </section>
+
+        <!-- Personal -->
+        <section class="fade-in">
+            <h2 class="section-title">Personal</h2>
+
+            <div class="cards-container">
+                <div class="card">
+                    <img src="../Imagenes/P1.png" alt="P1" class="card-img">
+                    <h3 class="card-title">Luna Martinez Diego Alberto</h3>
+                    <p class="card-text">Líder de Departamento de Sistema</p>
+                </div>
+                <div class="card">
+                    <img src="../Imagenes/p2sam.png" alt="P2" class="card-img">
+                    <h3 class="card-title">Jarillo Olague Samantha Janeth</h3>
+                    <p class="card-text">Directora Ejecutiva CEO</p>
+                </div>
+                <div class="card">
+                    <img src="../Imagenes/P3.png" alt="P3" class="card-img">
+                    <h3 class="card-title">Moran Ramirez Fernando</h3>
+                    <p class="card-text">Líder de Departamento de Finanzas</p>
+                </div>
+                <div class="card">
+                    <img src="../Imagenes/P4.png" alt="P4" class="card-img">
+                    <h3 class="card-title">Medellin Redondo Jorge Daniel</h3>
+                    <p class="card-text">Líder de Departamento de Soporte y Atención</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Director General -->
+        <section class="section fade-in">
+            <h2 class="section-title">Director General</h2>
+            <p class="text-content highlight">Funciones:</p>
+            <ul class="text-content">
+                <li>Cumplir los acuerdos de la junta administrativa.</li>
+                <li>Vigilar el cumplimiento de los programas.</li>
+                <li>Formular el proyecto del programa general.</li>
+            </ul>
+            <p class="text-content highlight">Perfil:</p>
+            <p class="text-content">Tener una combinación de habilidades en liderazgo, gestión empresarial y conocimientos técnicos en el sector, como Maestría en Administración de Empresas (MBA), Ingeniería, Economía, Derecho o Gestión Empresarial.</p>
+            <p class="text-content highlight">Salario:</p>
+            <p class="text-content">En México, el sueldo promedio mensual para un gerente de desarrollo de software es de aproximadamente $37,250.</p>
+        </section>
+
+        <!-- Arquitecto de Software -->
+        <section class="section fade-in">
+            <h2 class="section-title">Arquitecto de Software</h2>
+            <p class="text-content highlight">Funciones:</p>
+            <ul class="text-content">
+                <li>Definición de arquitectura de los sistemas, vista física y lógica, principios de arquitectura y seguridad.</li>
+                <li>Selección de software: Pilas de aplicaciones, bases de datos, librerías, frameworks, estándares tecnológicos.</li>
+            </ul>
+            <p class="text-content highlight">Perfil:</p>
+            <p class="text-content">Completar un grado o ingeniería técnica en informática, sistemas de telecomunicaciones o similar, y tener conocimientos avanzados en tecnologías de la información y liderazgo.</p>
+            <p class="text-content highlight">Salario:</p>
+            <p class="text-content">En México, un arquitecto de software percibe un salario medio mensual de $37,000.</p>
+        </section>
+
+        <!-- Departamento de Sistemas -->
+        <section class="section fade-in">
+            <h2 class="section-title">Departamento de Sistemas / Desarrollo de Software</h2>
+            <p class="text-content highlight">Funciones:</p>
+            <p class="text-content">Desarrollar nuevos productos e incorporar nuevas tecnologías, mejorar la calidad de los productos actuales, dirigir recursos humanos y tecnológicos del área, gestionar proveedores.</p>
+            <p class="text-content highlight">Perfil:</p>
+            <p class="text-content">Habilidades en lenguajes de programación, frameworks, diseño de interfaces de usuario, arquitectura de software y diseño de sistemas.</p>
+            <p class="text-content highlight">Salario:</p>
+            <p class="text-content">El salario promedio para un desarrollador de software en México es de aproximadamente $180,000 al año o $92.31 por hora.</p>
+        </section>
+
+        <!-- Departamento de Soporte Técnico -->
+        <section class="section fade-in">
+            <h2 class="section-title">Departamento de Soporte Técnico y Telecomunicaciones</h2>
+            <p class="text-content highlight">Funciones:</p>
+            <ul class="text-content">
+                <li>Proporcionar dirección técnica para el desarrollo, diseño e integración de sistemas.</li>
+                <li>Revisar trabajos realizados y seguir el proyecto en pruebas e implementación.</li>
+            </ul>
+            <p class="text-content highlight">Perfil:</p>
+            <p class="text-content">Resolución de problemas técnicos, comunicación efectiva, conocimientos en sistemas operativos, experiencia en herramientas de soporte técnico y trabajo en equipo.</p>
+            <p class="text-content highlight">Salario:</p>
+            <p class="text-content">El salario promedio para un profesional en soporte técnico en México es de aproximadamente $13,858 por mes.</p>
+        </section>
+
+        <!-- Departamento de Servicio y Atención -->
+        <section class="section fade-in">
+            <h2 class="section-title">Departamento de Servicio y Atención al Cliente</h2>
+            <p class="text-content highlight">Funciones:</p>
+            <ul class="text-content">
+                <li>Crear y mantener relaciones con los clientes y entender sus necesidades.</li>
+                <li>Coordinar equipos internos y externos para campañas de marketing.</li>
+            </ul>
+            <p class="text-content highlight">Perfil:</p>
+            <p class="text-content">Habilidades en resolución de problemas, gestión, comunicación, conocimientos básicos de sistemas operativos y aplicaciones, experiencia en soporte técnico y trabajo en equipo.</p>
+            <p class="text-content highlight">Salario:</p>
+            <p class="text-content">El salario promedio para este puesto en México es de aproximadamente $13,858 al mes.</p>
+        </section>
+
+        <!-- Departamento Financiero -->
+        <section class="section fade-in">
+            <h2 class="section-title">Departamento Financiero</h2>
+            <p class="text-content highlight">Funciones:</p>
+            <ul class="text-content">
+                <li>Administrar los recursos económicos de la empresa, asignarlos en proyectos de inversión para maximizar beneficios.</li>
+            </ul>
+            <p class="text-content highlight">Perfil:</p>
+            <p class="text-content">Es el administrador general de los recursos económicos de la empresa. Para ello tendrá que tomar decisiones de cómo asignar los recursos disponibles en las diferentes áreas funcionales de la empresa mediante proyectos de inversión, con el objetivo económico de maximizar los beneficios.</p>
+            <p class="text-content highlight">Salario:</p>
+            <p class="text-content">El salario promedio en México es de aproximadamente $25,000 al mes.</p>
+        </section>
+    </main>
+
+    <script>
+        // Efecto de header al hacer scroll mejorado
+        const header = document.getElementById('main-header');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll <= 50) {
+                header.classList.remove('scrolled');
+                return;
+            }
+            
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+                }
+
+                header.classList.add('scrolled');
+                lastScroll = currentScroll;
+            });
+
+            // Animación de entrada suave
+            window.addEventListener('load', () => {
+                document.body.style.opacity = '1';
+            });
+        </script>
+    </body>
+</html>
