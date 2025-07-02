@@ -526,7 +526,7 @@
 
     <div class="reset-container">
         <div class="image-section">
-            <img src="img/kidilogin.png" alt="Kidi Reset Password">
+            <img src="../img/kidilogin.png" alt="Kidi Reset Password">
         </div>
         
         <div class="reset-section">

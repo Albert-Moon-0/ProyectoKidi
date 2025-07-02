@@ -38,7 +38,6 @@
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Kidi", "root", "n0m3l0");
                 sta = con.createStatement();
                 out.println("Conexión realizada...");
-                out.println("<script>debugAlert('Iniciando proceso... correo a verificar: " + correo + "');</script>");
 
                 try {
                     r = sta.executeQuery("SELECT * FROM TUTOR WHERE CORREO_T ='" + correo + "';");
