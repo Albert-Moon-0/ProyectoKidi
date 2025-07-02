@@ -356,7 +356,7 @@ footer p {
             <!-- Juego 1 -->
             <div class="col-sm-6 col-md-4" style="--animation-order: 1;">
                 <div class="card">
-                    <img class="card-img-top" src="../img/oraciones.png" alt="Completa oraciones" loading="lazy">
+                    <img class="card-img-top" src="../img/armando.jpg" alt="Completa oraciones" loading="lazy">
                     <div class="card-body">
                         <h5 class="card-title">Completa oraciones</h5>
                         <p class="card-text">Aprende a usar el vocabulario aprendido de manera divertida.</p>

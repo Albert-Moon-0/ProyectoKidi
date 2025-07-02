@@ -369,10 +369,10 @@ footer p {
             <!-- Juego 2 -->
             <div class="col-sm-6 col-md-4" style="--animation-order: 2;">
                 <div class="card">
-                    <img class="card-img-top" src="../img/numrs.jpg" alt="Adivina el número" loading="lazy">
+                    <img class="card-img-top" src="../img/Operacioncitas.jpg" alt="Adivina el número" loading="lazy">
                     <div class="card-body">
-                        <h5 class="card-title">Adivina el número</h5>
-                        <p class="card-text">Intenta adivinar el número oculto con las pistas que te damos.</p>
+                        <h5 class="card-title">Mas rapido que la luz</h5>
+                        <p class="card-text">Intenta resolver las operaciones basicas lo mas rapido posible.</p>
                         <a href="Juego2.html" class="btn btn-game">¡Jugar ahora!</a>
                     </div>
                 </div>
