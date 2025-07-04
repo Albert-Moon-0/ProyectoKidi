@@ -182,6 +182,55 @@
             position: relative;
         }
 
+        /* Estilos mejorados para el botón de regreso */
+        .back-btn {
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary-bright), var(--secondary-bright));
+            color: var(--white);
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 8px 20px var(--shadow-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(45deg, var(--secondary-bright), var(--accent-orange));
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 12px 30px rgba(154, 200, 207, 0.4);
+        }
+
+        .back-btn:active {
+            transform: translateY(-1px) scale(1.05);
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .back-btn:hover::before {
+            width: 60px;
+            height: 60px;
+        }
+
         .login-header h1 {
             color: var(--primary-bright);
             font-size: 3rem;
@@ -347,6 +396,14 @@
                 padding: 20px;
             }
 
+            .back-btn {
+                top: -10px;
+                left: 10px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+
             .login-header h1 {
                 font-size: 2.5rem;
             }
@@ -411,6 +468,7 @@
         
         <div class="login-section">
             <div class="login-header">
+                <a href="index.html" class="back-btn">&larr;</a>
                 <h1>Iniciar Sesión</h1>
                 <p>Ingresa tus credenciales para continuar</p>
             </div>
