@@ -4,7 +4,7 @@
     Author     : Sistema Kidi
     Purpose    : Cerrar sesión de forma segura eliminando todas las credenciales
 --%>
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,java.util.*" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*,java.io.*,java.util.*,java.util.concurrent.ConcurrentHashMap" %>
 <%@page import="javax.servlet.http.*, javax.servlet.*" %>
 <!DOCTYPE html>
 <html>
@@ -54,90 +54,124 @@
 <%
     boolean logoutSuccess = false;
     String errorMessage = "";
+    String correoUsuario = null;
 
     System.out.println("🔁 [DEBUG] Entrando a invalidateSession.jsp");
 
-    HttpSession userSession = request.getSession(false);
-
-    if (userSession != null) {
-        try {
-            System.out.println("🔁 [DEBUG] Sesión detectada. Intentando limpiar...");
-
-            // Obtener contexto y mapa global de sesiones activas
-            ServletContext appContext = getServletContext();
-            Map<String, HttpSession> activeSessions = null;
-            Object sessionMapObj = appContext.getAttribute("activeSessions");
-
-            if (sessionMapObj instanceof Map) {
-                try {
-                    activeSessions = (Map<String, HttpSession>) sessionMapObj;
-                    System.out.println("🔁 [DEBUG] Mapa de sesiones obtenido correctamente.");
-                } catch (ClassCastException cce) {
-                    System.out.println("❌ [ERROR] activeSessions no es del tipo esperado: " + cce.getMessage());
-                    errorMessage = "Error interno de sesión. Contacte al administrador.";
-                }
-            }
-
-            // Obtener correo del usuario
-            String correoUsuario = null;
+    try {
+        // OBTENER SESIÓN ACTUAL
+        HttpSession userSession = request.getSession(false);
+        
+        if (userSession != null) {
+            // Obtener correo antes de invalidar la sesión
             try {
                 correoUsuario = (String) userSession.getAttribute("userEmail");
                 System.out.println("🔁 [DEBUG] Correo del usuario: " + correoUsuario);
             } catch (IllegalStateException e) {
                 System.out.println("⚠️ [WARN] La sesión ya estaba invalidada.");
             }
-
-            // Remover del mapa si existe
+            
+            // OBTENER CONTEXTO Y MAPA DE SESIONES ACTIVAS
+            ServletContext appContext = getServletContext();
+            ConcurrentHashMap<String, HttpSession> activeSessions = null;
+            
+            // Sincronizar acceso al mapa global
+            synchronized(appContext) {
+                Object sessionMapObj = appContext.getAttribute("activeSessions");
+                if (sessionMapObj != null) {
+                    try {
+                        activeSessions = (ConcurrentHashMap<String, HttpSession>) sessionMapObj;
+                        System.out.println("🔁 [DEBUG] Mapa de sesiones obtenido correctamente.");
+                    } catch (ClassCastException cce) {
+                        System.out.println("❌ [ERROR] activeSessions no es del tipo esperado: " + cce.getMessage());
+                        errorMessage = "Error interno de sesión.";
+                        
+                        // Recrear el mapa si hay problemas
+                        activeSessions = new ConcurrentHashMap<>();
+                        appContext.setAttribute("activeSessions", activeSessions);
+                    }
+                } else {
+                    System.out.println("⚠️ [WARN] No existe mapa de sesiones activas.");
+                    activeSessions = new ConcurrentHashMap<>();
+                    appContext.setAttribute("activeSessions", activeSessions);
+                }
+            }
+            
+            // REMOVER DEL MAPA DE SESIONES ACTIVAS
             if (correoUsuario != null && activeSessions != null) {
-                activeSessions.remove(correoUsuario);
-                System.out.println("✅ [INFO] Sesión eliminada del mapa global.");
+                HttpSession removedSession = activeSessions.remove(correoUsuario);
+                if (removedSession != null) {
+                    System.out.println("✅ [INFO] Sesión eliminada del mapa global para: " + correoUsuario);
+                } else {
+                    System.out.println("⚠️ [WARN] No se encontró sesión en el mapa para: " + correoUsuario);
+                }
             }
-
-            // Invalidar atributos y sesión
-            userSession.removeAttribute("userEmail");
-            userSession.removeAttribute("userType");
-            userSession.removeAttribute("userName");
-            userSession.removeAttribute("userId");
-            userSession.invalidate();
-            System.out.println("✅ [INFO] Sesión invalidada correctamente.");
-
-            logoutSuccess = true;
-
-        } catch (Exception e) {
-            errorMessage = e.getMessage();
-            System.out.println("❌ [ERROR] Fallo al cerrar sesión: " + e.getMessage());
-            e.printStackTrace();
+            
+            // LIMPIAR ATRIBUTOS DE SESIÓN
+            try {
+                userSession.removeAttribute("userEmail");
+                userSession.removeAttribute("userType");
+                userSession.removeAttribute("userName");
+                userSession.removeAttribute("userId");
+                
+                // Invalidar la sesión
+                userSession.invalidate();
+                System.out.println("✅ [INFO] Sesión invalidada correctamente.");
+                
+                logoutSuccess = true;
+                
+            } catch (IllegalStateException e) {
+                System.out.println("⚠️ [WARN] La sesión ya estaba invalidada: " + e.getMessage());
+                logoutSuccess = true; // Considerar como exitoso
+            }
+            
+        } else {
+            System.out.println("⚠️ [WARN] No hay sesión activa que invalidar.");
+            logoutSuccess = true; // Considerar como exitoso para continuar con el logout visual
         }
-    } else {
-        System.out.println("⚠️ [WARN] No hay sesión activa que invalidar.");
-        logoutSuccess = true; // aún así se puede seguir con logout visual
-    }
+        
+        // ELIMINAR COOKIES PERSONALIZADAS
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("kidi_user_email".equals(cookie.getName()) ||
+                    "kidi_user_type".equals(cookie.getName()) ||
+                    cookie.getName().startsWith("kidi_")) {
 
-    // MÉTODO 2: Eliminar cookies personalizadas
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null) {
-        for (Cookie cookie : cookies) {
-            if ("kidi_user_email".equals(cookie.getName()) ||
-                "kidi_user_type".equals(cookie.getName()) ||
-                cookie.getName().startsWith("kidi_")) {
-
-                Cookie expiredCookie = new Cookie(cookie.getName(), "");
-                expiredCookie.setPath("/");
-                expiredCookie.setMaxAge(0);
-                expiredCookie.setSecure(false);
-                expiredCookie.setHttpOnly(false);
-                response.addCookie(expiredCookie);
-                System.out.println("✅ [INFO] Cookie eliminada: " + cookie.getName());
+                    Cookie expiredCookie = new Cookie(cookie.getName(), "");
+                    expiredCookie.setPath("/");
+                    expiredCookie.setMaxAge(0);
+                    expiredCookie.setSecure(false);
+                    expiredCookie.setHttpOnly(false);
+                    response.addCookie(expiredCookie);
+                    System.out.println("✅ [INFO] Cookie eliminada: " + cookie.getName());
+                }
             }
         }
+        
+        // ELIMINAR COOKIE DE SESIÓN JSESSIONID
+        Cookie sessionCookie = new Cookie("JSESSIONID", "");
+        sessionCookie.setPath("/");
+        sessionCookie.setMaxAge(0);
+        sessionCookie.setSecure(false);
+        response.addCookie(sessionCookie);
+        System.out.println("✅ [INFO] Cookie JSESSIONID eliminada.");
+        
+    } catch (Exception e) {
+        errorMessage = "Error durante el cierre de sesión: " + e.getMessage();
+        System.out.println("❌ [ERROR] " + errorMessage);
+        e.printStackTrace();
+        logoutSuccess = false;
     }
-
-    // MÉTODO 4: Headers de seguridad
+    
+    // HEADERS DE SEGURIDAD
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, private");
     response.setHeader("Pragma", "no-cache");
     response.setHeader("Expires", "0");
     response.setHeader("X-Frame-Options", "DENY");
     response.setHeader("X-Content-Type-Options", "nosniff");
+    
+    System.out.println("🔁 [DEBUG] Logout success: " + logoutSuccess);
 %>
 
 <div class="logout-container">
@@ -148,16 +182,33 @@
         <h3 class="logout-title">Cerrando Sesión</h3>
         <p class="logout-message">Su sesión ha sido cerrada correctamente.<br>Será redirigido al inicio de sesión.</p>
         <script>
-            setTimeout(function() {
+            // Limpiar toda la historia del navegador
+            if (window.history && window.history.pushState) {
                 window.history.replaceState(null, null, window.location.href);
+            }
+            
+            // Limpiar cache del navegador
+            if (window.caches) {
+                caches.keys().then(function(names) {
+                    names.forEach(function(name) {
+                        caches.delete(name);
+                    });
+                });
+            }
+            
+            // Redirigir después de 2 segundos
+            setTimeout(function() {
                 window.location.replace('../iniciodesesion.jsp');
             }, 2000);
         </script>
     <% } else { %>
         <h3 class="logout-title text-warning">Error al Cerrar Sesión</h3>
         <p class="logout-message">Hubo un problema al cerrar la sesión, pero será redirigido al inicio.</p>
-        <p class="text-muted small">Error: <%= errorMessage %></p>
+        <% if (!errorMessage.isEmpty()) { %>
+            <p class="text-muted small">Error: <%= errorMessage %></p>
+        <% } %>
         <script>
+            // Forzar redirección incluso si hay error
             setTimeout(function() {
                 window.location.replace('../iniciodesesion.jsp');
             }, 3000);
