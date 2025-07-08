@@ -93,7 +93,19 @@
                     }
                 }
                 
+                // Obtener la sesión actual
                 jakarta.servlet.http.HttpSession userSession = request.getSession();
+
+                // Obtener el contexto global de la aplicación
+                ServletContext appContext = getServletContext();
+
+                // Verificar si ya existe el mapa global de sesiones
+                Map<String, HttpSession> activeSessions = (Map<String, HttpSession>) appContext.getAttribute("activeSessions");
+
+                if (activeSessions == null) {
+                    activeSessions = new HashMap<>();
+                    appContext.setAttribute("activeSessions", activeSessions);
+                }
                 
                 String[] tables = {"ADMIN_", "USUARIO", "TUTOR"};
                 String[] emailColumns = {"CORREO_A", "CORREO_U", "CORREO_T"};
@@ -134,7 +146,15 @@
                                 clearPs.close();                                                                
                                 userSession.setAttribute("userEmail", correo);
                                 userSession.setAttribute("userType", tables[i].replace("_", ""));
-                                authenticated = true;
+                                // Revisión de sesión activa existente
+                                HttpSession sesionExistente = activeSessions.get(correo);
+                                if (sesionExistente != null && sesionExistente != userSession) {
+                                    out.println("<script>errorAlert('Ya hay una sesión activa con este usuario en otro navegador o pestaña.'); window.location='../iniciodesesion.jsp';</script>");
+                                    return;
+                                }
+
+                                // Registrar esta como la sesión activa
+                                activeSessions.put(correo, userSession);
                                
                                
                                 // MÉTODO 1: Cookies manuales con configuración específica para proxy
