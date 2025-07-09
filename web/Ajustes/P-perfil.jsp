@@ -493,7 +493,9 @@
             </div>
                 -->
             
-            
+            <button class="btn save-btn">
+                        <i class="fas fa-save" href="../Sistema/sessionManajer.jsp" ></i> Ver sesiones activas
+                    </button>
             
             <!-- Security Card -->
              <div class="profile-card"> 

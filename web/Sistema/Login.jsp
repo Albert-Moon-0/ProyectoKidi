@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*, java.io.*, java.net.*, org.mindrot.jbcrypt.BCrypt, java.util.*, java.time.*"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.sql.*, java.io.*, java.net.*, org.mindrot.jbcrypt.BCrypt, java.util.*, java.time.*, java.security.SecureRandom, java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,8 +22,8 @@
         <%
             String correo = request.getParameter("correo");
             String contrasena = request.getParameter("contrasena");
-            String clientIP = request.getRemoteAddr();           
-            
+            String clientIP = request.getRemoteAddr();
+            String userAgent = request.getHeader("User-Agent");
             
             // Validación de parámetros
             if (correo == null || correo.trim().isEmpty()) {
@@ -41,14 +41,13 @@
             ResultSet rs = null;
             
             try {
-                
-                // Cambiar a driver moderno
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 c = DriverManager.getConnection("jdbc:mysql://localhost:3306/Kidi?useSSL=false&serverTimezone=UTC", "root", "n0m3l0");
                 
+                // Limpiar sesiones expiradas al inicio
+                limpiarSesionesExpiradas(c);
                 
                 // Verificar intentos fallidos por IP y email
-                
                 String checkAttemptsQuery = "SELECT intentos_fallidos, ultimo_intento FROM login_attempts WHERE (ip_address = ? OR email = ?) AND ultimo_intento > DATE_SUB(NOW(), INTERVAL 15 MINUTE)";
                 ps = c.prepareStatement(checkAttemptsQuery);
                 ps.setString(1, clientIP);
@@ -61,7 +60,6 @@
                 if (rs.next()) {
                     intentosFallidos = rs.getInt("intentos_fallidos");
                     ultimoIntento = rs.getTimestamp("ultimo_intento");
-                } else {
                 }
                 
                 rs.close();
@@ -69,11 +67,9 @@
                 
                 // Si hay muchos intentos, verificar si ha pasado el tiempo de bloqueo
                 if (intentosFallidos >= 5) {
-                    out.println("<script>debugAlert('Usuario bloqueado por intentos fallidos');</script>");
-                    
                     if (ultimoIntento != null) {
                         long tiempoTranscurrido = System.currentTimeMillis() - ultimoIntento.getTime();
-                        long tiempoEspera = 15 * 60 * 1000; // 15 minutos en milisegundos
+                        long tiempoEspera = 15 * 60 * 1000; // 15 minutos
                         
                         if (tiempoTranscurrido < tiempoEspera) {
                             long minutosRestantes = (tiempoEspera - tiempoTranscurrido) / (60 * 1000);
@@ -81,12 +77,11 @@
                             return;
                         } else {
                             // Reset counter si ha pasado el tiempo
-                            out.println("<script>debugAlert('Tiempo de bloqueo expirado, reseteando contador...');</script>");
                             String resetQuery = "DELETE FROM login_attempts WHERE (ip_address = ? OR email = ?) AND ultimo_intento <= DATE_SUB(NOW(), INTERVAL 15 MINUTE)";
                             ps = c.prepareStatement(resetQuery);
                             ps.setString(1, clientIP);
                             ps.setString(2, correo);
-                            int deleted = ps.executeUpdate();
+                            ps.executeUpdate();
                             ps.close();
                             intentosFallidos = 0;
                         }
@@ -98,20 +93,20 @@
                 String[] tables = {"ADMIN_", "USUARIO", "TUTOR"};
                 String[] emailColumns = {"CORREO_A", "CORREO_U", "CORREO_T"};
                 String[] passwordColumns = {"CONTRA_A", "CONTRASEÑA_U", "CONTRA_T"};
+                String[] idColumns = {"ID_A", "ID_U", "ID_T"};
                 String[] redirigir = {"../Admin/menu_A", "menu", "../Tutor/menu_T"};
+                String[] userTypes = {"ADMIN", "USUARIO", "TUTOR"};
                 boolean authenticated = false;
                 
-                
                 for (int i = 0; i < tables.length; i++) {
-                    
                     String query = "SELECT * FROM " + tables[i] + " WHERE " + emailColumns[i] + " = ?";
                     ps = c.prepareStatement(query);
                     ps.setString(1, correo);
                     rs = ps.executeQuery();
                     
                     if (rs.next()) {
-                        
                         String hashAlmacenado = rs.getString(passwordColumns[i]);
+                        int userId = rs.getInt(idColumns[i]);
                         
                         if (hashAlmacenado == null || hashAlmacenado.trim().isEmpty()) {
                             rs.close();
@@ -119,61 +114,65 @@
                             continue;
                         }
                         
-                        
                         try {
                             boolean passwordMatch = BCrypt.checkpw(contrasena, hashAlmacenado);
                             
                             if (passwordMatch) {
-                                
                                 // Login exitoso - limpiar intentos fallidos
                                 String clearAttemptsQuery = "DELETE FROM login_attempts WHERE ip_address = ? OR email = ?";
                                 PreparedStatement clearPs = c.prepareStatement(clearAttemptsQuery);
                                 clearPs.setString(1, clientIP);
                                 clearPs.setString(2, correo);
-                                int cleared = clearPs.executeUpdate();
-                                clearPs.close();                                                                
-                                userSession.setAttribute("userEmail", correo);
-                                userSession.setAttribute("userType", tables[i].replace("_", ""));
-                                authenticated = true;
-                               
-                               
-                                // MÉTODO 1: Cookies manuales con configuración específica para proxy
-    Cookie emailCookie = new Cookie("kidi_user_email", URLEncoder.encode(correo, "UTF-8"));
-    Cookie typeCookie = new Cookie("kidi_user_type", tables[i].replace("_", ""));
-    
-    // Configuración específica para servidores con proxy
-    emailCookie.setPath("/");
-    typeCookie.setPath("/");
-    emailCookie.setMaxAge(60 * 60 * 8); // 8 horas
-    typeCookie.setMaxAge(60 * 60 * 8);
-    emailCookie.setSecure(false); // Importante: false para HTTP
-    typeCookie.setSecure(false);
-    emailCookie.setHttpOnly(false); // Permitir acceso desde JavaScript si es necesario
-    typeCookie.setHttpOnly(false);
-    
-    response.addCookie(emailCookie);
-    response.addCookie(typeCookie);
-    
-    // MÉTODO 2: También usar parámetros URL como respaldo
-    String redirectUrl = "'"+redirigir[i] + ".jsp?e='" + URLEncoder.encode(correo, "UTF-8") + 
-                        "&t=" + URLEncoder.encode(tables[i].replace("_", ""), "UTF-8") + 
-                        "&ts=" + System.currentTimeMillis(); // timestamp para evitar cache
-    
-                                out.println("<script>window.location='" + redirigir[i] + ".jsp';</script>");
-                                return;
+                                clearPs.executeUpdate();
+                                clearPs.close();
+                                
+                                // Verificar límite de sesiones y crear nueva sesión
+                                String sessionToken = crearSesion(c, userId, userTypes[i], clientIP, userAgent);
+                                
+                                if (sessionToken != null) {
+                                    // Configurar sesión HTTP
+                                    userSession.setAttribute("userEmail", correo);
+                                    userSession.setAttribute("userType", userTypes[i]);
+                                    userSession.setAttribute("userId", userId);
+                                    userSession.setAttribute("sessionToken", sessionToken);
+                                    
+                                    // Cookies para persistencia
+                                    Cookie emailCookie = new Cookie("kidi_user_email", URLEncoder.encode(correo, "UTF-8"));
+                                    Cookie typeCookie = new Cookie("kidi_user_type", userTypes[i]);
+                                    Cookie tokenCookie = new Cookie("kidi_session_token", sessionToken);
+                                    
+                                    emailCookie.setPath("/");
+                                    typeCookie.setPath("/");
+                                    tokenCookie.setPath("/");
+                                    emailCookie.setMaxAge(60 * 60 * 24); // 24 horas
+                                    typeCookie.setMaxAge(60 * 60 * 24);
+                                    tokenCookie.setMaxAge(60 * 60 * 24);
+                                    emailCookie.setSecure(false);
+                                    typeCookie.setSecure(false);
+                                    tokenCookie.setSecure(false);
+                                    
+                                    response.addCookie(emailCookie);
+                                    response.addCookie(typeCookie);
+                                    response.addCookie(tokenCookie);
+                                    
+                                    authenticated = true;
+                                    out.println("<script>window.location='" + redirigir[i] + ".jsp';</script>");
+                                    return;
+                                } else {
+                                    out.println("<script>errorAlert('Límite de sesiones alcanzado. Cierre otras sesiones para continuar.');window.location='../iniciodesesion.jsp';</script>");
+                                    return;
+                                }
                             } else {
-                                // Contraseña incorrecta - registrar intento fallido
+                                // Contraseña incorrecta
                                 registrarIntentoFallidoConDebug(c, clientIP, correo, out);
                                 out.println("<script>errorAlert('Contraseña incorrecta');window.location='../iniciodesesion.jsp';</script>");
                                 return;
                             }
                         } catch (Exception bcryptEx) {
-                            // Posible problema con el hash, registrar como intento fallido
                             registrarIntentoFallidoConDebug(c, clientIP, correo, out);
                             out.println("<script>errorAlert('Error de autenticación');window.location='../iniciodesesion.jsp';</script>");
                             return;
                         }
-                    } else {
                     }
                     
                     rs.close();
@@ -181,19 +180,12 @@
                 }
                 
                 if (!authenticated) {
-                    // Usuario no encontrado - registrar intento fallido
+                    // Usuario no encontrado
                     registrarIntentoFallidoConDebug(c, clientIP, correo, out);
                     out.println("<script>errorAlert('Usuario no encontrado');window.location='../iniciodesesion.jsp';</script>");
                 }
                 
-            } catch (ClassNotFoundException e) {
-                out.println("<script>debugAlert('Error: Driver MySQL no encontrado - " + e.getMessage() + "');</script>");
-                out.println("<script>errorAlert('Error del sistema: Driver de base de datos no encontrado');window.location='../iniciodesesion.jsp';</script>");
-            } catch (SQLException e) {
-                out.println("<script>debugAlert('Error SQL: " + e.getMessage() + " - Código: " + e.getErrorCode() + "');</script>");
-                out.println("<script>errorAlert('Error de base de datos: " + e.getMessage() + "');window.location='../iniciodesesion.jsp';</script>");
             } catch (Exception e) {
-                out.println("<script>debugAlert('Error general: " + e.getMessage() + "');</script>");
                 out.println("<script>errorAlert('Error del sistema: " + e.getMessage() + "');window.location='../iniciodesesion.jsp';</script>");
             } finally {
                 try {
@@ -207,71 +199,152 @@
         %>
         
         <%!
-            private void registrarIntentoFallidoConDebug(Connection c, String ip, String email, JspWriter out) throws SQLException, java.io.IOException {
-                
-                // Verificar si ya existe un registro
-                String checkQuery = "SELECT intentos_fallidos FROM login_attempts WHERE ip_address = ? AND email = ?";
-                PreparedStatement checkPs = c.prepareStatement(checkQuery);
-                checkPs.setString(1, ip);
-                checkPs.setString(2, email);
-                ResultSet checkRs = checkPs.executeQuery();
-                
-                if (checkRs.next()) {
-                    // Actualizar registro existente
-                    int intentos = checkRs.getInt("intentos_fallidos") + 1;
-                    
-                    String updateQuery = "UPDATE login_attempts SET intentos_fallidos = ?, ultimo_intento = NOW() WHERE ip_address = ? AND email = ?";
-                    PreparedStatement updatePs = c.prepareStatement(updateQuery);
-                    updatePs.setInt(1, intentos);
-                    updatePs.setString(2, ip);
-                    updatePs.setString(3, email);
-                    int updated = updatePs.executeUpdate();
-                    updatePs.close();
-                    
-                } else {
-                    // Crear nuevo registro
-                    
-                    String insertQuery = "INSERT INTO login_attempts (ip_address, email, intentos_fallidos, ultimo_intento) VALUES (?, ?, 1, NOW())";
-                    PreparedStatement insertPs = c.prepareStatement(insertQuery);
-                    insertPs.setString(1, ip);
-                    insertPs.setString(2, email);
-                    int inserted = insertPs.executeUpdate();
-                    insertPs.close();
-                    
-                }
-                
-                checkRs.close();
-                checkPs.close();
+            // Limpiar sesiones expiradas
+            private void limpiarSesionesExpiradas(Connection c) throws SQLException {
+                String query = "DELETE FROM sesiones_activas WHERE expires_at < NOW()";
+                PreparedStatement ps = c.prepareStatement(query);
+                ps.executeUpdate();
+                ps.close();
             }
             
-            // Método original sin debugging para compatibilidad
-            private void registrarIntentoFallido(Connection c, String ip, String email) throws SQLException {
-                String checkQuery = "SELECT intentos_fallidos FROM login_attempts WHERE ip_address = ? AND email = ?";
-                PreparedStatement checkPs = c.prepareStatement(checkQuery);
-                checkPs.setString(1, ip);
-                checkPs.setString(2, email);
-                ResultSet checkRs = checkPs.executeQuery();
+            // Crear nueva sesión
+            private String crearSesion(Connection c, int userId, String userType, String ip, String userAgent) throws SQLException {
+                PreparedStatement ps = null;
+                ResultSet rs = null;
                 
-                if (checkRs.next()) {
-                    int intentos = checkRs.getInt("intentos_fallidos") + 1;
-                    String updateQuery = "UPDATE login_attempts SET intentos_fallidos = ?, ultimo_intento = NOW() WHERE ip_address = ? AND email = ?";
-                    PreparedStatement updatePs = c.prepareStatement(updateQuery);
-                    updatePs.setInt(1, intentos);
-                    updatePs.setString(2, ip);
-                    updatePs.setString(3, email);
-                    updatePs.executeUpdate();
-                    updatePs.close();
-                } else {
-                    String insertQuery = "INSERT INTO login_attempts (ip_address, email, intentos_fallidos, ultimo_intento) VALUES (?, ?, 1, NOW())";
-                    PreparedStatement insertPs = c.prepareStatement(insertQuery);
-                    insertPs.setString(1, ip);
-                    insertPs.setString(2, email);
-                    insertPs.executeUpdate();
-                    insertPs.close();
+                try {
+                    // 1. Obtener configuración de sesión para este tipo de usuario
+                    String sessionConfigQuery = "SELECT max_sessions, session_duration_hours FROM session_config WHERE user_type = ?";
+                    ps = c.prepareStatement(sessionConfigQuery);
+                    ps.setString(1, userType);
+                    rs = ps.executeQuery();
+                    
+                    int maxSessions = 3; // Default
+                    int durationHours = 24; // Default
+                    
+                    if (rs.next()) {
+                        maxSessions = rs.getInt("max_sessions");
+                        durationHours = rs.getInt("session_duration_hours");
+                    }
+                    
+                    rs.close();
+                    ps.close();
+                    
+                    // 2. Limpiar sesiones expiradas antes de contar
+                    String cleanExpiredQuery = "DELETE FROM sesiones_activas WHERE expires_at < NOW()";
+                    ps = c.prepareStatement(cleanExpiredQuery);
+                    ps.executeUpdate();
+                    ps.close();
+                    
+                    // 3. Contar sesiones activas del usuario
+                    String countActiveQuery = "SELECT COUNT(*) as active_count FROM sesiones_activas WHERE user_id = ? AND user_type = ? AND expires_at > NOW()";
+                    ps = c.prepareStatement(countActiveQuery);
+                    ps.setInt(1, userId);
+                    ps.setString(2, userType);
+                    rs = ps.executeQuery();
+                    
+                    int sesionesActivas = 0;
+                    if (rs.next()) {
+                        sesionesActivas = rs.getInt("active_count");
+                    }
+                    
+                    rs.close();
+                    ps.close();
+                    
+                    // 4. Verificar si excede el límite
+                    if (sesionesActivas >= maxSessions) {
+                        return null; // Límite excedido
+                    }
+                    
+                    // 5. Generar token único
+                    String sessionToken = generarToken();
+                    
+                    // 6. Calcular tiempo de expiración
+                    long expirationTime = System.currentTimeMillis() + (durationHours * 60 * 60 * 1000L);
+                    Timestamp expiresAt = new Timestamp(expirationTime);
+                    
+                    // 7. Insertar nueva sesión
+                    String insertQuery = "INSERT INTO sesiones_activas (user_id, user_type, session_token, ip_address, user_agent, expires_at) VALUES (?, ?, ?, ?, ?, ?)";
+                    ps = c.prepareStatement(insertQuery);
+                    ps.setInt(1, userId);
+                    ps.setString(2, userType);
+                    ps.setString(3, sessionToken);
+                    ps.setString(4, ip);
+                    ps.setString(5, userAgent);
+                    ps.setTimestamp(6, expiresAt);
+                    
+                    int inserted = ps.executeUpdate();
+                    ps.close();
+                    
+                    return inserted > 0 ? sessionToken : null;
+                    
+                } catch (SQLException e) {
+                    throw e;
+                } finally {
+                    try {
+                        if (rs != null) rs.close();
+                        if (ps != null) ps.close();
+                    } catch (SQLException e) {
+                        // Log error but don't throw
+                    }
                 }
+            }
+            
+            // Generar token seguro
+            private String generarToken() {
+                SecureRandom random = new SecureRandom();
+                byte[] bytes = new byte[32];
+                random.nextBytes(bytes);
+                StringBuilder token = new StringBuilder();
+                for (byte b : bytes) {
+                    token.append(String.format("%02x", b));
+                }
+                return token.toString();
+            }
+            
+            // Registrar intento fallido
+            private void registrarIntentoFallidoConDebug(Connection c, String ip, String email, JspWriter out) throws SQLException, java.io.IOException {
+                PreparedStatement ps = null;
+                ResultSet rs = null;
                 
-                checkRs.close();
-                checkPs.close();
+                try {
+                    String checkQuery = "SELECT intentos_fallidos FROM login_attempts WHERE ip_address = ? AND email = ?";
+                    ps = c.prepareStatement(checkQuery);
+                    ps.setString(1, ip);
+                    ps.setString(2, email);
+                    rs = ps.executeQuery();
+                    
+                    if (rs.next()) {
+                        int intentos = rs.getInt("intentos_fallidos") + 1;
+                        rs.close();
+                        ps.close();
+                        
+                        String updateQuery = "UPDATE login_attempts SET intentos_fallidos = ?, ultimo_intento = NOW() WHERE ip_address = ? AND email = ?";
+                        ps = c.prepareStatement(updateQuery);
+                        ps.setInt(1, intentos);
+                        ps.setString(2, ip);
+                        ps.setString(3, email);
+                        ps.executeUpdate();
+                        ps.close();
+                    } else {
+                        rs.close();
+                        ps.close();
+                        
+                        String insertQuery = "INSERT INTO login_attempts (ip_address, email, intentos_fallidos, ultimo_intento) VALUES (?, ?, 1, NOW())";
+                        ps = c.prepareStatement(insertQuery);
+                        ps.setString(1, ip);
+                        ps.setString(2, email);
+                        ps.executeUpdate();
+                        ps.close();
+                    }
+                } finally {
+                    try {
+                        if (rs != null) rs.close();
+                        if (ps != null) ps.close();
+                    } catch (SQLException e) {
+                        // Log error but don't throw
+                    }
+                }
             }
         %>
     </body>

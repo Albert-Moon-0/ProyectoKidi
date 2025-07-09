@@ -553,7 +553,7 @@
                 
                 <div class="password-requirements">
                     <strong>La contraseña debe tener:</strong>
-                    <div class="requirement" id="req_length">• Al menos 8 caracteres</div>
+                    <div class="requirement" id="req_length">• Al menos 12 caracteres</div>
                     <div class="requirement" id="req_upper">• Al menos una letra mayúscula</div>
                     <div class="requirement" id="req_lower">• Al menos una letra minúscula</div>
                     <div class="requirement" id="req_number">• Al menos un número</div>
@@ -596,7 +596,7 @@
             
             // Validar longitud
             const lengthReq = document.getElementById('req_length');
-            if (password.length >= 8) {
+            if (password.length >= 12) {
                 lengthReq.className = 'requirement valid';
             } else {
                 lengthReq.className = 'requirement invalid';
@@ -653,7 +653,7 @@
             const confirmPassword = document.getElementById('confirmar_contrasena').value;
             const submitBtn = document.getElementById('submit_btn');
             
-            const isValid = password.length >= 8 &&
+            const isValid = password.length >= 12 &&
                            /[A-Z]/.test(password) &&
                            /[a-z]/.test(password) &&
                            /[0-9]/.test(password) &&
@@ -672,8 +672,8 @@
                 return false;
             }
             
-            if (password.length < 8) {
-                alert('La contraseña debe tener al menos 8 caracteres.');
+            if (password.length < 12) {
+                alert('La contraseña debe tener al menos 12 caracteres.');
                 return false;
             }
             

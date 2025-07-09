@@ -519,10 +519,11 @@
                             name="Contrasena" 
                             id="contraseña" 
                             placeholder="Contraseña" 
-                            maxlength="15" 
+                            minlength="12"
+                            maxlength="18" 
                             required 
-                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$" 
-                            title="La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número."
+                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,18}$" 
+                            title="La contraseña debe tener entre 12 y 18 caracteres, una mayúscula, una minúscula y un número."
                             >
                     </div>
 

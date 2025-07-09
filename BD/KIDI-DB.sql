@@ -67,6 +67,31 @@ INSERT INTO USUARIO (NOMBRE_U, CORREO_U, CONTRASEÑA_U, EDAD_U, ID_FOTO, ID_T) V
 ('Alberto', 'albertoL@gmail.com', '$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2', 10, 3, 2),
 ('Samantha', 'samanthaJ@gmail.com', '$2a$12$E4WrkuJqW0dc5P3HRqsbcOM6IarT02gK1UXoFVPLPH6PdbTxig9z2', 11, 4, 2);
 
+CREATE TABLE sesiones_activas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    user_type ENUM('ADMIN', 'TUTOR', 'USUARIO') NOT NULL,
+    session_token VARCHAR(255) NOT NULL UNIQUE,
+    ip_address VARCHAR(45),
+    user_agent TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_user_type (user_id, user_type),
+    INDEX idx_token (session_token),
+    INDEX idx_expires (expires_at)
+);
+
+CREATE TABLE session_config (
+    user_type ENUM('ADMIN', 'TUTOR', 'USUARIO') PRIMARY KEY,
+    max_sessions INT DEFAULT 3,
+    session_duration_hours INT DEFAULT 24
+);
+
+INSERT INTO session_config VALUES 
+('ADMIN', 5, 48),    -- Admin: 5 sesiones, 48 horas
+('TUTOR', 3, 24),    -- Tutor: 3 sesiones, 24 horas  
+('USUARIO', 2, 6);  -- Usuario: 2 sesiones, 12 horas
 
 CREATE TABLE ESPAÑOL (
 ID_E INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
